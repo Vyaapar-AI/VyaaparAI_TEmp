@@ -2,6 +2,16 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/api';
 import type { Order, CartItem } from '@/lib/types';
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+export async function OPTIONS(request: Request) {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 function getUserIdFromToken(request: Request): string | null {
     const authHeader = request.headers.get('Authorization');
     const token = authHeader?.split(' ')[1];
@@ -17,11 +27,11 @@ export async function GET(request: Request) {
     const userId = getUserIdFromToken(request);
 
     if (!userId) {
-        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401, headers: corsHeaders });
     }
     
     const userOrders = db.orders[userId] || [];
-    return NextResponse.json(userOrders);
+    return NextResponse.json(userOrders, { headers: corsHeaders });
 }
 
 
@@ -29,14 +39,14 @@ export async function POST(request: Request) {
   const userId = getUserIdFromToken(request);
 
   if (!userId) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401, headers: corsHeaders });
   }
 
   try {
     const { items, total } = await request.json() as { items: CartItem[], total: number };
 
     if (!items || !total) {
-        return NextResponse.json({ message: 'Missing order data' }, { status: 400 });
+        return NextResponse.json({ message: 'Missing order data' }, { status: 400, headers: corsHeaders });
     }
 
     const newOrder: Order = {
@@ -51,10 +61,10 @@ export async function POST(request: Request) {
     }
     db.orders[userId].push(newOrder);
 
-    return NextResponse.json(newOrder, { status: 201 });
+    return NextResponse.json(newOrder, { status: 201, headers: corsHeaders });
 
   } catch (error) {
     console.error('Error creating order:', error);
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500, headers: corsHeaders });
   }
 }
