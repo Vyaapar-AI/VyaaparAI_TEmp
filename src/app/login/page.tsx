@@ -13,16 +13,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(1, { message: 'Password is required.' }),
 });
+
+const authImage = PlaceHolderImages.find(img => img.id === 'auth-background');
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -52,15 +55,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="container flex min-h-[80vh] items-center justify-center">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-headline">Sign In</CardTitle>
-          <CardDescription>Enter your credentials to sign in.</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="w-full lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-2">
+      <div className="flex items-center justify-center py-12">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <h1 className="text-3xl font-bold font-headline">Sign In</h1>
+            <p className="text-balance text-muted-foreground">
+              Enter your credentials to access your account
+            </p>
+          </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
               <FormField
                 control={form.control}
                 name="email"
@@ -93,16 +98,25 @@ export default function LoginPage() {
               </Button>
             </form>
           </Form>
-        </CardContent>
-        <CardFooter className="text-center text-sm text-muted-foreground justify-center">
-          <p>
-            Don't have an account?{' '}
-            <Link href="/register" className="text-primary hover:underline">
+          <div className="mt-4 text-center text-sm">
+            Don&apos;t have an account?{' '}
+            <Link href="/register" className="underline text-primary">
               Sign up
             </Link>
-          </p>
-        </CardFooter>
-      </Card>
+          </div>
+        </div>
+      </div>
+      <div className="hidden bg-muted lg:block relative">
+        {authImage && (
+          <Image
+            src={authImage.imageUrl}
+            alt={authImage.description}
+            data-ai-hint={authImage.imageHint}
+            fill
+            className="object-cover dark:brightness-[0.7]"
+          />
+        )}
+      </div>
     </div>
   );
 }

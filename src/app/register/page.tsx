@@ -13,17 +13,21 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 const formSchema = z.object({
     name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
     email: z.string().email({ message: 'Please enter a valid email.' }),
     password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
+
+const authImage = PlaceHolderImages.find(img => img.id === 'auth-background');
+
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -54,16 +58,18 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="container flex min-h-[80vh] items-center justify-center">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-headline">Create an Account</CardTitle>
-          <CardDescription>Join us and start shopping for fresh goodies!</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="w-full lg:grid lg:min-h-[calc(100vh-4rem)] lg:grid-cols-2">
+       <div className="flex items-center justify-center py-12">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <h1 className="text-3xl font-bold font-headline">Create an Account</h1>
+            <p className="text-balance text-muted-foreground">
+                Join us and start shopping for fresh goodies!
+            </p>
+          </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -108,16 +114,25 @@ export default function RegisterPage() {
               </Button>
             </form>
           </Form>
-        </CardContent>
-        <CardFooter className="text-center text-sm text-muted-foreground justify-center">
-            <p>
-                Already have an account?{' '}
-                <Link href="/login" className="text-primary hover:underline">
-                    Sign in
-                </Link>
-            </p>
-        </CardFooter>
-      </Card>
+          <div className="mt-4 text-center text-sm">
+            Already have an account?{' '}
+            <Link href="/login" className="underline text-primary">
+                Sign in
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="hidden bg-muted lg:block relative">
+        {authImage && (
+            <Image
+                src={authImage.imageUrl}
+                alt={authImage.description}
+                data-ai-hint={authImage.imageHint}
+                fill
+                className="object-cover dark:brightness-[0.7]"
+            />
+        )}
+      </div>
     </div>
   );
 }

@@ -27,7 +27,7 @@
     {
       "id": "sourdough",
       "description": "Artisanal sourdough bread loaf",
-      "imageUrl": "https://images.unsplash.com/photo-1621930599483-491673fc2042?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxicmVhZCUyMGxvYWZ8ZW58MHx8fHwxNzY5MDkyMjcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1621930599483-491673fc2042?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwYXN0cnklMjBzaG9wfGVufDB8fHx8MTcyMjAwMzA1NHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bread loaf"
     },
     {
@@ -41,6 +41,12 @@
       "description": "Fresh fruit tart with custard",
       "imageUrl": "https://images.unsplash.com/photo-1614174486496-344ef3e9d870?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmcnVpdCUyMHRhcnR8ZW58MHx8fHwxNzY5MDY3MDY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "fruit tart"
+    },
+    {
+      "id": "auth-background",
+      "description": "The cozy interior of a bakery with warm lighting and a display of fresh bread.",
+      "imageUrl": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxiYWtlcnklMjBzdG9yZWZyb250fGVufDB8fHx8MTcyMjAwMjc4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bakery interior"
     }
   ]
 }
