@@ -15,6 +15,10 @@ import { config as provisionConfig } from './provision/config';
 import { products as provisionProducts } from './provision/products';
 import provisionPlaceholderImages from './provision/placeholder-images.json';
 
+import { config as foodCourtConfig } from './food-court/config';
+import { products as foodCourtProducts } from './food-court/products';
+import foodCourtPlaceholderImages from './food-court/placeholder-images.json';
+
 const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
 
 let themeConfig: any;
@@ -36,6 +40,11 @@ switch (businessType) {
     themeConfig = provisionConfig;
     products = provisionProducts;
     placeholderImages = provisionPlaceholderImages.placeholderImages;
+    break;
+  case 'food-court':
+    themeConfig = foodCourtConfig;
+    products = foodCourtProducts;
+    placeholderImages = foodCourtPlaceholderImages.placeholderImages;
     break;
   case 'bakery':
   default:

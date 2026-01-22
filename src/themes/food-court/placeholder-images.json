@@ -1,0 +1,40 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-food-court",
+      "description": "A flat lay of various fast food items including a burger, pizza, fries, and a hot dog on a colorful background.",
+      "imageUrl": "https://images.unsplash.com/photo-1561758033-d89a9ad46330?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fast food"
+    },
+    {
+      "id": "pizza",
+      "description": "A slice of pepperoni pizza being lifted from the whole pizza, with cheese stretching.",
+      "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1081&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "pizza slice"
+    },
+    {
+      "id": "burger",
+      "description": "A juicy deluxe cheeseburger with lettuce, tomato, and onion on a sesame seed bun.",
+      "imageUrl": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "cheeseburger meal"
+    },
+    {
+      "id": "patty",
+      "description": "A crispy fried chicken sandwich on a brioche bun with pickles.",
+      "imageUrl": "https://images.unsplash.com/photo-1585435465945-c8d62c310c31?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "chicken sandwich"
+    },
+    {
+      "id": "combo",
+      "description": "Golden french fries in a red carton next to a soda cup.",
+      "imageUrl": "https://images.unsplash.com/photo-1594179047519-f347310d3322?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fries soda"
+    },
+    {
+      "id": "auth-background",
+      "description": "Interior of a modern, stylish fast food restaurant with neon lights.",
+      "imageUrl": "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "restaurant interior"
+    }
+  ]
+}
