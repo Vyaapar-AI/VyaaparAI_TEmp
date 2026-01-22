@@ -4,6 +4,7 @@ import { Logo } from './Logo';
 import { Button } from './ui/button';
 import { Search, Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { UserNav } from './UserNav';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -65,6 +66,7 @@ export function Header() {
             <span className="sr-only">Search</span>
           </Button>
           <CartIcon />
+          <UserNav />
         </div>
       </div>
     </header>

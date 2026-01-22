@@ -1,3 +1,5 @@
+import { FieldValue } from "firebase/firestore";
+
 export interface Product {
   id: string;
   name: string;
@@ -14,11 +16,7 @@ export interface CartItem extends Product {
 
 export interface Order {
   id: string;
-  date: string;
+  date: FieldValue;
   items: CartItem[];
   total: number;
-  customer: {
-    name: string;
-    email: string;
-  };
 }

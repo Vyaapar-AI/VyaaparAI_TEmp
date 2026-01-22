@@ -3,9 +3,10 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUser, useFirestore, useFirebaseApp } from '@/firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,12 +20,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/hooks/use-cart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { checkoutAction, type CheckoutFormState } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email({ message: 'Please enter a valid email.' }),
   address: z.string().min(5, { message: 'Please enter a valid address.' }),
   city: z.string().min(2, { message: 'Please enter a valid city.' }),
   postalCode: z.string().min(4, { message: 'Please enter a valid postal code.' }),
@@ -34,15 +34,13 @@ export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
   const { toast } = useToast();
-
-  const initialState: CheckoutFormState = { message: '' };
-  const [state, formAction] = useFormState(checkoutAction, initialState);
+  const { user, loading: userLoading } = useUser();
+  const firestore = useFirestore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      email: '',
       address: '',
       city: '',
       postalCode: '',
@@ -50,28 +48,60 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    if (state.order) {
-      toast({
-        title: 'Order Placed!',
-        description: 'Thank you for your purchase.',
-      });
-      const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
-      localStorage.setItem('orders', JSON.stringify([state.order, ...existingOrders]));
-      clearCart();
-      router.push('/order-confirmation');
-    } else if (state.message && state.message !== 'Order placed successfully!') {
-       toast({
-        title: 'Checkout Error',
-        description: state.message,
-        variant: 'destructive',
-      });
+    if (!userLoading && !user) {
+      router.push('/login?redirect=/checkout');
     }
-  }, [state, clearCart, router, toast]);
+  }, [user, userLoading, router]);
+  
+  useEffect(() => {
+    if (user) {
+      form.setValue('name', user.displayName || '');
+    }
+  }, [user, form]);
 
+  if (userLoading || !user) {
+    return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+  }
+  
   if (cartItems.length === 0 && typeof window !== 'undefined') {
      router.push('/');
      return null;
   }
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!firestore || !user) {
+      toast({
+        title: 'Error',
+        description: 'Could not connect to the database. Please try again.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    try {
+      const ordersCollection = collection(firestore, 'users', user.uid, 'orders');
+      await addDoc(ordersCollection, {
+        date: serverTimestamp(),
+        items: cartItems,
+        total: cartTotal,
+        shippingInfo: values,
+      });
+
+      toast({
+        title: 'Order Placed!',
+        description: 'Thank you for your purchase.',
+      });
+      clearCart();
+      router.push('/order-confirmation');
+
+    } catch (error) {
+       toast({
+        title: 'Checkout Error',
+        description: 'There was a problem placing your order.',
+        variant: 'destructive',
+      });
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -84,8 +114,7 @@ export default function CheckoutPage() {
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form action={formAction} className="space-y-4">
-                  <input type="hidden" name="cart" value={JSON.stringify(cartItems)} />
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
                     control={form.control}
                     name="name"
@@ -99,19 +128,12 @@ export default function CheckoutPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="you@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                   <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="you@example.com" value={user.email || ''} disabled />
+                      </FormControl>
+                    </FormItem>
                   <FormField
                     control={form.control}
                     name="address"
@@ -153,7 +175,10 @@ export default function CheckoutPage() {
                       )}
                     />
                   </div>
-                  <Button type="submit" size="lg" className="w-full mt-4">Place Order</Button>
+                  <Button type="submit" size="lg" className="w-full mt-4" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Place Order
+                  </Button>
                 </form>
               </Form>
             </CardContent>

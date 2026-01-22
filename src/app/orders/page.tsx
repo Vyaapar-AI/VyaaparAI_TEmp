@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import type { Order } from '@/lib/types';
 import {
   Accordion,
@@ -9,17 +9,24 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { History } from 'lucide-react';
+import { History, Loader2 } from 'lucide-react';
+import { useUser, useCollection, useFirestore } from '@/firebase';
+import { collection, query, orderBy, Timestamp } from 'firebase/firestore';
 
 export default function OrdersPage() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const { user, loading: userLoading } = useUser();
+  const firestore = useFirestore();
 
-  useEffect(() => {
-    const storedOrders = localStorage.getItem('orders');
-    if (storedOrders) {
-      setOrders(JSON.parse(storedOrders));
-    }
-  }, []);
+  const ordersQuery = useMemo(() => {
+    if (!user || !firestore) return null;
+    return query(collection(firestore, 'users', user.uid, 'orders'), orderBy('date', 'desc'));
+  }, [user, firestore]);
+
+  const { data: orders, loading: ordersLoading } = useCollection<Order>(ordersQuery);
+
+  if (userLoading || ordersLoading) {
+    return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -27,7 +34,7 @@ export default function OrdersPage() {
         Your Orders
       </h1>
       
-      {orders.length === 0 ? (
+      {!orders || orders.length === 0 ? (
         <div className="text-center py-20">
           <History className="mx-auto h-12 w-12 text-muted-foreground" />
           <h2 className="mt-2 text-lg font-medium text-muted-foreground">No order history</h2>
@@ -41,9 +48,9 @@ export default function OrdersPage() {
                 <CardHeader className="p-0">
                   <AccordionTrigger className="flex justify-between p-6">
                     <div>
-                      <h3 className="text-lg font-medium">Order #{order.id.split('_')[1]}</h3>
+                      <h3 className="text-lg font-medium">Order #{order.id.slice(-6)}</h3>
                       <p className="text-sm text-muted-foreground">
-                        {new Date(order.date).toLocaleDateString()}
+                        {order.date ? (order.date as unknown as Timestamp).toDate().toLocaleDateString() : 'N/A'}
                       </p>
                     </div>
                     <p className="text-lg font-medium">${order.total.toFixed(2)}</p>
