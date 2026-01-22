@@ -1,0 +1,40 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-cosmetic",
+      "description": "A flat lay of various cosmetic products like serum bottles, cream jars, and droppers on a neutral background.",
+      "imageUrl": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "cosmetics flatlay"
+    },
+    {
+      "id": "serum",
+      "description": "A clear glass serum bottle with a dropper.",
+      "imageUrl": "https://images.unsplash.com/photo-1629198735660-e39ea79b0e3d?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "serum bottle"
+    },
+    {
+      "id": "moisturizer",
+      "description": "An open jar of white face cream with a smooth texture.",
+      "imageUrl": "https://images.unsplash.com/photo-1620916566398-35f1636058ac?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "face cream"
+    },
+    {
+      "id": "lipstick",
+      "description": "A tube of elegant velvet matte lipstick in a nude pink shade.",
+      "imageUrl": "https://images.unsplash.com/photo-1586450684139-5983794b1999?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "lipstick cosmetic"
+    },
+    {
+      "id": "clay-mask",
+      "description": "A small bowl of pink clay mask ready to be applied.",
+      "imageUrl": "https://images.unsplash.com/photo-1628102493399-738b5538e1b3?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "clay mask"
+    },
+    {
+      "id": "auth-background",
+      "description": "A clean, modern bathroom vanity with neatly arranged cosmetic products.",
+      "imageUrl": "https://images.unsplash.com/photo-1616686975253-1185f0a42d8f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "cosmetic vanity"
+    }
+  ]
+}

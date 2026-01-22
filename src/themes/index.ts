@@ -27,6 +27,10 @@ import { config as clothingConfig } from './clothing/config';
 import { products as clothingProducts } from './clothing/products';
 import clothingPlaceholderImages from './clothing/placeholder-images.json';
 
+import { config as cosmeticConfig } from './cosmetic/config';
+import { products as cosmeticProducts } from './cosmetic/products';
+import cosmeticPlaceholderImages from './cosmetic/placeholder-images.json';
+
 const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
 
 let themeConfig: any;
@@ -63,6 +67,11 @@ switch (businessType) {
     themeConfig = clothingConfig;
     products = clothingProducts;
     placeholderImages = clothingPlaceholderImages.placeholderImages;
+    break;
+  case 'cosmetic':
+    themeConfig = cosmeticConfig;
+    products = cosmeticProducts;
+    placeholderImages = cosmeticPlaceholderImages.placeholderImages;
     break;
   case 'bakery':
   default:

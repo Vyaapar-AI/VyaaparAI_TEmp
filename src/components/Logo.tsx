@@ -1,4 +1,4 @@
-import { Cookie, ShoppingBasket, Candy, Store, Pizza, Sofa, Shirt } from 'lucide-react';
+import { Cookie, ShoppingBasket, Candy, Store, Pizza, Sofa, Shirt, Sparkles } from 'lucide-react';
 
 export function Logo() {
   const storeName = process.env.NEXT_PUBLIC_STORE_NAME || 'My Store';
@@ -24,6 +24,9 @@ export function Logo() {
       break;
     case 'clothing':
       IconComponent = Shirt;
+      break;
+    case 'cosmetic':
+      IconComponent = Sparkles;
       break;
     case 'bakery':
     default:
