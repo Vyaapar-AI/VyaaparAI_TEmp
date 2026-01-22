@@ -5,15 +5,15 @@ import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Donut, Flower, Gift, Wheat } from 'lucide-react';
+import { Cookie, Grape, ShoppingBag, Wheat } from 'lucide-react';
 
 const heroImage = PlaceHolderImages.find(img => img.id === 'hero-bread');
 
 const featureItems = [
-  { icon: Donut, title: 'Roasted Almond', description: 'For all order over $100' },
-  { icon: Flower, title: 'Flower Galleries', description: 'Offer special bonuses' },
-  { icon: Gift, title: 'Ciabatta', description: 'For all order over $100' },
-  { icon: Wheat, title: 'Breadstick', description: 'Offer special bonuses' },
+  { icon: Cookie, title: 'Homemade Cookies', description: 'Baked daily with the finest ingredients.' },
+  { icon: Grape, title: 'Artisanal Bread', description: 'Naturally leavened and handcrafted.' },
+  { icon: ShoppingBag, title: 'Free Shipping', description: 'On all orders over $50.' },
+  { icon: Wheat, title: 'Organic Flour', description: 'Sourced from local, sustainable farms.' },
 ];
 
 export default function Home() {
@@ -31,15 +31,15 @@ export default function Home() {
             priority
           />
         )}
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
+        <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl font-headline">
-            Tasty & Spicy Easter Cake
+            Freshly Baked,
             <br />
-            BREAD
+            Just for You
           </h1>
           <p className="mt-4 max-w-2xl text-lg">
-            Experience the authentic taste of freshly baked bread, crafted with passion and the finest ingredients.
+            Experience the authentic taste of artisan breads and pastries, crafted with passion.
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link href="#products">Shop Now</Link>
@@ -65,14 +65,21 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <div id="products" className="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-24 lg:max-w-7xl lg:px-8">
-        <h2 className="text-4xl font-bold tracking-tight text-center text-foreground font-headline">Our Products</h2>
-        <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+      <section id="products" className="bg-secondary/50 py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Our Products</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">
+              Handcrafted with love, from our oven to your home.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

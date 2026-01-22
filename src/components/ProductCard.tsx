@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group relative border rounded-lg overflow-hidden transition-shadow hover:shadow-lg flex flex-col">
+    <div className="group relative border rounded-lg overflow-hidden transition-shadow hover:shadow-lg flex flex-col bg-card">
       <Link href={`/products/${product.slug}`} className="block">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200">
             <Image
@@ -38,20 +38,18 @@ export function ProductCard({ product }: ProductCardProps) {
             />
         </div>
       </Link>
-      <div className="p-4 flex flex-col flex-1 bg-card">
-        <div className='flex-1'>
-            <h3 className="text-sm text-foreground font-medium">
-                <Link href={`/products/${product.slug}`}>
-                {product.name}
-                </Link>
-            </h3>
-        </div>
-        <div className="mt-4 flex justify-between items-center">
-          <p className="text-lg font-bold text-foreground">
+      <div className="p-4 flex flex-col flex-1">
+        <h3 className="text-lg font-headline text-foreground mb-2">
+            <Link href={`/products/${product.slug}`} className="hover:underline">
+              {product.name}
+            </Link>
+        </h3>
+        <div className="mt-auto flex justify-between items-center">
+          <p className="text-xl font-bold text-primary">
             ${product.price.toFixed(2)}
           </p>
-          <Button size="icon" variant="ghost" onClick={handleAddToCart} aria-label={`Add ${product.name} to cart`}>
-            <ShoppingBasket className="h-6 w-6 text-primary" />
+          <Button size="icon" variant="outline" onClick={handleAddToCart} aria-label={`Add ${product.name} to cart`}>
+            <ShoppingBasket className="h-5 w-5 text-primary" />
           </Button>
         </div>
       </div>
