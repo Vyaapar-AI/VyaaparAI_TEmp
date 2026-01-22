@@ -19,9 +19,12 @@ export async function POST(request: Request) {
   }
   
   const user: User = {
-    id: userInDb.id,
+    uid: userInDb.uid,
     email: userInDb.email,
-    displayName: userInDb.displayName,
+    name: userInDb.name,
+    role: userInDb.role,
+    createdAt: userInDb.createdAt,
+    termsAcceptedAt: userInDb.termsAcceptedAt,
   };
   
   // IMPORTANT: In a production app, use a secure session library like iron-session or next-auth.

@@ -51,7 +51,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (res.ok) {
       const data = await res.json();
       setUser(data);
-      router.push('/');
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect');
+      router.push(redirect || '/');
     } else {
         const error = await res.json();
         setLoading(false);

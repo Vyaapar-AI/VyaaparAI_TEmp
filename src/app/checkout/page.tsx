@@ -52,7 +52,7 @@ export default function CheckoutPage() {
         router.push('/login?redirect=/checkout');
     }
     if (user && form.getValues('email') === '') {
-        form.setValue('name', user.displayName || '');
+        form.setValue('name', user.name || '');
         form.setValue('email', user.email || '');
     }
   }, [user, router, form]);

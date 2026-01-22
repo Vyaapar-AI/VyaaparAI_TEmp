@@ -1,19 +1,27 @@
-import type { Order } from './types';
+import type { Order, User } from './types';
 
 // In a real application, you would use a database.
 // This is an in-memory store for demonstration purposes.
 interface DbUser {
-  id: string;
+  uid: string;
   email: string;
-  displayName: string;
+  name: string;
+  role: 'user' | 'admin';
+  createdAt: string;
+  termsAcceptedAt: string;
   password_DO_NOT_USE_IN_PROD: string; // Plain text password for demo
 }
 
+const now = new Date().toISOString();
+
 const users: DbUser[] = [
   {
-    id: '1',
+    uid: '1',
     email: 'user@example.com',
-    displayName: 'Test User',
+    name: 'Test User',
+    role: 'user',
+    createdAt: now,
+    termsAcceptedAt: now,
     password_DO_NOT_USE_IN_PROD: 'password123',
   },
 ];

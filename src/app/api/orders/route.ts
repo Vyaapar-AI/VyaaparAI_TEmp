@@ -11,7 +11,7 @@ export async function GET() {
 
     try {
         const user: User = JSON.parse(cookie.value);
-        const userOrders = db.orders[user.id] || [];
+        const userOrders = db.orders[user.uid] || [];
         return NextResponse.json(userOrders);
     } catch (error) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -40,10 +40,10 @@ export async function POST(request: Request) {
         total,
     };
     
-    if (!db.orders[user.id]) {
-        db.orders[user.id] = [];
+    if (!db.orders[user.uid]) {
+        db.orders[user.uid] = [];
     }
-    db.orders[user.id].push(newOrder);
+    db.orders[user.uid].push(newOrder);
 
     return NextResponse.json(newOrder, { status: 201 });
 
