@@ -20,32 +20,34 @@ import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 const formSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email.' }),
-  password: z.string().min(1, { message: 'Password is required.' }),
+    name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+    email: z.string().email({ message: 'Please enter a valid email.' }),
+    password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
 
-export default function LoginPage() {
-  const { login } = useAuth();
+export default function RegisterPage() {
+  const { register } = useAuth();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: 'user@example.com',
-      password: 'password123',
+      name: '',
+      email: '',
+      password: '',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await login(values.email, values.password);
+      await register(values.name, values.email, values.password);
       toast({
-        title: 'Login Successful',
-        description: 'Welcome back!',
+        title: 'Registration Successful',
+        description: 'Welcome to Bakery!',
       });
     } catch (error: any) {
       toast({
         variant: 'destructive',
-        title: 'Login Failed',
+        title: 'Registration Failed',
         description: error.message || 'An unexpected error occurred.',
       });
     }
@@ -55,12 +57,25 @@ export default function LoginPage() {
     <div className="container flex min-h-[80vh] items-center justify-center">
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-headline">Sign In</CardTitle>
-          <CardDescription>Use user@example.com and password123</CardDescription>
+          <CardTitle className="text-2xl font-headline">Create an Account</CardTitle>
+          <CardDescription>Join us and start shopping for fresh goodies!</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -89,18 +104,18 @@ export default function LoginPage() {
               />
               <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                  {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Sign In
+                Create Account
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="text-center text-sm text-muted-foreground justify-center">
-          <p>
-            Don't have an account?{' '}
-            <Link href="/register" className="text-primary hover:underline">
-              Sign up
-            </Link>
-          </p>
+            <p>
+                Already have an account?{' '}
+                <Link href="/login" className="text-primary hover:underline">
+                    Sign in
+                </Link>
+            </p>
         </CardFooter>
       </Card>
     </div>

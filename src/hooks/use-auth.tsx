@@ -11,6 +11,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (name: string, email: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -80,6 +81,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const register = async (name: string, email: string, password: string) => {
+    setLoading(true);
+    const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+    });
+
+    if (res.ok) {
+        const { user: userData, token: authToken } = await res.json();
+        setUser(userData);
+        setToken(authToken);
+        localStorage.setItem('authToken', authToken);
+        router.push('/');
+        router.refresh();
+    } else {
+        const error = await res.json();
+        setLoading(false);
+        throw new Error(error.message || 'Failed to register');
+    }
+  };
+
+
   const logout = async () => {
     if (token) {
         await fetch('/api/auth/logout', { 
@@ -98,7 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, register }}>
       {loading ? <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div> : children}
     </AuthContext.Provider>
   );
