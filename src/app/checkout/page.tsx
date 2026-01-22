@@ -56,17 +56,19 @@ export default function CheckoutPage() {
       form.setValue('name', user.displayName || '');
     }
   }, [user, form]);
+  
+  useEffect(() => {
+    // Redirect to home if cart is empty on the client-side
+    if (cartItems.length === 0) {
+      router.push('/');
+    }
+  }, [cartItems, router]);
 
-  if (userLoading || !user) {
+  if (userLoading || !user || cartItems.length === 0) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
-  
-  if (cartItems.length === 0 && typeof window !== 'undefined') {
-     router.push('/');
-     return null;
-  }
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>>) => {
     if (!user) {
       toast({
         title: 'Error',
