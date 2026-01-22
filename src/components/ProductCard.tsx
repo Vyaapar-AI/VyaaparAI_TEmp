@@ -25,34 +25,35 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="group relative">
-      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-        <Link href={`/products/${product.slug}`}>
-          <Image
-            src={product.imageUrl}
-            alt={product.description}
-            width={800}
-            height={600}
-            data-ai-hint={product.imageHint}
-            className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"
-          />
-        </Link>
-      </div>
-      <div className="mt-4 flex justify-between items-start">
-        <div>
-          <h3 className="text-sm text-foreground">
-            <Link href={`/products/${product.slug}`}>
-              <span aria-hidden="true" className="absolute inset-0" />
-              {product.name}
-            </Link>
-          </h3>
-          <p className="mt-1 text-lg font-medium text-foreground">
+    <div className="group relative border rounded-lg overflow-hidden transition-shadow hover:shadow-lg flex flex-col">
+      <Link href={`/products/${product.slug}`} className="block">
+        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200">
+            <Image
+              src={product.imageUrl}
+              alt={product.description}
+              width={800}
+              height={600}
+              data-ai-hint={product.imageHint}
+              className="h-full w-full object-cover object-center group-hover:opacity-80 transition-opacity"
+            />
+        </div>
+      </Link>
+      <div className="p-4 flex flex-col flex-1 bg-card">
+        <div className='flex-1'>
+            <h3 className="text-sm text-foreground font-medium">
+                <Link href={`/products/${product.slug}`}>
+                {product.name}
+                </Link>
+            </h3>
+        </div>
+        <div className="mt-4 flex justify-between items-center">
+          <p className="text-lg font-bold text-foreground">
             ${product.price.toFixed(2)}
           </p>
+          <Button size="icon" variant="ghost" onClick={handleAddToCart} aria-label={`Add ${product.name} to cart`}>
+            <ShoppingBasket className="h-6 w-6 text-primary" />
+          </Button>
         </div>
-        <Button size="icon" variant="ghost" onClick={handleAddToCart} aria-label={`Add ${product.name} to cart`}>
-          <ShoppingBasket className="h-6 w-6 text-primary" />
-        </Button>
       </div>
     </div>
   );

@@ -1,6 +1,12 @@
 {
   "placeholderImages": [
     {
+      "id": "hero-bread",
+      "description": "A collection of various artisan breads on a dark surface, with flour dusting.",
+      "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNXx8YmFrZXJ5JTIwYnJlYWR8ZW58MHx8fHwxNzIwMTU1OTIwfDA&ixlib=rb-4.1.0&q=80&w=1920",
+      "imageHint": "bakery bread"
+    },
+    {
       "id": "croissant",
       "description": "Flaky buttery croissant",
       "imageUrl": "https://images.unsplash.com/photo-1737700087841-f2bc25eb0b10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjcm9pc3NhbnQlMjBwYXN0cnl8ZW58MHx8fHwxNzY5MDY2OTQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",

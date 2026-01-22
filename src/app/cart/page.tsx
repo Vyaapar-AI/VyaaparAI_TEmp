@@ -18,24 +18,24 @@ export default function CartPage() {
       {cartCount === 0 ? (
         <div className="text-center py-20">
           <ShoppingBag className="mx-auto h-12 w-12 text-muted-foreground" />
-          <h2 className="mt-2 text-lg font-medium text-muted-foreground">Your cart is empty</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Looks like you haven't added anything to your cart yet.</p>
-          <Button asChild className="mt-6">
+          <h2 className="mt-4 text-2xl font-semibold text-muted-foreground">Your cart is empty</h2>
+          <p className="mt-2 text-base text-muted-foreground">Looks like you haven't added anything to your cart yet.</p>
+          <Button asChild size="lg" className="mt-6">
             <Link href="/">Continue Shopping</Link>
           </Button>
         </div>
       ) : (
-        <div className="mt-8 grid lg:grid-cols-3 gap-8">
+        <div className="mt-12 grid lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">
             <ul role="list" className="divide-y divide-border">
               {cartItems.map((product) => (
                 <li key={product.id} className="flex py-6">
-                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border">
+                  <div className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-lg border">
                     <Image
                       src={product.imageUrl}
                       alt={product.description}
-                      width={100}
-                      height={100}
+                      width={112}
+                      height={112}
                       data-ai-hint={product.imageHint}
                       className="h-full w-full object-cover object-center"
                     />
@@ -44,10 +44,10 @@ export default function CartPage() {
                   <div className="ml-4 flex flex-1 flex-col">
                     <div>
                       <div className="flex justify-between text-base font-medium text-foreground">
-                        <h3>
+                        <h3 className="text-lg">
                           <Link href={`/products/${product.slug}`}>{product.name}</Link>
                         </h3>
-                        <p className="ml-4">${(product.price * product.quantity).toFixed(2)}</p>
+                        <p className="ml-4 text-lg font-bold">${(product.price * product.quantity).toFixed(2)}</p>
                       </div>
                       <p className="mt-1 text-sm text-muted-foreground">${product.price.toFixed(2)} each</p>
                     </div>
@@ -82,18 +82,26 @@ export default function CartPage() {
             </ul>
           </div>
           <div className="lg:col-span-1">
-            <Card>
+            <Card className="shadow-lg">
               <CardHeader>
-                <CardTitle>Order summary</CardTitle>
+                <CardTitle className="font-headline text-2xl">Order summary</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <div className="flex justify-between text-base font-medium text-foreground">
                   <p>Subtotal</p>
                   <p>${cartTotal.toFixed(2)}</p>
                 </div>
-                <p className="mt-0.5 text-sm text-muted-foreground">Shipping and taxes calculated at checkout.</p>
+                 <div className="flex justify-between text-base font-medium text-foreground">
+                  <p>Shipping</p>
+                  <p>Free</p>
+                </div>
+                <p className="mt-0.5 text-sm text-muted-foreground">Taxes are calculated at checkout.</p>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex-col space-y-2">
+                <div className="flex justify-between w-full text-xl font-bold text-foreground">
+                  <p>Total</p>
+                  <p>${cartTotal.toFixed(2)}</p>
+                </div>
                 <Button asChild size="lg" className="w-full">
                   <Link href="/checkout">Checkout</Link>
                 </Button>
