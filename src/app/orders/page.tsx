@@ -15,13 +15,15 @@ export default function OrdersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID;
 
   useEffect(() => {
     if (user && token) {
       const fetchOrders = async () => {
         try {
           setLoading(true);
-          const res = await fetch(`${apiBaseUrl}/api/orders`, {
+          const url = storeId ? `${apiBaseUrl}/api/orders?store_id=${storeId}` : `${apiBaseUrl}/api/orders`;
+          const res = await fetch(url, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (!res.ok) {
@@ -39,7 +41,7 @@ export default function OrdersPage() {
     } else {
         setLoading(false);
     }
-  }, [user, token, apiBaseUrl]);
+  }, [user, token, apiBaseUrl, storeId]);
 
   if (loading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;

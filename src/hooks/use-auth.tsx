@@ -23,10 +23,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID;
+
+  const getUrlWithStore = (path: string) => {
+    const url = `${apiBaseUrl}${path}`;
+    if (!storeId) return url;
+    return `${url}?store_id=${storeId}`;
+  }
 
   const fetchUser = useCallback(async (authToken: string) => {
     try {
-      const res = await fetch(`${apiBaseUrl}/api/auth/user`, {
+      const res = await fetch(getUrlWithStore('/api/auth/user'), {
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
       if (res.ok) {
@@ -46,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  }, [apiBaseUrl]);
+  }, [apiBaseUrl, storeId]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
@@ -58,7 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [fetchUser]);
 
   const login = async (email: string, password: string) => {
-    const res = await fetch(`${apiBaseUrl}/api/auth/login`, {
+    const res = await fetch(getUrlWithStore('/api/auth/login'), {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
@@ -83,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (name: string, email: string, password: string) => {
-    const res = await fetch(`${apiBaseUrl}/api/auth/register`, {
+    const res = await fetch(getUrlWithStore('/api/auth/register'), {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
@@ -108,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     if (token) {
         try {
-            await fetch(`${apiBaseUrl}/api/auth/logout`, { 
+            await fetch(getUrlWithStore('/api/auth/logout'), { 
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
