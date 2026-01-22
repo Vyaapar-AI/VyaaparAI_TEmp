@@ -5,8 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/firebase';
-import { collection, addDoc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -22,12 +20,10 @@ import { useCart } from '@/hooks/use-cart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { useFirestore } from '@/firebase';
-import { FirestorePermissionError } from '@/firebase/errors';
-import { errorEmitter } from '@/firebase/error-emitter';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
   address: z.string().min(5, { message: 'Please enter a valid address.' }),
   city: z.string().min(2, { message: 'Please enter a valid city.' }),
   postalCode: z.string().min(4, { message: 'Please enter a valid postal code.' }),
@@ -37,72 +33,34 @@ export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
   const { toast } = useToast();
-  const { user, loading: userLoading } = useAuth();
-  const firestore = useFirestore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
+      email: '',
       address: '',
       city: '',
       postalCode: '',
     },
   });
-
-  useEffect(() => {
-    if (!userLoading && !user) {
-      router.push('/login?redirect=/checkout');
-    }
-  }, [user, userLoading, router]);
   
   useEffect(() => {
-    if (user) {
-      form.setValue('name', user.displayName || '');
-    }
-  }, [user, form]);
-  
-  useEffect(() => {
-    if (!userLoading && cartItems.length === 0) {
+    if (cartItems.length === 0) {
       router.push('/');
     }
-  }, [cartItems, router, userLoading]);
+  }, [cartItems, router]);
 
-  if (userLoading || !user || cartItems.length === 0) {
+  if (cartItems.length === 0) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>>) => {
-    if (!user || !firestore) {
-      toast({
-        title: 'Error',
-        description: 'You must be logged in to place an order.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    const orderData = {
-        date: new Date().toISOString(),
-        items: cartItems,
-        total: cartTotal,
-        shippingInfo: values,
-    };
-
-    const ordersCollection = collection(firestore, `users/${user.uid}/orders`);
-    
-    addDoc(ordersCollection, orderData).catch(async (serverError) => {
-        const permissionError = new FirestorePermissionError({
-          path: `users/${user.uid}/orders`,
-          operation: 'create',
-          requestResourceData: orderData,
-        });
-        errorEmitter.emit('permission-error', permissionError);
-        toast({
-          title: 'Checkout Error',
-          description: 'There was a problem placing your order.',
-          variant: 'destructive',
-        });
+    // In a real application, you would send this data to your backend API
+    console.log('Order placed:', {
+      items: cartItems,
+      total: cartTotal,
+      shippingInfo: values,
     });
 
     toast({
@@ -138,12 +96,19 @@ export default function CheckoutPage() {
                       </FormItem>
                     )}
                   />
-                   <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="you@example.com" value={user.email || ''} disabled />
-                      </FormControl>
-                    </FormItem>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="you@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="address"

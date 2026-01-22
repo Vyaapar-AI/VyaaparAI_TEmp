@@ -5,8 +5,6 @@ import { CartProvider } from '@/hooks/use-cart';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Toaster } from "@/components/ui/toaster"
-import { FirebaseClientProvider } from '@/firebase/client-provider';
-import { AuthProvider } from '@/firebase/auth/use-user';
 import { ErrorBoundary } from "react-error-boundary";
 import { Fallback } from '@/components/Fallback';
 
@@ -33,20 +31,16 @@ export default function RootLayout({
         )}
       >
         <ErrorBoundary FallbackComponent={Fallback}>
-          <FirebaseClientProvider>
-            <AuthProvider>
-              <CartProvider>
-                <div className="flex min-h-screen flex-col">
-                  <Header />
-                  <main className="flex-1">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
-                <Toaster />
-              </CartProvider>
-            </AuthProvider>
-          </FirebaseClientProvider>
+            <CartProvider>
+              <div className="flex min-h-screen flex-col">
+                <Header />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+              <Toaster />
+            </CartProvider>
         </ErrorBoundary>
       </body>
     </html>
