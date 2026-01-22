@@ -20,6 +20,7 @@ import { useCart } from '@/hooks/use-cart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -31,6 +32,7 @@ const formSchema = z.object({
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
+  const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -44,6 +46,16 @@ export default function CheckoutPage() {
       postalCode: '',
     },
   });
+
+  useEffect(() => {
+    if (!user) {
+        router.push('/login?redirect=/checkout');
+    }
+    if (user && form.getValues('email') === '') {
+        form.setValue('name', user.displayName || '');
+        form.setValue('email', user.email || '');
+    }
+  }, [user, router, form]);
   
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -51,24 +63,41 @@ export default function CheckoutPage() {
     }
   }, [cartItems, router]);
 
-  if (cartItems.length === 0) {
+  if (!user || cartItems.length === 0) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>>) => {
-    // In a real application, you would send this data to your backend API
-    console.log('Order placed:', {
-      items: cartItems,
-      total: cartTotal,
-      shippingInfo: values,
-    });
+    try {
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                items: cartItems,
+                total: cartTotal,
+                shippingInfo: values
+            })
+        });
 
-    toast({
-      title: 'Order Placed!',
-      description: 'Thank you for your purchase.',
-    });
-    clearCart();
-    router.push('/order-confirmation');
+        if (!response.ok) {
+            throw new Error('Failed to place order.');
+        }
+
+        toast({
+          title: 'Order Placed!',
+          description: 'Thank you for your purchase.',
+        });
+
+        clearCart();
+        router.push('/order-confirmation');
+
+    } catch(error: any) {
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: error.message || 'Could not place your order.',
+        });
+    }
   };
 
   return (
@@ -103,7 +132,7 @@ export default function CheckoutPage() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="you@example.com" {...field} />
+                          <Input placeholder="you@example.com" {...field} disabled />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

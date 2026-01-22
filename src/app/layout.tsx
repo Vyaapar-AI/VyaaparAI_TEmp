@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { CartProvider } from '@/hooks/use-cart';
+import { AuthProvider } from '@/hooks/use-auth';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Toaster } from "@/components/ui/toaster"
@@ -31,6 +32,7 @@ export default function RootLayout({
         )}
       >
         <ErrorBoundary FallbackComponent={Fallback}>
+          <AuthProvider>
             <CartProvider>
               <div className="flex min-h-screen flex-col">
                 <Header />
@@ -41,6 +43,7 @@ export default function RootLayout({
               </div>
               <Toaster />
             </CartProvider>
+          </AuthProvider>
         </ErrorBoundary>
       </body>
     </html>
