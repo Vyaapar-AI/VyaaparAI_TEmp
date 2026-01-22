@@ -1,13 +1,12 @@
 
-import { products } from '@/lib/products';
+import { products, placeholderImages } from '@/themes';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Cookie, Grape, ShoppingBag, Wheat } from 'lucide-react';
 
-const heroImage = PlaceHolderImages.find(img => img.id === 'hero-bread');
+const heroImage = placeholderImages.find(img => img.id === 'hero-bread');
 
 const featureItems = [
   { icon: Cookie, title: 'Homemade Cookies', description: 'Baked daily with the finest ingredients.' },

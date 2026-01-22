@@ -1,8 +1,10 @@
-import type { Product } from './types';
-import { PlaceHolderImages } from './placeholder-images';
+import type { Product } from '@/lib/types';
+import placeholderData from './placeholder-images.json';
+
+const { placeholderImages } = placeholderData;
 
 const getImage = (id: string) => {
-  const image = PlaceHolderImages.find(img => img.id === id);
+  const image = placeholderImages.find(img => img.id === id);
   if (!image) {
     return {
       imageUrl: 'https://picsum.photos/seed/error/800/600',

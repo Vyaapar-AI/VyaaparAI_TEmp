@@ -18,7 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { placeholderImages } from '@/themes';
 
 const formSchema = z.object({
     name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -26,7 +26,7 @@ const formSchema = z.object({
     password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
 });
 
-const authImage = PlaceHolderImages.find(img => img.id === 'auth-background');
+const authImage = placeholderImages.find(img => img.id === 'auth-background');
 
 
 export default function RegisterPage() {
@@ -46,7 +46,7 @@ export default function RegisterPage() {
       await register(values.name, values.email, values.password);
       toast({
         title: 'Registration Successful',
-        description: 'Welcome to Bakery!',
+        description: 'Welcome!',
       });
     } catch (error: any) {
       toast({

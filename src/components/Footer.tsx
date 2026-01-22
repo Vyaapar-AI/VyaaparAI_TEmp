@@ -1,5 +1,7 @@
+import { themeConfig } from "@/themes";
+
 export function Footer() {
-  const storeName = process.env.NEXT_PUBLIC_STORE_NAME || 'Bakery';
+  const storeName = themeConfig.meta.name;
   return (
     <footer className="border-t bg-secondary">
       <div className="container py-8">

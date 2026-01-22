@@ -1,4 +1,4 @@
-import { products } from '@/lib/products';
+import { products } from '@/themes';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';

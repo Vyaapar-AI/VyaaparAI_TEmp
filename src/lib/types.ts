@@ -28,3 +28,10 @@ export interface User {
   createdAt: string;
   termsAcceptedAt: string;
 }
+
+export interface ImagePlaceholder {
+  id: string;
+  description: string;
+  imageUrl: string;
+  imageHint: string;
+}

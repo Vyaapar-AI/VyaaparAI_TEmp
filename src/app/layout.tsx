@@ -9,10 +9,12 @@ import { Toaster } from "@/components/ui/toaster"
 import { ErrorBoundary } from "react-error-boundary";
 import { Fallback } from '@/components/Fallback';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { themeConfig } from '@/themes';
+import { ThemeStyle } from '@/components/ThemeStyle';
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_STORE_NAME || 'Bakery',
-  description: process.env.NEXT_PUBLIC_STORE_DESCRIPTION || 'Tasty & Spicy Baked Goods.',
+  title: themeConfig.meta.name,
+  description: themeConfig.meta.description,
 };
 
 export default function RootLayout({
@@ -22,11 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-      </head>
+      <head />
       <body
         className={cn(
           'h-full bg-background font-body text-foreground antialiased'
@@ -38,6 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ThemeStyle theme={themeConfig} />
           <ErrorBoundary FallbackComponent={Fallback}>
             <AuthProvider>
               <CartProvider>

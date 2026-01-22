@@ -18,14 +18,14 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { placeholderImages } from '@/themes';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(1, { message: 'Password is required.' }),
 });
 
-const authImage = PlaceHolderImages.find(img => img.id === 'auth-background');
+const authImage = placeholderImages.find(img => img.id === 'auth-background');
 
 export default function LoginPage() {
   const { login } = useAuth();

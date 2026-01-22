@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getAIProductRecommendations } from '@/ai/flows/ai-powered-recommendations';
 import type { Product } from '@/lib/types';
-import { products } from '@/lib/products';
+import { products } from '@/themes';
 import { ProductCard } from './ProductCard';
 import { Skeleton } from './ui/skeleton';
 
