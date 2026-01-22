@@ -7,6 +7,12 @@
       "imageHint": "cookies aesthetic"
     },
     {
+      "id": "sweets-story",
+      "description": "A smiling baker holding a tray of freshly baked vegan cookies.",
+      "imageUrl": "https://images.unsplash.com/photo-1620950346239-8b4d1872ba31?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "baker cookies"
+    },
+    {
       "id": "nutella-heaven",
       "description": "A stack of brownies with a thick layer of Nutella and chocolate on top.",
       "imageUrl": "https://images.unsplash.com/photo-1627834393699-1e7b3645e76d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxudXRlbGxhJTIwYnJvd25pZXN8ZW58MHx8fHwxNzIyMjg2NTMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
