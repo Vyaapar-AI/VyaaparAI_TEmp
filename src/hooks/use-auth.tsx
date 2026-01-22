@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 
   const fetchUser = useCallback(async (authToken: string) => {
     try {
@@ -58,10 +58,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [fetchUser]);
 
   const login = async (email: string, password: string) => {
-    setLoading(true);
     const res = await fetch(`${apiBaseUrl}api/auth/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ email, password }),
     });
 
@@ -77,16 +78,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       router.refresh();
     } else {
         const error = await res.json();
-        setLoading(false);
         throw new Error(error.message || 'Failed to log in');
     }
   };
 
   const register = async (name: string, email: string, password: string) => {
-    setLoading(true);
     const res = await fetch(`${apiBaseUrl}api/auth/register`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ name, email, password }),
     });
 
@@ -99,7 +100,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         router.refresh();
     } else {
         const error = await res.json();
-        setLoading(false);
         throw new Error(error.message || 'Failed to register');
     }
   };
@@ -107,10 +107,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     if (token) {
-        await fetch(`${apiBaseUrl}api/auth/logout`, { 
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+        try {
+            await fetch(`${apiBaseUrl}api/auth/logout`, { 
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+        } catch (e) {
+            console.error('Logout failed', e)
+        }
     }
     setUser(null);
     setToken(null);
