@@ -11,8 +11,8 @@ import { Fallback } from '@/components/Fallback';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
-  title: 'Bakery',
-  description: 'Tasty & Spicy Baked Goods.',
+  title: process.env.NEXT_PUBLIC_STORE_NAME || 'Bakery',
+  description: process.env.NEXT_PUBLIC_STORE_DESCRIPTION || 'Tasty & Spicy Baked Goods.',
 };
 
 export default function RootLayout({
