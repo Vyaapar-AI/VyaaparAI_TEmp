@@ -15,41 +15,45 @@ const navLinks = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container relative flex h-16 max-w-screen-2xl items-center">
-        {/* Left side: Mobile Menu Trigger and Desktop Logo */}
-        <div className="flex flex-1 items-center justify-start">
-           <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden mr-2">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <div className="p-4">
-                 <Logo />
-                 <nav className="mt-8 flex flex-col gap-4">
-                   {navLinks.map(link => (
-                     <Link
-                      key={link.label}
-                      href={link.href}
-                      className="text-lg font-medium transition-colors hover:text-foreground text-foreground/80"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                 </nav>
-              </div>
-            </SheetContent>
-          </Sheet>
-           <Link href="/" className="hidden md:flex items-center space-x-2">
+      <div className="container flex h-16 items-center">
+        {/* Left Slot */}
+        <div className="flex-1 flex items-center justify-start">
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <div className="p-4">
+                  <Link href="/" className="mb-8 block">
+                    <Logo />
+                  </Link>
+                  <nav className="flex flex-col gap-4">
+                    {navLinks.map(link => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        className="text-lg font-medium transition-colors hover:text-foreground text-foreground/80"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </nav>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+          <Link href="/" className="hidden md:flex items-center space-x-2">
             <Logo />
           </Link>
         </div>
-        
-        {/* Center: Desktop Navigation & Mobile Logo */}
-        <div className="flex md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
-            <nav className="hidden md:flex items-center justify-center gap-8 text-sm">
+
+        {/* Center Slot */}
+        <div className="flex items-center justify-center">
+          <nav className="hidden md:flex items-center gap-8 text-sm">
             {navLinks.map(link => (
                 <Link
                 key={link.label}
@@ -59,16 +63,16 @@ export function Header() {
                 {link.label}
                 </Link>
             ))}
-            </nav>
-            <div className="flex md:hidden">
-                <Link href="/" className="flex items-center space-x-2">
-                    <Logo />
-                </Link>
-            </div>
+          </nav>
+          <div className="md:hidden">
+            <Link href="/">
+              <Logo />
+            </Link>
+          </div>
         </div>
 
-        {/* Right side: Icons */}
-        <div className="flex flex-1 items-center justify-end space-x-1">
+        {/* Right Slot */}
+        <div className="flex-1 flex items-center justify-end space-x-2">
           <Button variant="ghost" size="icon">
             <Search className="h-5 w-5" />
             <span className="sr-only">Search</span>
