@@ -5,8 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser, useFirestore, useFirebaseApp } from '@/firebase';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { useAuth } from '@/hooks/use-auth';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -34,8 +33,7 @@ export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const router = useRouter();
   const { toast } = useToast();
-  const { user, loading: userLoading } = useUser();
-  const firestore = useFirestore();
+  const { user, loading: userLoading } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,23 +67,32 @@ export default function CheckoutPage() {
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (!firestore || !user) {
+    if (!user) {
       toast({
         title: 'Error',
-        description: 'Could not connect to the database. Please try again.',
+        description: 'You must be logged in to place an order.',
         variant: 'destructive',
       });
       return;
     }
     
     try {
-      const ordersCollection = collection(firestore, 'users', user.uid, 'orders');
-      await addDoc(ordersCollection, {
-        date: serverTimestamp(),
-        items: cartItems,
-        total: cartTotal,
-        shippingInfo: values,
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            date: new Date().toISOString(),
+            items: cartItems,
+            total: cartTotal,
+            shippingInfo: values,
+        })
       });
+
+      if (!response.ok) {
+        throw new Error((await response.json()).message || 'Failed to place order');
+      }
 
       toast({
         title: 'Order Placed!',
@@ -97,7 +104,7 @@ export default function CheckoutPage() {
     } catch (error) {
        toast({
         title: 'Checkout Error',
-        description: 'There was a problem placing your order.',
+        description: error instanceof Error ? error.message : 'There was a problem placing your order.',
         variant: 'destructive',
       });
     }

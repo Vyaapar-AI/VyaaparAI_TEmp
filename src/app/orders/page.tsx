@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import type { Order } from '@/lib/types';
 import {
   Accordion,
@@ -10,21 +10,29 @@ import {
 } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { History, Loader2 } from 'lucide-react';
-import { useUser, useCollection, useFirestore } from '@/firebase';
-import { collection, query, orderBy, Timestamp } from 'firebase/firestore';
+import { useAuth } from '@/hooks/use-auth';
 
 export default function OrdersPage() {
-  const { user, loading: userLoading } = useUser();
-  const firestore = useFirestore();
+  const { user, loading: userLoading } = useAuth();
+  const [orders, setOrders] = useState<Order[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const ordersQuery = useMemo(() => {
-    if (!user || !firestore) return null;
-    return query(collection(firestore, 'users', user.uid, 'orders'), orderBy('date', 'desc'));
-  }, [user, firestore]);
+  useEffect(() => {
+    if (user) {
+      setLoading(true);
+      fetch('/api/orders')
+        .then((res) => res.json())
+        .then((data) => {
+          setOrders(data);
+        })
+        .catch((err) => console.error(err))
+        .finally(() => setLoading(false));
+    } else if (!userLoading) {
+      setLoading(false);
+    }
+  }, [user, userLoading]);
 
-  const { data: orders, loading: ordersLoading } = useCollection<Order>(ordersQuery);
-
-  if (userLoading || ordersLoading) {
+  if (userLoading || loading) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
 
@@ -50,7 +58,7 @@ export default function OrdersPage() {
                     <div>
                       <h3 className="text-lg font-medium">Order #{order.id.slice(-6)}</h3>
                       <p className="text-sm text-muted-foreground">
-                        {order.date ? (order.date as unknown as Timestamp).toDate().toLocaleDateString() : 'N/A'}
+                        {order.date ? new Date(order.date).toLocaleDateString() : 'N/A'}
                       </p>
                     </div>
                     <p className="text-lg font-medium">${order.total.toFixed(2)}</p>

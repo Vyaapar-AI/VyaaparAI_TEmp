@@ -5,7 +5,7 @@ import { CartProvider } from '@/hooks/use-cart';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Toaster } from "@/components/ui/toaster"
-import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
   title: 'Bakery',
@@ -22,14 +22,14 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body
         className={cn(
           'h-full bg-background font-body text-foreground antialiased'
         )}
       >
-        <FirebaseClientProvider>
+        <AuthProvider>
           <CartProvider>
             <div className="flex min-h-screen flex-col">
               <Header />
@@ -40,7 +40,7 @@ export default function RootLayout({
             </div>
             <Toaster />
           </CartProvider>
-        </FirebaseClientProvider>
+        </AuthProvider>
       </body>
     </html>
   );

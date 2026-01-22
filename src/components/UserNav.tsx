@@ -10,19 +10,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useAuth, useUser } from '@/firebase';
+import { useAuth } from '@/hooks/use-auth';
 import Link from 'next/link';
 import { Loader2, LogIn } from 'lucide-react';
-import { signOut } from 'firebase/auth';
 
 export function UserNav() {
-  const { user, loading } = useUser();
-  const auth = useAuth();
+  const { user, loading, logout } = useAuth();
 
   const handleSignOut = async () => {
-    if (auth) {
-      await signOut(auth);
-    }
+    logout();
   };
 
   if (loading) {
