@@ -1,16 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useErrorHandler } from 'react-error-boundary';
+import { useEffect, useState } from 'react';
 import { errorEmitter } from '@/firebase/error-emitter';
-import { FirestorePermissionError } from '@/firebase/errors';
+import type { FirestorePermissionError } from '@/firebase/errors';
 
 export function FirebaseErrorListener() {
-  const handleError = useErrorHandler();
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const handlePermissionError = (error: FirestorePermissionError) => {
-      handleError(error);
+    const handlePermissionError = (emittedError: FirestorePermissionError) => {
+      setError(emittedError);
     };
 
     errorEmitter.on('permission-error', handlePermissionError);
@@ -18,7 +17,11 @@ export function FirebaseErrorListener() {
     return () => {
       errorEmitter.off('permission-error', handlePermissionError);
     };
-  }, [handleError]);
+  }, []);
+
+  if (error) {
+    throw error;
+  }
 
   return null;
 }

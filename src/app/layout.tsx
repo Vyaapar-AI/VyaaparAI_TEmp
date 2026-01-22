@@ -8,22 +8,12 @@ import { Toaster } from "@/components/ui/toaster"
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { AuthProvider } from '@/firebase/auth/use-user';
 import { ErrorBoundary } from "react-error-boundary";
-import { Button } from '@/components/ui/button';
+import { Fallback } from '@/components/Fallback';
 
 export const metadata: Metadata = {
   title: 'Bakery',
   description: 'Tasty & Spicy Baked Goods.',
 };
-
-function Fallback({ error, resetErrorBoundary }: {error: Error, resetErrorBoundary: () => void}) {
-  return (
-    <div role="alert" className="p-4">
-      <p>Something went wrong:</p>
-      <pre className="text-red-500 whitespace-pre-wrap">{error.message}</pre>
-      <Button onClick={resetErrorBoundary}>Try again</Button>
-    </div>
-  )
-}
 
 export default function RootLayout({
   children,
