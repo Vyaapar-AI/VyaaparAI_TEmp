@@ -19,6 +19,10 @@ import { config as foodCourtConfig } from './food-court/config';
 import { products as foodCourtProducts } from './food-court/products';
 import foodCourtPlaceholderImages from './food-court/placeholder-images.json';
 
+import { config as homeDecorConfig } from './home-decor/config';
+import { products as homeDecorProducts } from './home-decor/products';
+import homeDecorPlaceholderImages from './home-decor/placeholder-images.json';
+
 const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
 
 let themeConfig: any;
@@ -45,6 +49,11 @@ switch (businessType) {
     themeConfig = foodCourtConfig;
     products = foodCourtProducts;
     placeholderImages = foodCourtPlaceholderImages.placeholderImages;
+    break;
+  case 'home-decor':
+    themeConfig = homeDecorConfig;
+    products = homeDecorProducts;
+    placeholderImages = homeDecorPlaceholderImages.placeholderImages;
     break;
   case 'bakery':
   default:

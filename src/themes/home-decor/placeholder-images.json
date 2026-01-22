@@ -1,0 +1,40 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-home-decor",
+      "description": "A beautifully styled, modern living room with a neutral color palette and elegant furniture.",
+      "imageUrl": "https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "living room"
+    },
+    {
+      "id": "ceramic-vase",
+      "description": "A minimalist ceramic vase with a textured white finish.",
+      "imageUrl": "https://images.unsplash.com/photo-1612144393695-12d4a5c5ac32?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "ceramic vase"
+    },
+    {
+      "id": "linen-pillow",
+      "description": "A soft linen throw pillow in a neutral beige color.",
+      "imageUrl": "https://images.unsplash.com/photo-1594949439160-c3a033b92f75?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "linen pillow"
+    },
+    {
+      "id": "abstract-art",
+      "description": "A piece of modern abstract wall art with gold leaf details.",
+      "imageUrl": "https://images.unsplash.com/photo-1579541620353-948f615e45a5?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "abstract art"
+    },
+    {
+      "id": "scented-candle",
+      "description": "An elegant scented candle in a glass jar with a wooden lid.",
+      "imageUrl": "https://images.unsplash.com/photo-1600855839250-d33b5a45b736?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "scented candle"
+    },
+    {
+      "id": "auth-background",
+      "description": "The interior of a chic, modern home decor store with minimalist displays.",
+      "imageUrl": "https://images.unsplash.com/photo-1540998145393-e2229f5f2c3b?q=80&w=1004&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "decor store"
+    }
+  ]
+}
