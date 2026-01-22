@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Search, Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import { UserNav } from './UserNav';
+import { ThemeToggle } from './ThemeToggle';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -67,6 +68,7 @@ export function Header() {
           </Button>
           <CartIcon />
           <UserNav />
+          <ThemeToggle />
         </div>
       </div>
     </header>
