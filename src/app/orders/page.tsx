@@ -10,17 +10,19 @@ import { History, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function OrdersPage() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) {
+    if (user && token) {
       const fetchOrders = async () => {
         try {
           setLoading(true);
-          const res = await fetch('/api/orders');
+          const res = await fetch('/api/orders', {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
           if (!res.ok) {
             throw new Error('Failed to fetch orders.');
           }
@@ -36,7 +38,7 @@ export default function OrdersPage() {
     } else {
         setLoading(false);
     }
-  }, [user]);
+  }, [user, token]);
 
   if (loading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
@@ -50,7 +52,7 @@ export default function OrdersPage() {
                 <h2 className="mt-2 text-lg font-medium text-muted-foreground">Please log in</h2>
                 <p className="mt-1 text-sm text-muted-foreground">You need to be logged in to see your order history.</p>
                 <Button asChild className="mt-4">
-                    <Link href="/login">Log In</Link>
+                    <Link href="/login?redirect=/orders">Log In</Link>
                 </Button>
             </div>
         </div>

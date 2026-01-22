@@ -32,7 +32,7 @@ const formSchema = z.object({
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -68,10 +68,22 @@ export default function CheckoutPage() {
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>>) => {
+    if (!token) {
+      toast({
+          variant: 'destructive',
+          title: 'Authentication Error',
+          description: 'You are not logged in.',
+      });
+      return;
+    }
+
     try {
         const response = await fetch('/api/orders', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({
                 items: cartItems,
                 total: cartTotal,

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/api';
-import { cookies } from 'next/headers';
 import type { User } from '@/lib/types';
 
 export async function POST(request: Request) {
@@ -27,14 +26,9 @@ export async function POST(request: Request) {
     termsAcceptedAt: userInDb.termsAcceptedAt,
   };
   
-  // IMPORTANT: In a production app, use a secure session library like iron-session or next-auth.
-  // Storing session data in a plain cookie is insecure.
-  cookies().set('session', JSON.stringify(user), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 60 * 60 * 24 * 7, // 1 week
-    path: '/',
-  });
+  // Generate a simple token. In production, use a library like 'jsonwebtoken'.
+  const token = Buffer.from(JSON.stringify({ userId: user.uid, timestamp: Date.now() })).toString('base64');
+  db.tokens[token] = user.uid;
 
-  return NextResponse.json(user);
+  return NextResponse.json({ user, token });
 }

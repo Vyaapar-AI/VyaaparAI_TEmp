@@ -1,32 +1,38 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { db } from '@/lib/api';
-import type { User, Order, CartItem } from '@/lib/types';
+import type { Order, CartItem } from '@/lib/types';
 
-export async function GET() {
-    const cookie = cookies().get('session');
-    if (!cookie) {
-        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+function getUserIdFromToken(request: Request): string | null {
+    const authHeader = request.headers.get('Authorization');
+    const token = authHeader?.split(' ')[1];
+
+    if (!token) {
+        return null;
     }
 
-    try {
-        const user: User = JSON.parse(cookie.value);
-        const userOrders = db.orders[user.uid] || [];
-        return NextResponse.json(userOrders);
-    } catch (error) {
+    return db.tokens[token] || null;
+}
+
+export async function GET(request: Request) {
+    const userId = getUserIdFromToken(request);
+
+    if (!userId) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
+    
+    const userOrders = db.orders[userId] || [];
+    return NextResponse.json(userOrders);
 }
 
 
 export async function POST(request: Request) {
-  const cookie = cookies().get('session');
-  if (!cookie) {
+  const userId = getUserIdFromToken(request);
+
+  if (!userId) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const user: User = JSON.parse(cookie.value);
     const { items, total } = await request.json() as { items: CartItem[], total: number };
 
     if (!items || !total) {
@@ -40,10 +46,10 @@ export async function POST(request: Request) {
         total,
     };
     
-    if (!db.orders[user.uid]) {
-        db.orders[user.uid] = [];
+    if (!db.orders[userId]) {
+        db.orders[userId] = [];
     }
-    db.orders[user.uid].push(newOrder);
+    db.orders[userId].push(newOrder);
 
     return NextResponse.json(newOrder, { status: 201 });
 
