@@ -79,7 +79,7 @@ export default function CheckoutPage() {
     }
 
     try {
-        const response = await fetch(`${apiBaseUrl}api/orders`, {
+        const response = await fetch(`${apiBaseUrl}/api/orders`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ export default function OrdersPage() {
       const fetchOrders = async () => {
         try {
           setLoading(true);
-          const res = await fetch(`${apiBaseUrl}api/orders`, {
+          const res = await fetch(`${apiBaseUrl}/api/orders`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (!res.ok) {
