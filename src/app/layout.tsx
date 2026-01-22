@@ -13,8 +13,8 @@ import { themeConfig } from '@/themes';
 import { ThemeStyle } from '@/components/ThemeStyle';
 
 export const metadata: Metadata = {
-  title: themeConfig.meta.name,
-  description: themeConfig.meta.description,
+  title: process.env.NEXT_PUBLIC_STORE_NAME || 'My Store',
+  description: process.env.NEXT_PUBLIC_STORE_DESCRIPTION || 'Welcome to my store!',
 };
 
 export default function RootLayout({

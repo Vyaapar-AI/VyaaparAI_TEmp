@@ -1,7 +1,5 @@
-import { themeConfig } from "@/themes";
-
 export function Footer() {
-  const storeName = themeConfig.meta.name;
+  const storeName = process.env.NEXT_PUBLIC_STORE_NAME || 'My Store';
   return (
     <footer className="border-t bg-secondary">
       <div className="container py-8">

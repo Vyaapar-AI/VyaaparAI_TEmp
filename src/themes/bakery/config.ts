@@ -1,8 +1,4 @@
 export const config = {
-  meta: {
-    name: 'Bakery',
-    description: 'Tasty & Spicy Baked Goods.',
-  },
   fonts: {
     google: {
       families: {

@@ -1,8 +1,7 @@
 import { Cookie } from 'lucide-react';
-import { themeConfig } from '@/themes';
 
 export function Logo() {
-  const storeName = themeConfig.meta.name;
+  const storeName = process.env.NEXT_PUBLIC_STORE_NAME || 'My Store';
   return (
     <div className="flex items-center space-x-2">
       <Cookie className="h-8 w-8 text-primary" />
