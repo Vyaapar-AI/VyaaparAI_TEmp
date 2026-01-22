@@ -4,7 +4,7 @@ import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { CakeSlice, Coffee, Wheat, Heart } from 'lucide-react';
+import { Gift, Coffee, Wheat, Heart } from 'lucide-react';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-bread');
@@ -12,7 +12,7 @@ const heroImage = placeholderImages.find(img => img.id === 'hero-bread');
 const featureItems = [
   { icon: Wheat, title: 'Freshly Baked Daily', description: 'Our treats are baked fresh every morning with the finest ingredients.' },
   { icon: Heart, title: 'Made with Love', description: 'Every recipe is crafted with passion and attention to detail.' },
-  { icon: CakeSlice, title: 'Custom Orders', description: 'Celebrate your special moments with our custom cakes and pastries.' },
+  { icon: Gift, title: 'Custom Orders', description: 'Celebrate your special moments with our custom cakes and pastries.' },
   { icon: Coffee, title: 'Artisan Coffee', description: 'Perfectly paired with our pastries for a delightful experience.' },
 ];
 
