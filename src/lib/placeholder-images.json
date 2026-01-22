@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "croissant",
+      "description": "Flaky buttery croissant",
+      "imageUrl": "https://images.unsplash.com/photo-1737700087841-f2bc25eb0b10?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjcm9pc3NhbnQlMjBwYXN0cnl8ZW58MHx8fHwxNzY5MDY2OTQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "croissant pastry"
+    },
+    {
+      "id": "macarons",
+      "description": "Colorful almond macarons",
+      "imageUrl": "https://images.unsplash.com/photo-1580421383318-f87fc861a696?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYWNhcm9ucyUyMGRlc3NlcnR8ZW58MHx8fHwxNzY5MDk0NDA0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "macarons dessert"
+    },
+    {
+      "id": "cupcakes",
+      "description": "Vanilla cupcakes with sprinkles",
+      "imageUrl": "https://images.unsplash.com/photo-1664643682715-efbb3c81188f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjdXBjYWtlcyUyMHN3ZWV0fGVufDB8fHx8MTc2OTA5NDQwNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cupcakes sweet"
+    },
+    {
+      "id": "sourdough",
+      "description": "Artisanal sourdough bread loaf",
+      "imageUrl": "https://images.unsplash.com/photo-1621930599483-491673fc2042?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxicmVhZCUyMGxvYWZ8ZW58MHx8fHwxNzY5MDkyMjcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bread loaf"
+    },
+    {
+      "id": "chocolate-cake",
+      "description": "Rich dark chocolate layer cake",
+      "imageUrl": "https://images.unsplash.com/photo-1709195902163-7eee13e78970?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2hvY29sYXRlJTIwY2FrZXxlbnwwfHx8fDE3NjkwMTg0MTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chocolate cake"
+    },
+    {
+      "id": "fruit-tart",
+      "description": "Fresh fruit tart with custard",
+      "imageUrl": "https://images.unsplash.com/photo-1614174486496-344ef3e9d870?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmcnVpdCUyMHRhcnR8ZW58MHx8fHwxNzY5MDY3MDY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fruit tart"
+    }
+  ]
 }

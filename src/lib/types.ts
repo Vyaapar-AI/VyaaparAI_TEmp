@@ -1,0 +1,24 @@
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  imageHint: string;
+  slug: string;
+}
+
+export interface CartItem extends Product {
+  quantity: number;
+}
+
+export interface Order {
+  id: string;
+  date: string;
+  items: CartItem[];
+  total: number;
+  customer: {
+    name: string;
+    email: string;
+  };
+}
