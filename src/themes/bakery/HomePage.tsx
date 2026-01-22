@@ -1,10 +1,12 @@
-import { products, placeholderImages } from '@/themes';
+import { products as bakeryProducts } from './products';
+import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { CakeSlice, Coffee, Wheat, Heart } from 'lucide-react';
 
+const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-bread');
 
 const featureItems = [
@@ -70,7 +72,7 @@ export default function BakeryHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {products.map((product) => (
+            {bakeryProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
