@@ -1,0 +1,40 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-sweets",
+      "description": "A surreal scene with pink architecture, blue sky, clouds, and floating chocolate chip cookies.",
+      "imageUrl": "https://images.unsplash.com/photo-1708827781131-7e548f0e3343?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwaW5rJTIwY29va2llJTIwYWVzdGhldGljfGVufDB8fHx8MTcyMjI4NjQzMHww&ixlib=rb-4.1.0&q=80&w=1920",
+      "imageHint": "cookies aesthetic"
+    },
+    {
+      "id": "nutella-heaven",
+      "description": "A stack of brownies with a thick layer of Nutella and chocolate on top.",
+      "imageUrl": "https://images.unsplash.com/photo-1627834393699-1e7b3645e76d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxudXRlbGxhJTIwYnJvd25pZXN8ZW58MHx8fHwxNzIyMjg2NTMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "nutella brownies"
+    },
+    {
+      "id": "brownies-pack",
+      "description": "A slice of rich, dark chocolate fudge brownie on a plate.",
+      "imageUrl": "https://images.unsplash.com/photo-1599824637775-f54a2dd9093a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaG9jb2xhdGUlMjBicm93bmllfGVufDB8fHx8MTcyMjI4NjU4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chocolate brownie"
+    },
+    {
+      "id": "ooey-gooey-brownie",
+      "description": "A stack of perfectly baked chocolate chip cookies.",
+      "imageUrl": "https://images.unsplash.com/photo-1590088291834-83b378b27076?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjaG9jb2xhdGUlMjBjaGlwJTIwY29va2llcyUyMHN0YWNrfGVufDB8fHx8MTcyMjI4NjYyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cookies stack"
+    },
+    {
+      "id": "choco-milk-gelato",
+      "description": "A scoop of rich chocolate gelato in a glass cup.",
+      "imageUrl": "https://images.unsplash.com/photo-1628045388059-3d973b67d30c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBnZWxhdG98ZW58MHx8fHwxNzIyMjg2Njg3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chocolate gelato"
+    },
+    {
+      "id": "auth-background",
+      "description": "A whimsical pink and blue pastel bakery interior.",
+      "imageUrl": "https://images.unsplash.com/photo-1581358652391-38e991cf8a62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwYXN0ZWwlMjBjYWZlfGVufDB8fHx8MTcyMjI4Njc4NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pastel cafe"
+    }
+  ]
+}
