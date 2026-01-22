@@ -1,0 +1,52 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-grocery",
+      "description": "Smiling man holding a basket of fresh vegetables.",
+      "imageUrl": "https://images.unsplash.com/photo-1601614455828-b1a54a329b35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxncm9jZXJ5JTIwZGVsaXZlcnl8ZW58MHx8fHwxNzIyMjU3MjM3fDA&ixlib=rb-4.1.0&q=80&w=1920",
+      "imageHint": "groceries delivery"
+    },
+    {
+      "id": "vegetables",
+      "description": "A pile of fresh organic apples.",
+      "imageUrl": "https://images.unsplash.com/photo-1560806887-1e4cd0b69b89?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhcHBsZXN8ZW58MHx8fHwxNzIyMjU3MzU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "apples fruit"
+    },
+    {
+      "id": "carrots",
+      "description": "A bunch of fresh carrots with green tops.",
+      "imageUrl": "https://images.unsplash.com/photo-1590868309235-e52757545459?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjYXJyb3RzfGVufDB8fHx8MTcyMjI1NzM4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "carrots vegetable"
+    },
+    {
+      "id": "chicken",
+      "description": "Raw chicken breast on a cutting board.",
+      "imageUrl": "https://images.unsplash.com/photo-1604503468822-07f79f334a17?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxyYXclMjBjaGlja2VufGVufDB8fHx8MTcyMjI1NzQyM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chicken meat"
+    },
+    {
+      "id": "salmon",
+      "description": "A fresh fillet of wild salmon.",
+      "imageUrl": "https://images.unsplash.com/photo-1559735882-d2aa23608759?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYWxtb24lMjBmaWxsZXR8ZW58MHx8fHwxNzIyMjU3NDUwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "salmon fish"
+    },
+    {
+      "id": "milk",
+      "description": "A glass bottle of fresh whole milk.",
+      "imageUrl": "https://images.unsplash.com/photo-1620189507195-68309c04c4d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaWxrJTIwYm90dGxlfGVufDB8fHx8MTcyMjI1NzQ4MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "milk dairy"
+    },
+    {
+      "id": "bread",
+      "description": "A loaf of freshly baked artisan bread.",
+      "imageUrl": "https://images.unsplash.com/photo-1549931278-8b8c4a01a346?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhcnRpc2FuJTIwYnJlYWR8ZW58MHx8fHwxNzIyMjU3NTA1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "artisan bread"
+    },
+    {
+      "id": "auth-background",
+      "description": "A brightly lit, modern grocery store aisle with fresh produce.",
+      "imageUrl": "https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxncm9jZXJ5JTIwc3RvcmV8ZW58MHx8fHwxNzIyMjU3NTYxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "grocery store"
+    }
+  ]
+}

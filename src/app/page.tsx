@@ -4,15 +4,15 @@ import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Cookie, Grape, ShoppingBag, Wheat } from 'lucide-react';
+import { Carrot, Truck, Fish, LeafyGreen } from 'lucide-react';
 
-const heroImage = placeholderImages.find(img => img.id === 'hero-bread');
+const heroImage = placeholderImages.find(img => img.id === 'hero-grocery');
 
 const featureItems = [
-  { icon: Cookie, title: 'Homemade Cookies', description: 'Baked daily with the finest ingredients.' },
-  { icon: Grape, title: 'Artisanal Bread', description: 'Naturally leavened and handcrafted.' },
-  { icon: ShoppingBag, title: 'Free Shipping', description: 'On all orders over $50.' },
-  { icon: Wheat, title: 'Organic Flour', description: 'Sourced from local, sustainable farms.' },
+  { icon: Carrot, title: 'Fresh Produce', description: 'The best fruits and vegetables, sourced daily.' },
+  { icon: Fish, title: 'Quality Meats', description: 'From local farms to your table.' },
+  { icon: Truck, title: 'Fast Delivery', description: 'Delivered to your doorstep in minutes.' },
+  { icon: LeafyGreen, title: 'Certified Organic', description: 'Healthy and sustainable options.' },
 ];
 
 export default function Home() {
@@ -33,12 +33,12 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white p-4">
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl font-headline">
-            Freshly Baked,
+            We deliver groceries
             <br />
-            Just for You
+            to your doorstep
           </h1>
           <p className="mt-4 max-w-2xl text-lg">
-            Experience the authentic taste of artisan breads and pastries, crafted with passion.
+            Get the freshest groceries delivered right to your home. Save time, skip the lines, and enjoy the convenience of quick, efficient delivery.
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link href="#products">Shop Now</Link>
@@ -67,9 +67,9 @@ export default function Home() {
       <section id="products" className="bg-secondary/50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Our Products</h2>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Shop by Categories</h2>
             <p className="mt-4 text-lg leading-8 text-muted-foreground">
-              Handcrafted with love, from our oven to your home.
+              Find everything you need, from fresh produce to pantry staples.
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
