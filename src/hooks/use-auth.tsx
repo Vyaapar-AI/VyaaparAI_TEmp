@@ -22,10 +22,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const fetchUser = useCallback(async (authToken: string) => {
     try {
-      const res = await fetch('/api/auth/user', {
+      const res = await fetch(`${apiBaseUrl}api/auth/user`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
       if (res.ok) {
@@ -45,7 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [apiBaseUrl]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
@@ -58,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     setLoading(true);
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${apiBaseUrl}api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -83,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = async (name: string, email: string, password: string) => {
     setLoading(true);
-    const res = await fetch('/api/auth/register', {
+    const res = await fetch(`${apiBaseUrl}api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
@@ -106,7 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     if (token) {
-        await fetch('/api/auth/logout', { 
+        await fetch(`${apiBaseUrl}api/auth/logout`, { 
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` }
         });

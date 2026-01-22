@@ -35,6 +35,7 @@ export default function CheckoutPage() {
   const { user, token } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,7 +79,7 @@ export default function CheckoutPage() {
     }
 
     try {
-        const response = await fetch('/api/orders', {
+        const response = await fetch(`${apiBaseUrl}api/orders`, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
