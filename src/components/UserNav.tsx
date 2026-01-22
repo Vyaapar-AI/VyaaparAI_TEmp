@@ -10,16 +10,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/firebase';
 import Link from 'next/link';
 import { Loader2, LogIn } from 'lucide-react';
 
 export function UserNav() {
   const { user, loading, logout } = useAuth();
-
-  const handleSignOut = async () => {
-    logout();
-  };
 
   if (loading) {
     return <Loader2 className="h-5 w-5 animate-spin" />;
@@ -60,7 +56,7 @@ export function UserNav() {
           <Link href="/orders">My Orders</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>
+        <DropdownMenuItem onClick={logout}>
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>

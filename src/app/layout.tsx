@@ -5,12 +5,25 @@ import { CartProvider } from '@/hooks/use-cart';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Toaster } from "@/components/ui/toaster"
-import { AuthProvider } from '@/hooks/use-auth';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
+import { AuthProvider } from '@/firebase/auth/use-user';
+import { ErrorBoundary } from "react-error-boundary";
+import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: 'Bakery',
   description: 'Tasty & Spicy Baked Goods.',
 };
+
+function Fallback({ error, resetErrorBoundary }: {error: Error, resetErrorBoundary: () => void}) {
+  return (
+    <div role="alert" className="p-4">
+      <p>Something went wrong:</p>
+      <pre className="text-red-500 whitespace-pre-wrap">{error.message}</pre>
+      <Button onClick={resetErrorBoundary}>Try again</Button>
+    </div>
+  )
+}
 
 export default function RootLayout({
   children,
@@ -29,18 +42,22 @@ export default function RootLayout({
           'h-full bg-background font-body text-foreground antialiased'
         )}
       >
-        <AuthProvider>
-          <CartProvider>
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <main className="flex-1">
-                {children}
-              </main>
-              <Footer />
-            </div>
-            <Toaster />
-          </CartProvider>
-        </AuthProvider>
+        <ErrorBoundary FallbackComponent={Fallback}>
+          <FirebaseClientProvider>
+            <AuthProvider>
+              <CartProvider>
+                <div className="flex min-h-screen flex-col">
+                  <Header />
+                  <main className="flex-1">
+                    {children}
+                  </main>
+                  <Footer />
+                </div>
+                <Toaster />
+              </CartProvider>
+            </AuthProvider>
+          </FirebaseClientProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

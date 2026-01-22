@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import type { Order } from '@/lib/types';
 import {
   Accordion,
@@ -10,29 +10,22 @@ import {
 } from '@/components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { History, Loader2 } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth, useCollection, useFirestore } from '@/firebase';
+import { collection, query, orderBy } from 'firebase/firestore';
 
 export default function OrdersPage() {
   const { user, loading: userLoading } = useAuth();
-  const [orders, setOrders] = useState<Order[] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const firestore = useFirestore();
 
-  useEffect(() => {
-    if (user) {
-      setLoading(true);
-      fetch('/api/orders')
-        .then((res) => res.json())
-        .then((data) => {
-          setOrders(data);
-        })
-        .catch((err) => console.error(err))
-        .finally(() => setLoading(false));
-    } else if (!userLoading) {
-      setLoading(false);
-    }
-  }, [user, userLoading]);
+  const ordersQuery = useMemo(() => {
+    if (!firestore || !user) return null;
+    return query(collection(firestore, `users/${user.uid}/orders`), orderBy('date', 'desc'));
+  }, [firestore, user]);
 
-  if (userLoading || loading) {
+  const { data: orders, loading: ordersLoading } = useCollection<Order>(ordersQuery);
+  const loading = userLoading || ordersLoading;
+
+  if (loading) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
 

@@ -5,7 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -21,6 +22,9 @@ import { useCart } from '@/hooks/use-cart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { useFirestore } from '@/firebase';
+import { FirestorePermissionError } from '@/firebase/errors';
+import { errorEmitter } from '@/firebase/error-emitter';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -34,6 +38,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { user, loading: userLoading } = useAuth();
+  const firestore = useFirestore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,18 +63,17 @@ export default function CheckoutPage() {
   }, [user, form]);
   
   useEffect(() => {
-    // Redirect to home if cart is empty on the client-side
-    if (cartItems.length === 0) {
+    if (!userLoading && cartItems.length === 0) {
       router.push('/');
     }
-  }, [cartItems, router]);
+  }, [cartItems, router, userLoading]);
 
   if (userLoading || !user || cartItems.length === 0) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>>) => {
-    if (!user) {
+    if (!user || !firestore) {
       toast({
         title: 'Error',
         description: 'You must be logged in to place an order.',
@@ -78,38 +82,35 @@ export default function CheckoutPage() {
       return;
     }
     
-    try {
-      const response = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            date: new Date().toISOString(),
-            items: cartItems,
-            total: cartTotal,
-            shippingInfo: values,
-        })
-      });
+    const orderData = {
+        date: new Date().toISOString(),
+        items: cartItems,
+        total: cartTotal,
+        shippingInfo: values,
+    };
 
-      if (!response.ok) {
-        throw new Error((await response.json()).message || 'Failed to place order');
-      }
+    const ordersCollection = collection(firestore, `users/${user.uid}/orders`);
+    
+    addDoc(ordersCollection, orderData).catch(async (serverError) => {
+        const permissionError = new FirestorePermissionError({
+          path: `users/${user.uid}/orders`,
+          operation: 'create',
+          requestResourceData: orderData,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+        toast({
+          title: 'Checkout Error',
+          description: 'There was a problem placing your order.',
+          variant: 'destructive',
+        });
+    });
 
-      toast({
-        title: 'Order Placed!',
-        description: 'Thank you for your purchase.',
-      });
-      clearCart();
-      router.push('/order-confirmation');
-
-    } catch (error) {
-       toast({
-        title: 'Checkout Error',
-        description: error instanceof Error ? error.message : 'There was a problem placing your order.',
-        variant: 'destructive',
-      });
-    }
+    toast({
+      title: 'Order Placed!',
+      description: 'Thank you for your purchase.',
+    });
+    clearCart();
+    router.push('/order-confirmation');
   };
 
   return (
