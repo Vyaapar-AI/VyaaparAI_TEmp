@@ -6,19 +6,7 @@ interface DbUser extends User {
   password_DO_NOT_USE_IN_PROD: string;
 }
 
-const now = new Date().toISOString();
-
-const users: DbUser[] = [
-  {
-    uid: '1',
-    email: 'user@example.com',
-    name: 'Test User',
-    role: 'user',
-    createdAt: now,
-    termsAcceptedAt: now,
-    password_DO_NOT_USE_IN_PROD: 'password123',
-  },
-];
+const users: DbUser[] = [];
 
 const orders: { [userId: string]: Order[] } = {};
 
