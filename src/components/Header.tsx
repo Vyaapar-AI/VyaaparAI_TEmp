@@ -15,7 +15,7 @@ const navLinks = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 items-center px-4 sm:px-6">
         {/* Left Slot */}
         <div className="flex-1 flex items-center justify-start">
           <div className="md:hidden">
@@ -72,8 +72,8 @@ export function Header() {
         </div>
 
         {/* Right Slot */}
-        <div className="flex-1 flex items-center justify-end space-x-2">
-          <Button variant="ghost" size="icon">
+        <div className="flex-1 flex items-center justify-end space-x-4">
+          <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
             <Search className="h-5 w-5" />
             <span className="sr-only">Search</span>
           </Button>
