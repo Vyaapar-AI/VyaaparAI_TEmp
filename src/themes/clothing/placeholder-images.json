@@ -1,0 +1,40 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-clothing",
+      "description": "A minimalist clothing rack with neutral-colored garments against a clean, modern backdrop.",
+      "imageUrl": "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "clothing rack"
+    },
+    {
+      "id": "white-tee",
+      "description": "A crisp, classic white t-shirt folded neatly.",
+      "imageUrl": "https://images.unsplash.com/photo-1622470953794-aa6976d0042d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "white t-shirt"
+    },
+    {
+      "id": "denim-jeans",
+      "description": "A pair of classic blue slim-fit denim jeans.",
+      "imageUrl": "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "denim jeans"
+    },
+    {
+      "id": "leather-jacket",
+      "description": "A stylish black leather biker jacket on a hanger.",
+      "imageUrl": "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "leather jacket"
+    },
+    {
+      "id": "linen-shirt",
+      "description": "A breathable, beige linen button-up shirt.",
+      "imageUrl": "https://images.unsplash.com/photo-1622332345464-3c6c4fe3a5b8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "linen shirt"
+    },
+    {
+      "id": "auth-background",
+      "description": "A well-organized, minimalist walk-in closet with stylish clothes.",
+      "imageUrl": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "fashion closet"
+    }
+  ]
+}

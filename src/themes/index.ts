@@ -23,6 +23,10 @@ import { config as homeDecorConfig } from './home-decor/config';
 import { products as homeDecorProducts } from './home-decor/products';
 import homeDecorPlaceholderImages from './home-decor/placeholder-images.json';
 
+import { config as clothingConfig } from './clothing/config';
+import { products as clothingProducts } from './clothing/products';
+import clothingPlaceholderImages from './clothing/placeholder-images.json';
+
 const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
 
 let themeConfig: any;
@@ -54,6 +58,11 @@ switch (businessType) {
     themeConfig = homeDecorConfig;
     products = homeDecorProducts;
     placeholderImages = homeDecorPlaceholderImages.placeholderImages;
+    break;
+  case 'clothing':
+    themeConfig = clothingConfig;
+    products = clothingProducts;
+    placeholderImages = clothingPlaceholderImages.placeholderImages;
     break;
   case 'bakery':
   default:

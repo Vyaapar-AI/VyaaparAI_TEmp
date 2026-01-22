@@ -4,6 +4,7 @@ import SweetsHomePage from '@/themes/sweets/HomePage';
 import ProvisionHomePage from '@/themes/provision/HomePage';
 import FoodCourtHomePage from '@/themes/food-court/HomePage';
 import HomeDecorHomePage from '@/themes/home-decor/HomePage';
+import ClothingHomePage from '@/themes/clothing/HomePage';
 
 const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
 
@@ -26,6 +27,10 @@ export default function Home() {
 
   if (businessType === 'home-decor') {
     return <HomeDecorHomePage />;
+  }
+  
+  if (businessType === 'clothing') {
+    return <ClothingHomePage />;
   }
   
   // Default to bakery
