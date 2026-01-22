@@ -11,6 +11,10 @@ import { config as sweetsConfig } from './sweets/config';
 import { products as sweetsProducts } from './sweets/products';
 import sweetsPlaceholderImages from './sweets/placeholder-images.json';
 
+import { config as provisionConfig } from './provision/config';
+import { products as provisionProducts } from './provision/products';
+import provisionPlaceholderImages from './provision/placeholder-images.json';
+
 const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
 
 let themeConfig: any;
@@ -27,6 +31,11 @@ switch (businessType) {
     themeConfig = sweetsConfig;
     products = sweetsProducts;
     placeholderImages = sweetsPlaceholderImages.placeholderImages;
+    break;
+  case 'provision':
+    themeConfig = provisionConfig;
+    products = provisionProducts;
+    placeholderImages = provisionPlaceholderImages.placeholderImages;
     break;
   case 'bakery':
   default:

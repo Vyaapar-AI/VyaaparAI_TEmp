@@ -1,0 +1,40 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-provision",
+      "description": "Modern zero-waste grocery store with shelves of glass jars filled with various bulk foods.",
+      "imageUrl": "https://images.unsplash.com/photo-1629078976156-831306b9864a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "provision store"
+    },
+    {
+      "id": "lentils",
+      "description": "A wooden scoop with red lentils.",
+      "imageUrl": "https://images.unsplash.com/photo-1584441405980-d5f35b6c20a8?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "red lentils"
+    },
+    {
+      "id": "quinoa",
+      "description": "A bowl of uncooked white quinoa.",
+      "imageUrl": "https://images.unsplash.com/photo-1599940778128-53747db3659e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "quinoa grain"
+    },
+    {
+      "id": "olive-oil",
+      "description": "A clear glass bottle of extra virgin olive oil.",
+      "imageUrl": "https://images.unsplash.com/photo-1620706857373-1392764a5c89?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "olive oil"
+    },
+    {
+      "id": "almonds",
+      "description": "A pile of raw, whole almonds.",
+      "imageUrl": "https://images.unsplash.com/photo-1607569837992-5330a1a5b8e9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "almonds nuts"
+    },
+    {
+      "id": "auth-background",
+      "description": "A minimalist and clean storefront with large windows.",
+      "imageUrl": "https://images.unsplash.com/photo-1579294278240-525de5a4ebe9?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "store front"
+    }
+  ]
+}
