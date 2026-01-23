@@ -17,20 +17,6 @@ async function getProduct(slug: string, storeId: string, businessType: string): 
     }
 }
 
-export async function generateStaticParams() {
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/products/all`);
-    if (!res.ok) return [];
-    const allProducts: Product[] = await res.json();
-    return allProducts.map((product) => ({
-      slug: product.slug,
-    }));
-  } catch (error) {
-    console.error('Failed to fetch slugs for static generation:', error);
-    return [];
-  }
-}
-
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
