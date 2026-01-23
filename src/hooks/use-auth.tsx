@@ -36,7 +36,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ['user', token],
     queryFn: () => getAuthUser(token!),
     enabled: !!token,
-    retry: 1,
   });
 
   useEffect(() => {
