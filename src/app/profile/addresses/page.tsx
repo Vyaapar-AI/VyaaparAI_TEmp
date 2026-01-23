@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useAuth } from '@/hooks/use-auth';
@@ -30,6 +31,7 @@ import { AddressForm } from '@/components/AddressForm';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function AddressesPage() {
   const { user, token, isLoading: authLoading } = useAuth();
@@ -67,7 +69,7 @@ export default function AddressesPage() {
   };
 
   const addAddressMutation = useMutation({
-    mutationFn: (values: Omit<Address, 'id'>) => addAddress({ address: values, token: token! }),
+    mutationFn: (values: Omit<Address, 'id' | 'isDefault'>) => addAddress({ address: values, token: token! }),
     onSuccess: () => handleMutationSuccess('Address added successfully!'),
     onError: (error) => handleMutationError(error, 'Could not add address.'),
   });
@@ -108,8 +110,20 @@ export default function AddressesPage() {
     setIsDialogOpen(true);
   }
 
-  if (authLoading || addressesLoading || !user) {
+  if (authLoading || addressesLoading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+  }
+  
+  if (!user) {
+      return (
+          <div className="flex justify-center items-center h-screen">
+               <div className="text-center">
+                  <h1 className="text-2xl font-bold">Please log in</h1>
+                  <p className="text-muted-foreground">You need to be logged in to manage your addresses.</p>
+                  <Button asChild className="mt-4"><Link href="/login?redirect=/profile/addresses">Log In</Link></Button>
+              </div>
+          </div>
+      )
   }
 
   if (error) {
@@ -160,9 +174,10 @@ export default function AddressesPage() {
                 </div>
                 {address.isDefault && <div className="flex items-center gap-1 text-sm font-semibold text-primary"><Star className="h-4 w-4 fill-current" /> Default</div>}
               </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-muted-foreground">{address.address}</p>
-                <p className="text-muted-foreground">{address.city}, {address.postalCode}</p>
+              <CardContent className="flex-grow text-muted-foreground space-y-1">
+                <p>{address.phone}</p>
+                <p>{address.address}</p>
+                <p>{address.city}, {address.postalCode}</p>
               </CardContent>
               <div className="flex items-center justify-end gap-2 p-4 pt-0">
                 {!address.isDefault && (

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -30,6 +31,7 @@ import { Label } from '@/components/ui/label';
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
+  phone: z.string().min(10, { message: 'Please enter a valid 10-digit phone number.' }),
   address: z.string().min(5, { message: 'Please enter a valid address.' }),
   city: z.string().min(2, { message: 'Please enter a valid city.' }),
   postalCode: z.string().min(4, { message: 'Please enter a valid postal code.' }),
@@ -53,6 +55,7 @@ export default function CheckoutPage() {
     defaultValues: {
       name: '',
       email: '',
+      phone: '',
       address: '',
       city: '',
       postalCode: '',
@@ -90,16 +93,15 @@ export default function CheckoutPage() {
       return;
     }
     
-    // Pre-fill user email
     if (user && form.getValues('email') === '') {
       form.setValue('email', user.email || '');
     }
 
-    // Pre-fill with default address if available
     if (addresses && addresses.length > 0) {
         const defaultAddress = addresses.find(a => a.isDefault) || addresses[0];
         if (defaultAddress) {
             form.setValue('name', defaultAddress.name);
+            form.setValue('phone', defaultAddress.phone);
             form.setValue('address', defaultAddress.address);
             form.setValue('city', defaultAddress.city);
             form.setValue('postalCode', defaultAddress.postalCode);
@@ -120,6 +122,7 @@ export default function CheckoutPage() {
     const selectedAddress = addresses?.find(a => a.id === addressId);
     if(selectedAddress) {
         form.setValue('name', selectedAddress.name);
+        form.setValue('phone', selectedAddress.phone);
         form.setValue('address', selectedAddress.address);
         form.setValue('city', selectedAddress.city);
         form.setValue('postalCode', selectedAddress.postalCode);
@@ -142,7 +145,7 @@ export default function CheckoutPage() {
       )
   }
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     placeOrderMutation.mutate(values);
   };
 
@@ -164,7 +167,10 @@ export default function CheckoutPage() {
                           <RadioGroupItem value={addr.id} id={addr.id} />
                           <div>
                             <p className="font-semibold">{addr.name}</p>
-                            <p className="text-sm text-muted-foreground">{addr.address}, {addr.city}, {addr.postalCode}</p>
+                            <div className="text-sm text-muted-foreground">
+                              <p>{addr.phone}</p>
+                              <p>{addr.address}, {addr.city}, {addr.postalCode}</p>
+                            </div>
                           </div>
                         </Label>
                       ))}
@@ -194,19 +200,34 @@ export default function CheckoutPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="you@example.com" {...field} disabled />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                            <Input placeholder="you@example.com" {...field} disabled />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone Number</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g. 9876543210" type="tel" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   <FormField
                     control={form.control}
                     name="address"

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -18,6 +19,7 @@ import type { Address } from '@/lib/types';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
+  phone: z.string().min(10, { message: 'Please enter a valid 10-digit phone number.' }),
   address: z.string().min(5, { message: 'Please enter a valid address.' }),
   city: z.string().min(2, { message: 'Please enter a valid city.' }),
   postalCode: z.string().min(4, { message: 'Please enter a valid postal code.' }),
@@ -26,7 +28,7 @@ const formSchema = z.object({
 type AddressFormValues = z.infer<typeof formSchema>;
 
 interface AddressFormProps {
-  initialData?: Address | null;
+  initialData?: Partial<Address> | null;
   onSubmit: (values: AddressFormValues) => void;
   isPending: boolean;
   submitButtonText?: string;
@@ -35,11 +37,12 @@ interface AddressFormProps {
 export function AddressForm({ initialData, onSubmit, isPending, submitButtonText = 'Save Address' }: AddressFormProps) {
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      name: '',
-      address: '',
-      city: '',
-      postalCode: '',
+    defaultValues: {
+      name: initialData?.name || '',
+      phone: initialData?.phone || '',
+      address: initialData?.address || '',
+      city: initialData?.city || '',
+      postalCode: initialData?.postalCode || '',
     },
   });
 
@@ -54,6 +57,19 @@ export function AddressForm({ initialData, onSubmit, isPending, submitButtonText
               <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g. 9876543210" type="tel" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -1,5 +1,4 @@
 
-
 export interface Product {
   id: string;
   title: string;
@@ -33,6 +32,7 @@ export interface User {
 export interface Address {
   id: string;
   name: string;
+  phone: string;
   address: string;
   city: string;
   postalCode: string;
