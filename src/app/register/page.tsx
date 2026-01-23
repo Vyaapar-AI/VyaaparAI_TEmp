@@ -19,11 +19,15 @@ import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { placeholderImages } from '@/themes';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const formSchema = z.object({
     name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
     email: z.string().email({ message: 'Please enter a valid email.' }),
     password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
+    acceptTerms: z.boolean().refine(val => val === true, {
+        message: "You must accept the Terms and Conditions to create an account."
+    })
 });
 
 const authImage = placeholderImages.find(img => img.id === 'auth-background');
@@ -38,6 +42,7 @@ export default function RegisterPage() {
       name: '',
       email: '',
       password: '',
+      acceptTerms: false,
     },
   });
 
@@ -105,6 +110,34 @@ export default function RegisterPage() {
                       <Input type="password" placeholder="••••••••" {...field} />
                     </FormControl>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="acceptTerms"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel className="text-sm font-normal text-muted-foreground">
+                        I agree to the{' '}
+                        <Link href="/terms-and-conditions" className="underline text-primary hover:text-primary/80" target="_blank">
+                          Terms & Conditions
+                        </Link>{' '}
+                        and{' '}
+                        <Link href="/privacy-policy" className="underline text-primary hover:text-primary/80" target="_blank">
+                          Privacy Policy
+                        </Link>
+                        .
+                      </FormLabel>
+                      <FormMessage />
+                    </div>
                   </FormItem>
                 )}
               />
