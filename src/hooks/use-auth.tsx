@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import type { User } from '@/lib/types';
 import { Loader2 } from 'lucide-react';
 
@@ -36,8 +36,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkLoggedInUser = async () => {
         const storedToken = localStorage.getItem('authToken');
         if (storedToken) {
+            const url = getUrlWithStore('/api/user');
             try {
-              const res = await fetch(getUrlWithStore('/api/user'), {
+              const res = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: storedToken }),
@@ -47,12 +48,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setUser(data);
                 setToken(storedToken);
               } else {
+                console.error(`Failed to verify token. Status: ${res.status}`);
                 setUser(null);
                 setToken(null);
                 localStorage.removeItem('authToken');
               }
             } catch (error) {
-              console.error('Failed to fetch user', error);
+              console.error(`Failed to fetch user from ${url}. This is often a CORS issue or the backend server may not be running. Please check your backend's logs.`, error);
               setUser(null);
               setToken(null);
               localStorage.removeItem('authToken');
@@ -132,7 +134,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ user, token, loading, login, logout, register }}>
-      {loading ? <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div> : children}
+      {children}
     </AuthContext.Provider>
   );
 }
