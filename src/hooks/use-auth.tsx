@@ -24,48 +24,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   const storeId = process.env.NEXT_PUBLIC_STORE_ID;
 
-  const getUrlWithStore = (path: string) => {
+  const getUrlWithStore = useCallback((path: string) => {
     if (!storeId) {
       throw new Error("Store ID is not configured. Please set NEXT_PUBLIC_STORE_ID in your .env file.");
     }
     const newPath = path.replace('/api/', `/api/${storeId}/`);
     return `${apiBaseUrl}${newPath}`;
-  }
-
-  const fetchUser = useCallback(async (authToken: string) => {
-    try {
-      const res = await fetch(getUrlWithStore('/api/user'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: authToken }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data);
-        setToken(authToken);
-      } else {
-        setUser(null);
-        setToken(null);
-        localStorage.removeItem('authToken');
-      }
-    } catch (error) {
-      console.error('Failed to fetch user', error);
-      setUser(null);
-      setToken(null);
-      localStorage.removeItem('authToken');
-    } finally {
-      setLoading(false);
-    }
   }, [apiBaseUrl, storeId]);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('authToken');
-    if (storedToken) {
-      fetchUser(storedToken);
-    } else {
-      setLoading(false);
-    }
-  }, [fetchUser]);
+    const checkLoggedInUser = async () => {
+        const storedToken = localStorage.getItem('authToken');
+        if (storedToken) {
+            try {
+              const res = await fetch(getUrlWithStore('/api/user'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: storedToken }),
+              });
+              if (res.ok) {
+                const data = await res.json();
+                setUser(data);
+                setToken(storedToken);
+              } else {
+                setUser(null);
+                setToken(null);
+                localStorage.removeItem('authToken');
+              }
+            } catch (error) {
+              console.error('Failed to fetch user', error);
+              setUser(null);
+              setToken(null);
+              localStorage.removeItem('authToken');
+            } finally {
+              setLoading(false);
+            }
+        } else {
+            setLoading(false);
+        }
+    };
+    checkLoggedInUser();
+  }, [getUrlWithStore]);
 
   const login = async (email: string, password: string) => {
     const res = await fetch(getUrlWithStore('/api/login'), {

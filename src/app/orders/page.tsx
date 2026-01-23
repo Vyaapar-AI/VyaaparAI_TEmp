@@ -10,7 +10,7 @@ import { History, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function OrdersPage() {
-  const { user, token } = useAuth();
+  const { user, token, loading: authLoading } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,6 +18,9 @@ export default function OrdersPage() {
   const storeId = process.env.NEXT_PUBLIC_STORE_ID;
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
     if (user && token) {
       const fetchOrders = async () => {
         try {
@@ -44,9 +47,9 @@ export default function OrdersPage() {
     } else {
         setLoading(false);
     }
-  }, [user, token, apiBaseUrl, storeId]);
+  }, [user, token, authLoading, apiBaseUrl, storeId]);
 
-  if (loading) {
+  if (authLoading || loading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
   

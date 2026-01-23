@@ -32,7 +32,7 @@ const formSchema = z.object({
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
-  const { user, token } = useAuth();
+  const { user, token, loading: authLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -50,22 +50,27 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
     if (!user) {
         router.push('/login?redirect=/checkout');
+        return;
     }
     if (user && form.getValues('email') === '') {
         form.setValue('name', user.name || '');
         form.setValue('email', user.email || '');
     }
-  }, [user, router, form]);
+  }, [user, authLoading, router, form]);
   
   useEffect(() => {
-    if (cartItems.length === 0) {
+    // This effect should run after the auth check.
+    if (!authLoading && cartItems.length === 0) {
       router.push('/');
     }
-  }, [cartItems, router]);
+  }, [cartItems, authLoading, router]);
 
-  if (!user || cartItems.length === 0) {
+  if (authLoading || !user || cartItems.length === 0) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
 
