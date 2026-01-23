@@ -5,9 +5,13 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Sofa, Lamp, Paintbrush, Sparkles } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-home-decor');
+const livingRoomImage = placeholderImages.find(img => img.id === 'living-room-space');
+const bedroomImage = placeholderImages.find(img => img.id === 'bedroom-space');
+const officeImage = placeholderImages.find(img => img.id === 'office-space');
 
 const featureItems = [
   { icon: Sofa, title: 'Comfort & Style', description: 'Pieces that blend timeless design with ultimate comfort.' },
@@ -15,6 +19,13 @@ const featureItems = [
   { icon: Paintbrush, title: 'Artisan Crafted', description: 'Discover unique, handcrafted items from artists worldwide.' },
   { icon: Sparkles, title: 'Unique Finds', description: 'One-of-a-kind decor to make your space truly yours.' },
 ];
+
+const roomCategories = [
+    { name: 'Living Room', image: livingRoomImage },
+    { name: 'Bedroom', image: bedroomImage },
+    { name: 'Home Office', image: officeImage },
+];
+
 
 export default function HomeDecorHomePage() {
   return (
@@ -73,7 +84,7 @@ export default function HomeDecorHomePage() {
           </div>
         </div>
       </section>
-
+      
       {/* Products Section */}
       <section id="products" className="bg-secondary/50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -90,6 +101,39 @@ export default function HomeDecorHomePage() {
           </div>
         </div>
       </section>
+
+      {/* Shop by Room Section */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Shop Our Spaces</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">
+              Find inspiration and curated collections for every room in your home.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {roomCategories.map((category) => (
+              category.image && (
+                <Link key={category.name} href="#" className="group">
+                  <Card className="relative overflow-hidden h-96">
+                      <Image
+                        src={category.image.imageUrl}
+                        alt={category.image.description}
+                        data-ai-hint={category.image.imageHint}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    <div className="absolute inset-0 bg-black/40 flex items-end p-6">
+                      <h3 className="text-2xl font-semibold text-white font-headline">{category.name}</h3>
+                    </div>
+                  </Card>
+                </Link>
+              )
+            ))}
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

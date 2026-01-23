@@ -8,6 +8,7 @@ import { Truck, Gem, Recycle, HandHeart } from 'lucide-react';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-clothing');
+const philosophyImage = placeholderImages.find(img => img.id === 'design-moodboard');
 
 const featureItems = [
   { icon: Gem, title: 'Premium Fabrics', description: 'We source the finest materials for a luxurious feel and lasting quality.' },
@@ -75,6 +76,35 @@ export default function ClothingHomePage() {
             {clothingProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Philosophy Section */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-x-16 gap-y-16 lg:grid-cols-2">
+            {philosophyImage && (
+              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg shadow-xl">
+                 <Image
+                  src={philosophyImage.imageUrl}
+                  alt={philosophyImage.description}
+                  data-ai-hint={philosophyImage.imageHint}
+                  width={800}
+                  height={800}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+            )}
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">Fewer, Better Things</h2>
+              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+                Our philosophy is simple: we believe in creating high-quality, versatile pieces that you'll love and wear for years to come. It's about conscious consumption and building a wardrobe that is both beautiful and functional.
+              </p>
+               <p className="mt-4 text-lg leading-8 text-muted-foreground">
+                We obsess over fit, fabric, and detail, so you can feel confident and comfortable in every piece. We design for the modern individual who values style, quality, and sustainability.
+              </p>
+            </div>
           </div>
         </div>
       </section>

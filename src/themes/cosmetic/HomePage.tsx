@@ -8,6 +8,7 @@ import { Sparkles, Droplet, Leaf, ShieldCheck } from 'lucide-react';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-cosmetic');
+const ingredientsImage = placeholderImages.find(img => img.id === 'botanical-ingredients');
 
 const featureItems = [
   { icon: Leaf, title: 'Clean Ingredients', description: 'Formulated with high-quality, plant-derived ingredients.' },
@@ -75,6 +76,35 @@ export default function CosmeticHomePage() {
             {cosmeticProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ingredients Section */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-x-16 gap-y-16 lg:grid-cols-2">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">The Power of Nature, Backed by Science</h2>
+              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+                We harness the potency of natural botanicals and combine them with clinically-proven active ingredients. From antioxidant-rich Vitamin C to hydrating Hyaluronic Acid, every element is chosen for its efficacy and gentleness.
+              </p>
+               <p className="mt-4 text-lg leading-8 text-muted-foreground">
+               Our formulas are free from parabens, sulfates, and phthalates. Just pure, powerful ingredients for skin that looks and feels its best.
+              </p>
+            </div>
+            {ingredientsImage && (
+              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-2xl shadow-xl">
+                 <Image
+                  src={ingredientsImage.imageUrl}
+                  alt={ingredientsImage.description}
+                  data-ai-hint={ingredientsImage.imageHint}
+                  width={800}
+                  height={800}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>

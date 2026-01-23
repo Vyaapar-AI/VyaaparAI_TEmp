@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Pizza, UtensilsCrossed, Zap, Award } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-food-court');
@@ -14,6 +15,27 @@ const featureItems = [
   { icon: UtensilsCrossed, title: 'Quality Ingredients', description: 'We use only the freshest, high-quality ingredients.' },
   { icon: Zap, title: 'Lightning-Fast Service', description: 'Get your favorite food hot and fast, every time.' },
   { icon: Award, title: 'Award-Winning Flavor', description: 'Voted the best by food lovers just like you.' },
+];
+
+const comboDeals = [
+  {
+    name: 'Pizza Party',
+    description: 'One Pepperoni Pizza and two classic combos.',
+    price: '$22.99',
+    product: foodCourtProducts[0],
+  },
+  {
+    name: 'Burger Bonanza',
+    description: 'Two Ultimate Burgers and two classic combos.',
+    price: '$29.99',
+    product: foodCourtProducts[1],
+  },
+  {
+    name: 'Chicken Champion',
+    description: 'Two Crispy Chicken Sandwiches and two classic combos.',
+    price: '$25.99',
+    product: foodCourtProducts[2],
+  },
 ];
 
 export default function FoodCourtHomePage() {
@@ -87,6 +109,43 @@ export default function FoodCourtHomePage() {
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {foodCourtProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Combo Deals Section */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Daily Deals</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">
+              Get the best bang for your buck with our awesome combo deals.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {comboDeals.map((deal) => (
+              <Card key={deal.name} className="overflow-hidden">
+                <CardHeader className="p-0">
+                  <div className="aspect-h-4 aspect-w-5">
+                    <Image
+                      src={deal.product.imageUrl}
+                      alt={deal.product.name}
+                      data-ai-hint={deal.product.imageHint}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <CardTitle className="font-headline text-2xl">{deal.name}</CardTitle>
+                  <p className="mt-2 text-muted-foreground">{deal.description}</p>
+                  <div className="mt-4 flex justify-between items-center">
+                    <p className="text-2xl font-bold text-primary">{deal.price}</p>
+                    <Button>Add to Order</Button>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>

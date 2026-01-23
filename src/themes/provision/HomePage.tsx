@@ -5,9 +5,12 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Leaf, Package, Scale, Truck } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-provision');
+const lentilSoupImage = placeholderImages.find(img => img.id === 'lentil-soup-recipe');
+const quinoaSaladImage = placeholderImages.find(img => img.id === 'quinoa-salad-recipe');
 
 const featureItems = [
   { icon: Leaf, title: 'Organically Sourced', description: 'Mindfully selected goods from trusted, sustainable sources.' },
@@ -15,6 +18,21 @@ const featureItems = [
   { icon: Package, title: 'Eco-Friendly Packaging', description: 'We use minimal, recyclable, and compostable materials.' },
   { icon: Truck, title: 'Convenient Delivery', description: 'Your pantry staples delivered right to your doorstep.' },
 ];
+
+const recipes = [
+    {
+        name: 'Hearty Lentil Soup',
+        description: 'A warm and nourishing soup, perfect for a cozy evening. Made with our organic red lentils.',
+        image: lentilSoupImage,
+        link: "#",
+    },
+    {
+        name: 'Vibrant Quinoa Salad',
+        description: 'A light, refreshing, and protein-packed salad for a healthy lunch. Featuring our white quinoa.',
+        image: quinoaSaladImage,
+        link: "#",
+    }
+]
 
 export default function ProvisionHomePage() {
   return (
@@ -84,6 +102,43 @@ export default function ProvisionHomePage() {
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {provisionProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recipes Section */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Inspiration For Your Kitchen</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">
+              Delicious ideas for your next wholesome meal.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2">
+            {recipes.map((recipe) => (
+              recipe.image && (
+                <Link href={recipe.link} key={recipe.name} className="group">
+                  <Card className="overflow-hidden">
+                    <CardHeader className="p-0">
+                      <div className="aspect-h-3 aspect-w-4">
+                        <Image
+                          src={recipe.image.imageUrl}
+                          alt={recipe.image.description}
+                          data-ai-hint={recipe.image.imageHint}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <h3 className="text-xl font-semibold leading-7 text-foreground">{recipe.name}</h3>
+                      <p className="mt-2 text-base leading-7 text-muted-foreground">{recipe.description}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              )
             ))}
           </div>
         </div>

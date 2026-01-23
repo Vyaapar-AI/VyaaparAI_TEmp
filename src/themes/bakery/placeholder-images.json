@@ -47,6 +47,12 @@
       "description": "The cozy interior of a bakery with warm lighting and a display of fresh bread.",
       "imageUrl": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxiYWtlcnklMjBzdG9yZWZyb250fGVufDB8fHx8MTcyMjAwMjc4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "bakery interior"
+    },
+    {
+      "id": "baker-story",
+      "description": "A baker kneading dough in a rustic kitchen.",
+      "imageUrl": "https://images.unsplash.com/photo-1556909172-6ab63f18fd12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "baker kneading"
     }
   ]
 }

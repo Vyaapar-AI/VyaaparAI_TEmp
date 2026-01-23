@@ -35,6 +35,24 @@
       "description": "The interior of a chic, modern home decor store with minimalist displays.",
       "imageUrl": "https://images.unsplash.com/photo-1540998145393-e2229f5f2c3b?q=80&w=1004&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "decor store"
+    },
+    {
+      "id": "living-room-space",
+      "description": "A stylish living room decorated with modern furniture and decor.",
+      "imageUrl": "https://images.unsplash.com/photo-1558005353-a5e665d143c7?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "living room"
+    },
+    {
+      "id": "bedroom-space",
+      "description": "A cozy and elegant bedroom with soft lighting and textiles.",
+      "imageUrl": "https://images.unsplash.com/photo-1576659559032-4e0e47853686?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "cozy bedroom"
+    },
+    {
+      "id": "office-space",
+      "description": "A modern home office with a minimalist desk and decor.",
+      "imageUrl": "https://images.unsplash.com/photo-1497032628192-86f99079de7c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "home office"
     }
   ]
 }

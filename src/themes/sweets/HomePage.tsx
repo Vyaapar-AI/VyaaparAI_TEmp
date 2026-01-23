@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Leaf, Sparkles, Heart, Cookie } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-sweets');
@@ -15,6 +16,12 @@ const featureItems = [
   { icon: Sparkles, title: 'Gluten-Free', description: 'Enjoy delicious sweets without worrying about gluten.' },
   { icon: Heart, title: 'Made with Love', description: 'Every recipe is crafted with passion and attention to detail.' },
   { icon: Cookie, title: 'Premium Ingredients', description: 'We use only the finest, high-quality natural ingredients.' },
+];
+
+const testimonials = [
+    { quote: "The best vegan brownies I have ever had! So fudgy and delicious. I can't believe they're gluten-free too!", author: "Jessica P." },
+    { quote: "I ordered the Ooey Gooey Brownie for my birthday and it was a huge hit. Everyone loved it, vegan or not!", author: "Michael B." },
+    { quote: "Finally, a dessert shop that gets it! Amazing flavors, great ingredients, and I can eat everything on the menu.", author: "Sarah L." },
 ];
 
 export default function SweetsHomePage() {
@@ -120,6 +127,28 @@ export default function SweetsHomePage() {
                 />
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="bg-secondary py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Don't Just Take Our Word For It</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">
+              See what our amazing customers have to say about our treats.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {testimonials.map((testimonial) => (
+              <Card key={testimonial.author}>
+                <CardContent className="p-6 text-center flex flex-col justify-center items-center h-full">
+                  <blockquote className="text-lg font-serif italic text-foreground">"{testimonial.quote}"</blockquote>
+                  <p className="mt-4 font-semibold text-primary">- {testimonial.author}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>

@@ -35,6 +35,18 @@
       "description": "A minimalist and clean storefront with large windows.",
       "imageUrl": "https://images.unsplash.com/photo-1579294278240-525de5a4ebe9?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "store front"
+    },
+    {
+      "id": "lentil-soup-recipe",
+      "description": "A warm bowl of homemade lentil soup.",
+      "imageUrl": "https://images.unsplash.com/photo-1595462002381-a8ba5938495a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "lentil soup"
+    },
+    {
+      "id": "quinoa-salad-recipe",
+      "description": "A vibrant and healthy quinoa salad with fresh vegetables.",
+      "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "quinoa salad"
     }
   ]
 }

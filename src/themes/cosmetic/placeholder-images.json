@@ -35,6 +35,12 @@
       "description": "A clean, modern bathroom vanity with neatly arranged cosmetic products.",
       "imageUrl": "https://images.unsplash.com/photo-1616686975253-1185f0a42d8f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageHint": "cosmetic vanity"
+    },
+    {
+      "id": "botanical-ingredients",
+      "description": "A flat lay of fresh botanicals like lavender and chamomile with mortar and pestle.",
+      "imageUrl": "https://images.unsplash.com/photo-1604135327295-a021028b14a6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "imageHint": "botanical ingredients"
     }
   ]
 }

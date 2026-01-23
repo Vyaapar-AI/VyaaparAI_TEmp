@@ -8,6 +8,8 @@ import { Gift, Coffee, Wheat, Heart } from 'lucide-react';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-bread');
+const storyImage = placeholderImages.find(img => img.id === 'baker-story');
+
 
 const featureItems = [
   { icon: Wheat, title: 'Freshly Baked Daily', description: 'Our treats are baked fresh every morning with the finest ingredients.' },
@@ -75,6 +77,35 @@ export default function BakeryHomePage() {
             {bakeryProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+        </div>
+      </section>
+
+       {/* Our Story Section */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-x-16 gap-y-16 lg:grid-cols-2">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">From Our Oven to Your Table</h2>
+              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+                Our story began with a simple passion: to share the joy of traditional baking. We believe in the power of simple, high-quality ingredients, time-honored techniques, and a whole lot of love. Every loaf, pastry, and cake is a piece of our history.
+              </p>
+               <p className="mt-4 text-lg leading-8 text-muted-foreground">
+                We're more than just a bakery; we're a part of the community, a place for gathering, and a home for those who appreciate the simple pleasure of a freshly baked treat.
+              </p>
+            </div>
+            {storyImage && (
+              <div className="aspect-h-3 aspect-w-4 w-full overflow-hidden rounded-2xl shadow-xl">
+                 <Image
+                  src={storyImage.imageUrl}
+                  alt={storyImage.description}
+                  data-ai-hint={storyImage.imageHint}
+                  width={800}
+                  height={600}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+            )}
           </div>
         </div>
       </section>
