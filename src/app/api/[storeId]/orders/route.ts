@@ -23,8 +23,8 @@ function getUserIdFromToken(request: NextRequest, db: StoreDb): string | null {
     return db.tokens[token] || null;
 }
 
-export async function GET(request: NextRequest) {
-    const storeId = request.nextUrl.searchParams.get('store_id');
+export async function GET(request: NextRequest, { params }: { params: { storeId: string } }) {
+    const { storeId } = params;
 
     if (!storeId) {
         return NextResponse.json({ message: 'Store ID is required' }, { status: 400, headers: corsHeaders });
@@ -41,8 +41,8 @@ export async function GET(request: NextRequest) {
 }
 
 
-export async function POST(request: NextRequest) {
-  const storeId = request.nextUrl.searchParams.get('store_id');
+export async function POST(request: NextRequest, { params }: { params: { storeId: string } }) {
+  const { storeId } = params;
   if (!storeId) {
     return NextResponse.json({ message: 'Store ID is required' }, { status: 400, headers: corsHeaders });
   }

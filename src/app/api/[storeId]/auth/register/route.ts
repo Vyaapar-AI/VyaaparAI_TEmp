@@ -12,9 +12,9 @@ export async function OPTIONS(request: NextRequest) {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest, { params }: { params: { storeId: string } }) {
   try {
-    const storeId = request.nextUrl.searchParams.get('store_id');
+    const { storeId } = params;
     if (!storeId) {
       return NextResponse.json({ message: 'Store ID is required' }, { status: 400, headers: corsHeaders });
     }

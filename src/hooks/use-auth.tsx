@@ -26,9 +26,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const storeId = process.env.NEXT_PUBLIC_STORE_ID;
 
   const getUrlWithStore = (path: string) => {
-    const url = `${apiBaseUrl}${path}`;
-    if (!storeId) return url;
-    return `${url}?store_id=${storeId}`;
+    if (!storeId) {
+      throw new Error("Store ID is not configured. Please set NEXT_PUBLIC_STORE_ID in your .env file.");
+    }
+    const newPath = path.replace('/api/', `/api/${storeId}/`);
+    return `${apiBaseUrl}${newPath}`;
   }
 
   const fetchUser = useCallback(async (authToken: string) => {

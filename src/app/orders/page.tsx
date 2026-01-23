@@ -22,7 +22,10 @@ export default function OrdersPage() {
       const fetchOrders = async () => {
         try {
           setLoading(true);
-          const url = storeId ? `${apiBaseUrl}/api/orders?store_id=${storeId}` : `${apiBaseUrl}/api/orders`;
+          if (!storeId) {
+            throw new Error('Store ID is not configured.');
+          }
+          const url = `${apiBaseUrl}/api/${storeId}/orders`;
           const res = await fetch(url, {
             headers: { 'Authorization': `Bearer ${token}` }
           });

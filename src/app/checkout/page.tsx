@@ -78,9 +78,18 @@ export default function CheckoutPage() {
       });
       return;
     }
+    
+    if (!storeId) {
+        toast({
+            variant: "destructive",
+            title: "Configuration Error",
+            description: "Store ID is not configured.",
+        });
+        return;
+    }
 
     try {
-        const url = storeId ? `${apiBaseUrl}/api/orders?store_id=${storeId}` : `${apiBaseUrl}/api/orders`;
+        const url = `${apiBaseUrl}/api/${storeId}/orders`;
         const response = await fetch(url, {
             method: 'POST',
             headers: { 
