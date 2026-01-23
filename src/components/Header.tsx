@@ -14,65 +14,64 @@ const navLinks = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        {/* Left side */}
-        <div className="flex items-center gap-6">
-            <div className="md:hidden">
-                <Sheet>
-                <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                    <Menu className="h-5 w-5" />
-                    <span className="sr-only">Toggle menu</span>
-                    </Button>
-                </SheetTrigger>
-                <SheetContent side="left">
-                    <div className="p-4">
-                    <Link href="/" className="mb-8 block">
-                        <Logo />
-                    </Link>
-                    <nav className="flex flex-col gap-4">
-                        {navLinks.map(link => (
-                        <Link
-                            key={link.label}
-                            href={link.href}
-                            className="text-lg font-medium transition-colors hover:text-foreground text-foreground/80"
-                        >
-                            {link.label}
-                        </Link>
-                        ))}
-                    </nav>
-                    </div>
-                </SheetContent>
-                </Sheet>
-            </div>
-            <Link href="/" className="hidden md:flex items-center space-x-2">
-                <Logo />
-            </Link>
-        </div>
-
-        {/* Center (Desktop nav) */}
-        <nav className="hidden md:flex items-center gap-8 text-sm">
-            {navLinks.map(link => (
-                <Link
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 px-4 backdrop-blur sm:px-6 supports-[backdrop-filter]:bg-background/60">
+      <div className="flex h-16 items-center justify-between">
+        {/* Left side: Desktop Logo + Nav */}
+        <div className="hidden items-center gap-6 md:flex">
+          <Link href="/">
+            <Logo />
+          </Link>
+          <nav className="flex items-center gap-6 text-sm">
+            {navLinks.map((link) => (
+              <Link
                 key={link.label}
                 href={link.href}
-                className="font-medium transition-colors hover:text-foreground text-foreground/80"
-                >
+                className="font-medium text-foreground/80 transition-colors hover:text-foreground"
+              >
                 {link.label}
-                </Link>
+              </Link>
             ))}
-        </nav>
-
-        {/* Mobile Logo (absolutely positioned to be in the center) */}
-        <div className="md:hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <Link href="/">
-                <Logo />
-            </Link>
+          </nav>
         </div>
 
+        {/* Left side: Mobile Menu Trigger */}
+        <div className="flex items-center md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <div className="p-4">
+                <Link href="/" className="mb-8 block">
+                  <Logo />
+                </Link>
+                <nav className="flex flex-col gap-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className="text-lg font-medium text-foreground/80 transition-colors hover:text-foreground"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
 
-        {/* Right side */}
+        {/* Center: Mobile Logo */}
+        <div className="md:hidden">
+          <Link href="/">
+            <Logo />
+          </Link>
+        </div>
+
+        {/* Right side: Icons */}
         <div className="flex items-center justify-end gap-2 sm:gap-4">
           <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
             <Search className="h-5 w-5" />
