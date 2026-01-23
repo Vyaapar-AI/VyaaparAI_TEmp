@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchUser = useCallback(async (authToken: string) => {
     try {
-      const res = await fetch(getUrlWithStore('/api/auth/user'), {
+      const res = await fetch(getUrlWithStore('/api/user'), {
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
       if (res.ok) {
@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (name: string, email: string, password: string) => {
-    const res = await fetch(getUrlWithStore('/api/auth/register'), {
+    const res = await fetch(getUrlWithStore('/api/register'), {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     if (token) {
         try {
-            await fetch(getUrlWithStore('/api/auth/logout'), { 
+            await fetch(getUrlWithStore('/api/logout'), { 
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
