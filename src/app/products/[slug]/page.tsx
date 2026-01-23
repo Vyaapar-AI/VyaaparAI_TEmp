@@ -8,6 +8,10 @@ import type { Product } from '@/lib/types';
 import { useQuery } from '@tanstack/react-query';
 import { getProductBySlug } from '@/lib/api';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useWishlist } from '@/hooks/use-wishlist';
+import { Button } from '@/components/ui/button';
+import { Heart } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function ProductPage() {
   const params = useParams<{ slug: string }>();
@@ -16,6 +20,8 @@ export default function ProductPage() {
       queryKey: ['product', params.slug],
       queryFn: () => getProductBySlug(params.slug),
   });
+
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   if (isLoading) {
     return (
@@ -37,6 +43,17 @@ export default function ProductPage() {
     notFound();
   }
 
+  const onWishlist = isInWishlist(product.id);
+  
+  const handleWishlistToggle = () => {
+    if (onWishlist) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
+
+
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
@@ -50,7 +67,21 @@ export default function ProductPage() {
           />
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">{product.title}</h1>
+            <div className="flex justify-between items-start gap-4">
+              <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">{product.title}</h1>
+              <Button
+                  size="icon"
+                  variant="ghost"
+                  className={cn(
+                    "rounded-full h-12 w-12 flex-shrink-0 text-foreground/70 transition-all hover:scale-110 hover:text-primary",
+                     onWishlist && "text-primary"
+                  )}
+                  onClick={handleWishlistToggle}
+                  aria-label={onWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                >
+                  <Heart className={cn("h-6 w-6", onWishlist && "fill-current")} />
+                </Button>
+            </div>
           <p className="mt-4 text-3xl text-foreground font-price">₹{product.price.toFixed(2)}</p>
           <div className="mt-6">
             <h3 className="sr-only">Description</h3>

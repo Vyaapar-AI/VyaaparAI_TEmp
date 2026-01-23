@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { CartProvider } from '@/hooks/use-cart';
+import { WishlistProvider } from '@/hooks/use-wishlist';
 import { AuthProvider } from '@/hooks/use-auth';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -41,16 +42,18 @@ export default function RootLayout({
           <ErrorBoundary FallbackComponent={Fallback}>
             <QueryProvider>
               <AuthProvider>
-                <CartProvider>
-                  <div className="flex min-h-screen flex-col">
-                    <Header />
-                    <main className="flex-1">
-                      {children}
-                    </main>
-                    <Footer />
-                  </div>
-                  <Toaster />
-                </CartProvider>
+                <WishlistProvider>
+                  <CartProvider>
+                    <div className="flex min-h-screen flex-col">
+                      <Header />
+                      <main className="flex-1">
+                        {children}
+                      </main>
+                      <Footer />
+                    </div>
+                    <Toaster />
+                  </CartProvider>
+                </WishlistProvider>
               </AuthProvider>
             </QueryProvider>
           </ErrorBoundary>

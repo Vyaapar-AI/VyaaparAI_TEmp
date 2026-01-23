@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { LogIn, LogOut, User, History } from 'lucide-react';
+import { LogIn, LogOut, User, History, Heart } from 'lucide-react';
 
 export function UserNav() {
   const { user, logout } = useAuth();
@@ -59,6 +59,12 @@ export function UserNav() {
           <Link href="/profile">
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/wishlist">
+            <Heart className="mr-2 h-4 w-4" />
+            <span>My Wishlist</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

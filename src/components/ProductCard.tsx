@@ -5,8 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { useCart } from '@/hooks/use-cart';
+import { useWishlist } from '@/hooks/use-wishlist';
 import { useToast } from '@/hooks/use-toast';
-import { ShoppingBasket, XCircle, Plus, Minus } from 'lucide-react';
+import { ShoppingBasket, XCircle, Plus, Minus, Heart } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
   product: Product;
@@ -14,9 +16,11 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { cartItems, addToCart, updateQuantity, removeFromCart } = useCart();
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const { toast } = useToast();
 
   const cartItem = cartItems.find(item => item.id === product.id);
+  const onWishlist = isInWishlist(product.id);
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -39,6 +43,15 @@ export function ProductCard({ product }: ProductCardProps) {
         }
     }
   }
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent link navigation
+    if (onWishlist) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
 
   const renderPurchaseControl = () => {
     if (product.stock === 0) {
@@ -82,8 +95,8 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="group relative border rounded-lg overflow-hidden transition-shadow hover:shadow-lg flex flex-col bg-card">
-      <Link href={`/products/${product.slug}`} className="block">
-        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200">
+      <div className="relative aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200">
+        <Link href={`/products/${product.slug}`} className="block">
             <Image
               src={product.imageUrl}
               alt={product.description || product.title}
@@ -91,8 +104,20 @@ export function ProductCard({ product }: ProductCardProps) {
               height={600}
               className="h-full w-full object-cover object-center group-hover:opacity-80 transition-opacity"
             />
-        </div>
-      </Link>
+        </Link>
+         <Button
+            size="icon"
+            variant="ghost"
+            className={cn(
+              "absolute top-2 right-2 rounded-full h-9 w-9 text-foreground/70 transition-all hover:scale-110 hover:text-primary",
+              onWishlist && "text-primary"
+            )}
+            onClick={handleWishlistToggle}
+            aria-label={onWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+          >
+            <Heart className={cn("h-5 w-5", onWishlist && "fill-current")} />
+          </Button>
+      </div>
       <div className="p-4 flex flex-col flex-1">
         <h3 className="text-lg font-headline text-foreground mb-2">
             <Link href={`/products/${product.slug}`} className="hover:underline">
