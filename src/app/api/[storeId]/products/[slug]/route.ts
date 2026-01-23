@@ -11,7 +11,7 @@ export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { storeId: string, slug: string } }) {
   const { slug } = params;
   const { searchParams } = new URL(request.url);
   const businessType = searchParams.get('businessType') as BusinessType;

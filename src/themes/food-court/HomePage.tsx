@@ -33,26 +33,30 @@ export default async function FoodCourtHomePage() {
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'food-court';
   const products = await getProducts(storeId, businessType);
 
+  const pepperoniPizza = products.find(p => p.slug === 'pepperoni-power-pizza');
+  const ultimateBurger = products.find(p => p.slug === 'the-ultimate-burger');
+  const chickenSandwich = products.find(p => p.slug === 'crispy-chicken-sandwich');
+
   const comboDeals = [
     {
       name: 'Pizza Party',
       description: 'One Pepperoni Pizza and two classic combos.',
       price: '$22.99',
-      product: products[0],
+      product: pepperoniPizza,
     },
     {
       name: 'Burger Bonanza',
       description: 'Two Ultimate Burgers and two classic combos.',
       price: '$29.99',
-      product: products[1],
+      product: ultimateBurger,
     },
     {
       name: 'Chicken Champion',
       description: 'Two Crispy Chicken Sandwiches and two classic combos.',
       price: '$25.99',
-      product: products[2],
+      product: chickenSandwich,
     },
-  ].filter(deal => deal.product);
+  ].filter((deal): deal is { name: string; description: string; price: string; product: Product } => Boolean(deal.product));
 
 
   return (
