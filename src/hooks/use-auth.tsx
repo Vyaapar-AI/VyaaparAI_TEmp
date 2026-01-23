@@ -84,7 +84,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const params = new URLSearchParams(window.location.search);
       const redirect = params.get('redirect');
       router.push(redirect || '/');
-      router.refresh();
     } else {
         const error = await res.json();
         throw new Error(error.message || 'Failed to log in');
@@ -106,7 +105,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setToken(authToken);
         localStorage.setItem('authToken', authToken);
         router.push('/');
-        router.refresh();
     } else {
         const error = await res.json();
         throw new Error(error.message || 'Failed to register');
@@ -128,11 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setToken(null);
     localStorage.removeItem('authToken');
-    if (pathname === '/orders' || pathname === '/checkout') {
-        router.push('/');
-    } else {
-        router.refresh();
-    }
+    router.push('/login');
   };
 
   return (
