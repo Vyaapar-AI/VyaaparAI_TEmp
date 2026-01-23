@@ -1,4 +1,3 @@
-import { products as provisionProducts } from './products';
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Leaf, Package, Scale, Truck } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import type { Product } from '@/lib/types';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-provision');
@@ -32,9 +32,24 @@ const recipes = [
         image: quinoaSaladImage,
         link: "#",
     }
-]
+];
 
-export default function ProvisionHomePage() {
+async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
+        if (!res.ok) return [];
+        return res.json();
+    } catch (error) {
+        console.error('Failed to fetch products:', error);
+        return [];
+    }
+}
+
+export default async function ProvisionHomePage() {
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
+  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'provision';
+  const products = await getProducts(storeId, businessType);
+
   return (
     <div className="bg-background">
       {/* Hero Section */}
@@ -100,7 +115,7 @@ export default function ProvisionHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {provisionProducts.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

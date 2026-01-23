@@ -1,18 +1,40 @@
-import { products } from '@/themes';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 import { AddToCartButton } from './add-to-cart-button';
 import { Recommendations } from '@/components/Recommendations';
+import type { Product } from '@/lib/types';
 
-export async function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
+
+async function getProduct(slug: string, storeId: string, businessType: string): Promise<Product | null> {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/${storeId}/products/${slug}?businessType=${businessType}`, { cache: 'no-store' });
+        if (!res.ok) return null;
+        return res.json();
+    } catch (error) {
+        console.error('Failed to fetch product:', error);
+        return null;
+    }
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = products.find(p => p.slug === params.slug);
+export async function generateStaticParams() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/products/all`);
+    if (!res.ok) return [];
+    const allProducts: Product[] = await res.json();
+    return allProducts.map((product) => ({
+      slug: product.slug,
+    }));
+  } catch (error) {
+    console.error('Failed to fetch slugs for static generation:', error);
+    return [];
+  }
+}
+
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
+  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
+  const product = await getProduct(params.slug, storeId, businessType);
 
   if (!product) {
     notFound();
@@ -51,4 +73,3 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
-

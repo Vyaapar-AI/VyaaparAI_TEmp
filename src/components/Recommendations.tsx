@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { getAIProductRecommendations } from '@/ai/flows/ai-powered-recommendations';
 import type { Product } from '@/lib/types';
-import { products } from '@/themes';
 import { ProductCard } from './ProductCard';
 import { Skeleton } from './ui/skeleton';
 
@@ -14,32 +13,52 @@ interface RecommendationsProps {
 export function Recommendations({ currentProduct }: RecommendationsProps) {
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
 
   useEffect(() => {
     async function fetchRecommendations() {
       setLoading(true);
       try {
+        // Fetch all products for the current theme
+        const productsRes = await fetch(`/api/${storeId}/products?businessType=${businessType}`);
+        if (!productsRes.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const allProducts: Product[] = await productsRes.json();
+
+        // Get AI recommendations
         const userPreferences = `The user is currently viewing "${currentProduct.name}". Recommend similar items.`;
         const result = await getAIProductRecommendations({
           userPreferences,
           numberOfRecommendations: 3,
         });
         
+        // Find the full product objects from the fetched list
         const recommendedProducts = result.recommendations
-          .map(name => products.find(p => p.name.toLowerCase() === name.toLowerCase()))
-          .filter((p): p is Product => p !== undefined && p.id !== currentProduct.id);
+          .map(name => {
+            const productName = name.replace(/^\d+\.\s/, '');
+            return allProducts.find(p => p.name.toLowerCase() === productName.toLowerCase())
+          })
+          .filter((p): p is Product => p !== undefined && p.id !== currentProduct.id)
+          .slice(0, 3);
         
         setRecommendations(recommendedProducts);
 
       } catch (error) {
         console.error("Failed to get AI recommendations:", error);
+        // Fallback to showing some other products from the category if AI fails
+        const fallbackProducts = (await (await fetch(`/api/${storeId}/products?businessType=${businessType}`)).json() as Product[])
+          .filter(p => p.id !== currentProduct.id)
+          .slice(0, 3);
+        setRecommendations(fallbackProducts);
       } finally {
         setLoading(false);
       }
     }
 
     fetchRecommendations();
-  }, [currentProduct]);
+  }, [currentProduct, businessType, storeId]);
 
   return (
     <div>

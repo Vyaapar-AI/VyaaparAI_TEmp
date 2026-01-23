@@ -1,4 +1,3 @@
-import { products as sweetsProducts } from './products';
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Leaf, Sparkles, Heart, Cookie } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import type { Product } from '@/lib/types';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-sweets');
@@ -24,7 +24,22 @@ const testimonials = [
     { quote: "Finally, a dessert shop that gets it! Amazing flavors, great ingredients, and I can eat everything on the menu.", author: "Sarah L." },
 ];
 
-export default function SweetsHomePage() {
+async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
+        if (!res.ok) return [];
+        return res.json();
+    } catch (error) {
+        console.error('Failed to fetch products:', error);
+        return [];
+    }
+}
+
+export default async function SweetsHomePage() {
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
+  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'sweets';
+  const products = await getProducts(storeId, businessType);
+
   return (
     <div className="bg-background">
       {/* Hero Section */}
@@ -94,7 +109,7 @@ export default function SweetsHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {sweetsProducts.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

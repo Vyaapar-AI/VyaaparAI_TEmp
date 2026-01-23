@@ -1,4 +1,3 @@
-import { products as homeDecorProducts } from './products';
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Sofa, Lamp, Paintbrush, Sparkles } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import type { Product } from '@/lib/types';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-home-decor');
@@ -26,8 +26,23 @@ const roomCategories = [
     { name: 'Home Office', image: officeImage },
 ];
 
+async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
+        if (!res.ok) return [];
+        return res.json();
+    } catch (error) {
+        console.error('Failed to fetch products:', error);
+        return [];
+    }
+}
 
-export default function HomeDecorHomePage() {
+
+export default async function HomeDecorHomePage() {
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
+  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'home-decor';
+  const products = await getProducts(storeId, businessType);
+
   return (
     <div className="bg-background">
       {/* Hero Section */}
@@ -95,7 +110,7 @@ export default function HomeDecorHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {homeDecorProducts.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

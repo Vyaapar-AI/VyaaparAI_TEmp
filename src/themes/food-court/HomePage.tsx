@@ -1,4 +1,3 @@
-import { products as foodCourtProducts } from './products';
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -6,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Pizza, UtensilsCrossed, Zap, Award } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Product } from '@/lib/types';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-food-court');
@@ -17,28 +17,44 @@ const featureItems = [
   { icon: Award, title: 'Award-Winning Flavor', description: 'Voted the best by food lovers just like you.' },
 ];
 
-const comboDeals = [
-  {
-    name: 'Pizza Party',
-    description: 'One Pepperoni Pizza and two classic combos.',
-    price: '$22.99',
-    product: foodCourtProducts[0],
-  },
-  {
-    name: 'Burger Bonanza',
-    description: 'Two Ultimate Burgers and two classic combos.',
-    price: '$29.99',
-    product: foodCourtProducts[1],
-  },
-  {
-    name: 'Chicken Champion',
-    description: 'Two Crispy Chicken Sandwiches and two classic combos.',
-    price: '$25.99',
-    product: foodCourtProducts[2],
-  },
-];
+async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
+        if (!res.ok) return [];
+        return res.json();
+    } catch (error) {
+        console.error('Failed to fetch products:', error);
+        return [];
+    }
+}
 
-export default function FoodCourtHomePage() {
+export default async function FoodCourtHomePage() {
+  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
+  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'food-court';
+  const products = await getProducts(storeId, businessType);
+
+  const comboDeals = [
+    {
+      name: 'Pizza Party',
+      description: 'One Pepperoni Pizza and two classic combos.',
+      price: '$22.99',
+      product: products[0],
+    },
+    {
+      name: 'Burger Bonanza',
+      description: 'Two Ultimate Burgers and two classic combos.',
+      price: '$29.99',
+      product: products[1],
+    },
+    {
+      name: 'Chicken Champion',
+      description: 'Two Crispy Chicken Sandwiches and two classic combos.',
+      price: '$25.99',
+      product: products[2],
+    },
+  ].filter(deal => deal.product);
+
+
   return (
     <div className="bg-background">
       {/* Hero Section */}
@@ -107,7 +123,7 @@ export default function FoodCourtHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {foodCourtProducts.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
