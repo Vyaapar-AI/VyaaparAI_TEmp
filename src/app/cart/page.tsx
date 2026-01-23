@@ -4,8 +4,7 @@ import { useCart } from '@/hooks/use-cart';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Trash2, ShoppingBag } from 'lucide-react';
+import { Trash2, ShoppingBag, Plus, Minus } from 'lucide-react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function CartPage() {
@@ -51,19 +50,27 @@ export default function CartPage() {
                       <p className="mt-1 text-sm text-muted-foreground font-price">₹{product.price.toFixed(2)} each</p>
                     </div>
                     <div className="flex flex-1 items-end justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <label htmlFor={`quantity-${product.id}`} className="sr-only">
-                          Quantity
-                        </label>
-                        <Input
-                          id={`quantity-${product.id}`}
-                          type="number"
-                          min="1"
-                          max={product.stock}
-                          value={product.quantity}
-                          onChange={(e) => updateQuantity(product.id, parseInt(e.target.value))}
-                          className="w-20"
-                        />
+                      <div className="flex items-center rounded-md border">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-9 w-9"
+                          onClick={() => updateQuantity(product.id, product.quantity - 1)}
+                          aria-label="Decrease quantity"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="w-10 text-center text-base font-medium" aria-live="polite">{product.quantity}</span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-9 w-9"
+                          onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                          disabled={product.quantity >= product.stock}
+                          aria-label="Increase quantity"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
                       </div>
                       <div className="flex">
                         <button
