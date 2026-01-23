@@ -1,20 +1,76 @@
 import Link from 'next/link';
+import { Logo } from './Logo';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Footer() {
   const storeName = process.env.NEXT_PUBLIC_STORE_NAME || 'My Store';
+  const storeDescription = process.env.NEXT_PUBLIC_STORE_DESCRIPTION || 'Handcrafted goods for a considered life, bringing beauty and intention to your daily rituals.';
+
   return (
-    <footer className="border-t bg-secondary">
-      <div className="container py-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-center md:text-left text-sm text-secondary-foreground">
+    <footer className="border-t bg-secondary/50">
+      <div className="container py-16">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
+          <div className="md:col-span-4 lg:col-span-5 space-y-4">
+            <Logo />
+            <p className="text-sm text-muted-foreground max-w-xs">
+              {storeDescription}
+            </p>
+             <div className="text-xs text-muted-foreground/80">
+              <p>Payments powered by Razorpay</p>
+              <p>Shipment managed by Shiprocket</p>
+            </div>
+          </div>
+          
+          <div className="md:col-span-2 lg:col-span-2">
+            <h4 className="font-semibold text-foreground mb-4">Shop</h4>
+            <nav className="flex flex-col space-y-2 text-sm">
+              <Link href="/products" className="text-muted-foreground hover:text-foreground transition-colors">
+                All Products
+              </Link>
+              <Link href="/orders" className="text-muted-foreground hover:text-foreground transition-colors">
+                My Orders
+              </Link>
+            </nav>
+          </div>
+
+          <div className="md:col-span-2 lg:col-span-2">
+            <h4 className="font-semibold text-foreground mb-4">Company</h4>
+            <nav className="flex flex-col space-y-2 text-sm">
+              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Social
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Contact Us
+              </Link>
+            </nav>
+          </div>
+
+          <div className="md:col-span-4 lg:col-span-3">
+            <h4 className="font-semibold text-foreground mb-4">Legal</h4>
+            <nav className="flex flex-col space-y-2 text-sm">
+              <Link href="/terms-and-conditions" className="text-muted-foreground hover:text-foreground transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/privacy-policy" className="text-muted-foreground hover:text-foreground transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/shipping-policy" className="text-muted-foreground hover:text-foreground transition-colors">
+                Shipping Policy
+              </Link>
+              <Link href="/refund-policy" className="text-muted-foreground hover:text-foreground transition-colors">
+                Refund Policy
+              </Link>
+            </nav>
+          </div>
+        </div>
+
+        <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} {storeName}. All rights reserved.
           </p>
-          <nav className="flex flex-wrap justify-center gap-4 sm:gap-6 text-sm text-secondary-foreground/80">
-            <Link href="/terms-and-conditions" className="hover:text-secondary-foreground transition-colors">Terms & Conditions</Link>
-            <Link href="/privacy-policy" className="hover:text-secondary-foreground transition-colors">Privacy Policy</Link>
-            <Link href="/shipping-policy" className="hover:text-secondary-foreground transition-colors">Shipping Policy</Link>
-            <Link href="/refund-policy" className="hover:text-secondary-foreground transition-colors">Refund Policy</Link>
-          </nav>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </footer>
