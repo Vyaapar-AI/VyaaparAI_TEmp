@@ -6,16 +6,31 @@ interface DbUser extends User {
   password_DO_NOT_USE_IN_PROD: string;
 }
 
-const users: DbUser[] = [];
+export interface StoreDb {
+  users: DbUser[];
+  orders: { [userId: string]: Order[] };
+  tokens: Record<string, string>;
+}
 
-const orders: { [userId: string]: Order[] } = {};
+const stores: { [storeId: string]: StoreDb } = {};
 
-// In-memory token store: { token: userId }
-const tokens: Record<string, string> = {};
+const defaultStoreId = process.env.NEXT_PUBLIC_STORE_ID;
+if (defaultStoreId && !stores[defaultStoreId]) {
+    stores[defaultStoreId] = {
+        users: [],
+        orders: {},
+        tokens: {},
+    };
+}
 
 
-export const db = {
-  users,
-  orders,
-  tokens,
-};
+export function getDbForStore(storeId: string): StoreDb {
+    if (!stores[storeId]) {
+        stores[storeId] = {
+            users: [],
+            orders: {},
+            tokens: {},
+        };
+    }
+    return stores[storeId];
+}

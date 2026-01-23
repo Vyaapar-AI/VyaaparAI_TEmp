@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { db } from '@/lib/api';
+import { NextResponse, NextRequest } from 'next/server';
+import { getDbForStore } from '@/lib/api';
 import type { User } from '@/lib/types';
 
 const corsHeaders = {
@@ -8,11 +8,17 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-export async function OPTIONS(request: Request) {
+export async function OPTIONS(request: NextRequest) {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+    const storeId = request.nextUrl.searchParams.get('store_id');
+    if (!storeId) {
+      return NextResponse.json({ message: 'Store ID is required' }, { status: 400, headers: corsHeaders });
+    }
+    const db = getDbForStore(storeId);
+    
     const authHeader = request.headers.get('Authorization');
     const token = authHeader?.split(' ')[1];
 
