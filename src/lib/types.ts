@@ -36,7 +36,7 @@ export interface Address {
   address: string;
   city: string;
   postalCode: string;
-  isDefault?: boolean;
+  is_default?: boolean;
 }
 
 export interface ImagePlaceholder {

@@ -98,7 +98,7 @@ export default function CheckoutPage() {
     }
 
     if (addresses && addresses.length > 0) {
-        const defaultAddress = addresses.find(a => a.isDefault) || addresses[0];
+        const defaultAddress = addresses.find(a => a.is_default) || addresses[0];
         if (defaultAddress) {
             form.setValue('name', defaultAddress.name);
             form.setValue('phone_number', defaultAddress.phone_number);
@@ -160,7 +160,7 @@ export default function CheckoutPage() {
                   <CardTitle>Select a Shipping Address</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <RadioGroup onValueChange={handleAddressSelect} defaultValue={addresses.find(a => a.isDefault)?.id || addresses[0]?.id}>
+                  <RadioGroup onValueChange={handleAddressSelect} defaultValue={addresses.find(a => a.is_default)?.id || addresses[0]?.id}>
                     <div className="space-y-4">
                       {addresses.map(addr => (
                         <Label key={addr.id} htmlFor={addr.id} className="flex items-start space-x-3 p-4 border rounded-md cursor-pointer hover:bg-accent has-[[data-state=checked]]:bg-accent has-[[data-state=checked]]:border-primary">

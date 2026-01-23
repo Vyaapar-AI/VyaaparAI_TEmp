@@ -1,3 +1,4 @@
+
 import type { Order, Product, User, Address } from '@/lib/types';
 import { transformProduct } from '@/lib/utils';
 
@@ -91,7 +92,7 @@ export const getAddresses = async (token: string): Promise<Address[]> => {
     return handleResponse<Address[]>(response);
 };
 
-export const addAddress = async ({ address, token }: { address: Omit<Address, 'id'>, token: string }): Promise<Address> => {
+export const addAddress = async ({ address, token }: { address: Omit<Address, 'id' | 'is_default'>, token: string }): Promise<Address> => {
     const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/addresses`, {
         method: 'POST',
         headers: { 

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useAuth } from '@/hooks/use-auth';
@@ -73,7 +74,7 @@ export default function AddressesPage() {
   };
 
   const addAddressMutation = useMutation({
-    mutationFn: (values: Omit<Address, 'id' | 'isDefault'>) => addAddress({ address: values, token: token! }),
+    mutationFn: (values: Omit<Address, 'id' | 'is_default'>) => addAddress({ address: values, token: token! }),
     onSuccess: () => handleMutationSuccess('Address added successfully!'),
     onError: (error) => handleMutationError(error, 'Could not add address.'),
   });
@@ -91,7 +92,7 @@ export default function AddressesPage() {
   });
   
   const handleSetDefaultMutation = useMutation({
-    mutationFn: (address: Address) => updateAddress({ address: { ...address, isDefault: true }, token: token! }),
+    mutationFn: (address: Address) => updateAddress({ address: { ...address, is_default: true }, token: token! }),
     onSuccess: () => handleMutationSuccess('Default address updated!'),
     onError: (error) => handleMutationError(error, 'Could not set default address.'),
   });
@@ -114,7 +115,11 @@ export default function AddressesPage() {
     setIsDialogOpen(true);
   }
 
-  if (!isClient || authLoading || addressesLoading) {
+  if (!isClient) {
+    return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+  }
+
+  if (authLoading || addressesLoading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
   
@@ -171,12 +176,12 @@ export default function AddressesPage() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
           {addresses?.map((address) => (
-            <Card key={address.id} className={cn("flex flex-col", address.isDefault && "border-primary ring-2 ring-primary")}>
+            <Card key={address.id} className={cn("flex flex-col", address.is_default && "border-primary ring-2 ring-primary")}>
               <CardHeader className="flex flex-row justify-between items-start pb-2">
                 <div>
                   <CardTitle className="text-lg">{address.name}</CardTitle>
                 </div>
-                {address.isDefault && <div className="flex items-center gap-1 text-sm font-semibold text-primary"><Star className="h-4 w-4 fill-current" /> Default</div>}
+                {address.is_default && <div className="flex items-center gap-1 text-sm font-semibold text-primary"><Star className="h-4 w-4 fill-current" /> Default</div>}
               </CardHeader>
               <CardContent className="flex-grow text-muted-foreground space-y-1">
                 <p>{address.phone_number}</p>
@@ -184,7 +189,7 @@ export default function AddressesPage() {
                 <p>{address.city}, {address.postalCode}</p>
               </CardContent>
               <div className="flex items-center justify-end gap-2 p-4 pt-0">
-                {!address.isDefault && (
+                {!address.is_default && (
                     <Button variant="ghost" size="sm" onClick={() => handleSetDefaultMutation.mutate(address)} disabled={handleSetDefaultMutation.isPending}>
                        Set as Default
                     </Button>
