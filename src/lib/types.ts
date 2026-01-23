@@ -32,7 +32,7 @@ export interface User {
 export interface Address {
   id: string;
   name: string;
-  phone: string;
+  phone_number: string;
   address: string;
   city: string;
   postalCode: string;

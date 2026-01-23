@@ -31,7 +31,7 @@ import { Label } from '@/components/ui/label';
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
-  phone: z.string().min(10, { message: 'Please enter a valid 10-digit phone number.' }),
+  phone_number: z.string().min(10, { message: 'Please enter a valid 10-digit phone number.' }),
   address: z.string().min(5, { message: 'Please enter a valid address.' }),
   city: z.string().min(2, { message: 'Please enter a valid city.' }),
   postalCode: z.string().min(4, { message: 'Please enter a valid postal code.' }),
@@ -55,7 +55,7 @@ export default function CheckoutPage() {
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
+      phone_number: '',
       address: '',
       city: '',
       postalCode: '',
@@ -101,7 +101,7 @@ export default function CheckoutPage() {
         const defaultAddress = addresses.find(a => a.isDefault) || addresses[0];
         if (defaultAddress) {
             form.setValue('name', defaultAddress.name);
-            form.setValue('phone', defaultAddress.phone);
+            form.setValue('phone_number', defaultAddress.phone_number);
             form.setValue('address', defaultAddress.address);
             form.setValue('city', defaultAddress.city);
             form.setValue('postalCode', defaultAddress.postalCode);
@@ -122,7 +122,7 @@ export default function CheckoutPage() {
     const selectedAddress = addresses?.find(a => a.id === addressId);
     if(selectedAddress) {
         form.setValue('name', selectedAddress.name);
-        form.setValue('phone', selectedAddress.phone);
+        form.setValue('phone_number', selectedAddress.phone_number);
         form.setValue('address', selectedAddress.address);
         form.setValue('city', selectedAddress.city);
         form.setValue('postalCode', selectedAddress.postalCode);
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
                           <div>
                             <p className="font-semibold">{addr.name}</p>
                             <div className="text-sm text-muted-foreground">
-                              <p>{addr.phone}</p>
+                              <p>{addr.phone_number}</p>
                               <p>{addr.address}, {addr.city}, {addr.postalCode}</p>
                             </div>
                           </div>
@@ -216,7 +216,7 @@ export default function CheckoutPage() {
                     />
                     <FormField
                       control={form.control}
-                      name="phone"
+                      name="phone_number"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Phone Number</FormLabel>

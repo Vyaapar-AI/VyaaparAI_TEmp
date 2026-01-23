@@ -19,7 +19,7 @@ import type { Address } from '@/lib/types';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  phone: z.string().min(10, { message: 'Please enter a valid 10-digit phone number.' }),
+  phone_number: z.string().min(10, { message: 'Please enter a valid 10-digit phone number.' }),
   address: z.string().min(5, { message: 'Please enter a valid address.' }),
   city: z.string().min(2, { message: 'Please enter a valid city.' }),
   postalCode: z.string().min(4, { message: 'Please enter a valid postal code.' }),
@@ -39,7 +39,7 @@ export function AddressForm({ initialData, onSubmit, isPending, submitButtonText
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialData?.name || '',
-      phone: initialData?.phone || '',
+      phone_number: initialData?.phone_number || '',
       address: initialData?.address || '',
       city: initialData?.city || '',
       postalCode: initialData?.postalCode || '',
@@ -64,7 +64,7 @@ export function AddressForm({ initialData, onSubmit, isPending, submitButtonText
         />
         <FormField
           control={form.control}
-          name="phone"
+          name="phone_number"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Phone Number</FormLabel>

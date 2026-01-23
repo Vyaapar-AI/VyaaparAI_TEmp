@@ -175,7 +175,7 @@ export default function AddressesPage() {
                 {address.isDefault && <div className="flex items-center gap-1 text-sm font-semibold text-primary"><Star className="h-4 w-4 fill-current" /> Default</div>}
               </CardHeader>
               <CardContent className="flex-grow text-muted-foreground space-y-1">
-                <p>{address.phone}</p>
+                <p>{address.phone_number}</p>
                 <p>{address.address}</p>
                 <p>{address.city}, {address.postalCode}</p>
               </CardContent>
