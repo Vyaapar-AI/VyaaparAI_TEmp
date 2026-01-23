@@ -36,10 +36,7 @@ export function Footer() {
           <div className="md:col-span-2 lg:col-span-2">
             <h4 className="font-semibold text-foreground mb-4">Company</h4>
             <nav className="flex flex-col space-y-2 text-sm">
-              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                Social
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link href="/contact-us" className="text-muted-foreground hover:text-foreground transition-colors">
                 Contact Us
               </Link>
             </nav>
