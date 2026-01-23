@@ -100,7 +100,7 @@ export default function OrdersPage() {
                   {order.items.map((item) => (
                     <li key={item.id} className="flex justify-between items-center">
                       <div>
-                        <p className="font-medium">{item.name}</p>
+                        <p className="font-medium">{item.title}</p>
                         <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                       </div>
                        <p className="text-sm">${(item.price * item.quantity).toFixed(2)}</p>

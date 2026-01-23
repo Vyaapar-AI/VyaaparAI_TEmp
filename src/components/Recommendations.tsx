@@ -30,7 +30,7 @@ export function Recommendations({ currentProduct }: RecommendationsProps) {
         const allProducts: Product[] = await productsRes.json();
 
         // Get AI recommendations
-        const userPreferences = `The user is currently viewing "${currentProduct.name}". Recommend similar items.`;
+        const userPreferences = `The user is currently viewing "${currentProduct.title}". Recommend similar items.`;
         const result = await getAIProductRecommendations({
           userPreferences,
           numberOfRecommendations: 3,
@@ -40,7 +40,7 @@ export function Recommendations({ currentProduct }: RecommendationsProps) {
         const recommendedProducts = result.recommendations
           .map(name => {
             const productName = name.replace(/^\d+\.\s/, '');
-            return allProducts.find(p => p.name.toLowerCase() === productName.toLowerCase())
+            return allProducts.find(p => p.title.toLowerCase() === productName.toLowerCase())
           })
           .filter((p): p is Product => p !== undefined && p.id !== currentProduct.id)
           .slice(0, 3);

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import { useCart } from '@/hooks/use-cart';
 import { useToast } from '@/hooks/use-toast';
-import { ShoppingBasket } from 'lucide-react';
+import { ShoppingBasket, XCircle } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -20,7 +20,7 @@ export function ProductCard({ product }: ProductCardProps) {
     addToCart(product);
     toast({
       title: "Added to cart!",
-      description: `${product.name} has been added to your cart.`,
+      description: `${product.title} has been added to your cart.`,
     });
   };
 
@@ -33,7 +33,6 @@ export function ProductCard({ product }: ProductCardProps) {
               alt={product.description}
               width={800}
               height={600}
-              data-ai-hint={product.imageHint}
               className="h-full w-full object-cover object-center group-hover:opacity-80 transition-opacity"
             />
         </div>
@@ -41,15 +40,21 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="p-4 flex flex-col flex-1">
         <h3 className="text-lg font-headline text-foreground mb-2">
             <Link href={`/products/${product.slug}`} className="hover:underline">
-              {product.name}
+              {product.title}
             </Link>
         </h3>
         <div className="mt-auto flex justify-between items-center">
           <p className="text-xl font-bold text-primary">
             ${product.price.toFixed(2)}
           </p>
-          <Button size="icon" variant="outline" onClick={handleAddToCart} aria-label={`Add ${product.name} to cart`}>
-            <ShoppingBasket className="h-5 w-5 text-primary" />
+          <Button 
+            size="icon" 
+            variant="outline" 
+            onClick={handleAddToCart} 
+            aria-label={`Add ${product.title} to cart`}
+            disabled={product.stock === 0}
+          >
+            {product.stock > 0 ? <ShoppingBasket className="h-5 w-5 text-primary" /> : <XCircle className="h-5 w-5" />}
           </Button>
         </div>
       </div>

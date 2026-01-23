@@ -36,7 +36,6 @@ export default function CartPage() {
                       alt={product.description}
                       width={112}
                       height={112}
-                      data-ai-hint={product.imageHint}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
@@ -45,7 +44,7 @@ export default function CartPage() {
                     <div>
                       <div className="flex justify-between text-base font-medium text-foreground">
                         <h3 className="text-lg">
-                          <Link href={`/products/${product.slug}`}>{product.name}</Link>
+                          <Link href={`/products/${product.slug}`}>{product.title}</Link>
                         </h3>
                         <p className="ml-4 text-lg font-bold">${(product.price * product.quantity).toFixed(2)}</p>
                       </div>
@@ -60,6 +59,7 @@ export default function CartPage() {
                           id={`quantity-${product.id}`}
                           type="number"
                           min="1"
+                          max={product.stock}
                           value={product.quantity}
                           onChange={(e) => updateQuantity(product.id, parseInt(e.target.value))}
                           className="w-20"

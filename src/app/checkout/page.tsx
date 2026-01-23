@@ -221,7 +221,7 @@ export default function CheckoutPage() {
               <ul className="divide-y divide-border">
                 {cartItems.map((item) => (
                   <li key={item.id} className="flex justify-between py-2">
-                    <span>{item.name} x {item.quantity}</span>
+                    <span>{item.title} x {item.quantity}</span>
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                   </li>
                 ))}

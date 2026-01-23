@@ -49,12 +49,11 @@ export default async function ProductPage({ params }: { params: { slug: string }
             alt={product.description}
             width={800}
             height={600}
-            data-ai-hint={product.imageHint}
             className="h-full w-full object-cover object-center"
           />
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">{product.name}</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">{product.title}</h1>
           <p className="mt-4 text-3xl text-foreground">${product.price.toFixed(2)}</p>
           <div className="mt-6">
             <h3 className="sr-only">Description</h3>

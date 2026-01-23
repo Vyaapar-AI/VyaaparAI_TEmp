@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import type { Product } from "@/lib/types";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, XCircle } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
@@ -17,15 +17,25 @@ export function AddToCartButton({ product }: { product: Product }) {
     addToCart(product, quantity);
     toast({
       title: "Added to cart!",
-      description: `${quantity} x ${product.name} added to your cart.`,
+      description: `${quantity} x ${product.title} added to your cart.`,
     });
   };
+
+  if (product.stock === 0) {
+    return (
+        <Button size="lg" disabled className="flex-1">
+            <XCircle className="mr-2 h-5 w-5" />
+            Out of stock
+        </Button>
+    );
+  }
 
   return (
     <div className="flex items-center gap-4">
        <Input 
         type="number"
         min="1"
+        max={product.stock}
         value={quantity}
         onChange={(e) => setQuantity(parseInt(e.target.value, 10) || 1)}
         className="w-20"
