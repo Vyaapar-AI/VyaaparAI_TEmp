@@ -5,8 +5,9 @@ import { transformProduct } from '@/lib/utils';
 import { Wheat } from 'lucide-react';
 
 async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
+        const res = await fetch(`${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
         if (!res.ok) return [];
         const rawProducts = await res.json();
         if (!Array.isArray(rawProducts)) return [];

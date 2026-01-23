@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import type { User } from '@/lib/types';
 import { Loader2 } from 'lucide-react';
 
@@ -21,7 +21,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+  const searchParams = useSearchParams();
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
   const storeId = process.env.NEXT_PUBLIC_STORE_ID;
 
   const getUrlWithStore = useCallback((path: string) => {
@@ -48,7 +49,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setUser(data);
                 setToken(storedToken);
               } else {
-                console.error(`Failed to verify token. Status: ${res.status}`);
+                const errorText = await res.text();
+                console.error(`Failed to verify token. Status: ${res.status}. Response: ${errorText}`);
                 setUser(null);
                 setToken(null);
                 localStorage.removeItem('authToken');
@@ -83,8 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setToken(authToken);
       localStorage.setItem('authToken', authToken);
 
-      const params = new URLSearchParams(window.location.search);
-      const redirect = params.get('redirect');
+      const redirect = searchParams.get('redirect');
       router.push(redirect || '/');
     } else {
         const error = await res.json();

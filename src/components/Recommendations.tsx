@@ -14,7 +14,7 @@ interface RecommendationsProps {
 export function Recommendations({ currentProduct }: RecommendationsProps) {
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
   const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
 

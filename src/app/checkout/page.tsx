@@ -35,7 +35,7 @@ export default function CheckoutPage() {
   const { user, token, loading: authLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
   const storeId = process.env.NEXT_PUBLIC_STORE_ID;
 
   const form = useForm<z.infer<typeof formSchema>>({
