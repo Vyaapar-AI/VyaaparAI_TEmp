@@ -35,7 +35,7 @@ export interface Address {
   phone_number: string;
   address: string;
   city: string;
-  postalCode: string;
+  postal_code: string;
   is_default?: boolean;
 }
 

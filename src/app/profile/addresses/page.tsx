@@ -115,14 +115,10 @@ export default function AddressesPage() {
     setIsDialogOpen(true);
   }
 
-  if (!isClient) {
+  if (!isClient || authLoading || addressesLoading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
 
-  if (authLoading || addressesLoading) {
-    return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
-  }
-  
   if (!user) {
       return (
           <div className="flex justify-center items-center h-screen">
@@ -186,7 +182,7 @@ export default function AddressesPage() {
               <CardContent className="flex-grow text-muted-foreground space-y-1">
                 <p>{address.phone_number}</p>
                 <p>{address.address}</p>
-                <p>{address.city}, {address.postalCode}</p>
+                <p>{address.city}, {address.postal_code}</p>
               </CardContent>
               <div className="flex items-center justify-end gap-2 p-4 pt-0">
                 {!address.is_default && (

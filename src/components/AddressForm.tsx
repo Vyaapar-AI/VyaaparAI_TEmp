@@ -22,7 +22,7 @@ const formSchema = z.object({
   phone_number: z.string().min(10, { message: 'Please enter a valid 10-digit phone number.' }),
   address: z.string().min(5, { message: 'Please enter a valid address.' }),
   city: z.string().min(2, { message: 'Please enter a valid city.' }),
-  postalCode: z.string().min(4, { message: 'Please enter a valid postal code.' }),
+  postal_code: z.string().min(4, { message: 'Please enter a valid postal code.' }),
 });
 
 type AddressFormValues = z.infer<typeof formSchema>;
@@ -42,7 +42,7 @@ export function AddressForm({ initialData, onSubmit, isPending, submitButtonText
       phone_number: initialData?.phone_number || '',
       address: initialData?.address || '',
       city: initialData?.city || '',
-      postalCode: initialData?.postalCode || '',
+      postal_code: initialData?.postal_code || '',
     },
   });
 
@@ -104,7 +104,7 @@ export function AddressForm({ initialData, onSubmit, isPending, submitButtonText
           />
           <FormField
             control={form.control}
-            name="postalCode"
+            name="postal_code"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Postal Code</FormLabel>
