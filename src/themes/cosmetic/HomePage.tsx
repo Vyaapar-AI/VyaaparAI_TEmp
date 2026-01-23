@@ -1,3 +1,4 @@
+
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -35,6 +36,7 @@ export default async function CosmeticHomePage() {
   const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'cosmetic';
   const products = await getProducts(storeId, businessType);
+  const featuredProducts = products.slice(0, 4);
 
   return (
     <div className="bg-background">
@@ -59,7 +61,7 @@ export default async function CosmeticHomePage() {
             Discover clean, effective skincare and cosmetics designed to make you glow from within.
           </p>
           <Button asChild size="lg" className="mt-8">
-            <Link href="#products">Shop Bestsellers</Link>
+            <Link href="/products">Shop Bestsellers</Link>
           </Button>
         </div>
       </section>
@@ -81,19 +83,24 @@ export default async function CosmeticHomePage() {
         </div>
       </section>
 
-      {/* Products Section */}
+      {/* Featured Products Section */}
       <section id="products" className="bg-secondary/40 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Shop Our Collection</h2>
+            <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Featured Collection</h2>
             <p className="mt-4 text-lg leading-8 text-muted-foreground">
               Curated essentials for your daily beauty ritual.
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products.map((product) => (
+            {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+           <div className="mt-16 text-center">
+            <Button asChild size="lg" variant="outline">
+              <Link href="/products">Explore The Full Collection</Link>
+            </Button>
           </div>
         </div>
       </section>

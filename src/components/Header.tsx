@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { CartIcon } from './CartIcon';
 import { Logo } from './Logo';
@@ -9,7 +10,7 @@ import { ThemeToggle } from './ThemeToggle';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/#products', label: 'Products' },
+  { href: '/products', label: 'Products' },
 ];
 
 export function Header() {

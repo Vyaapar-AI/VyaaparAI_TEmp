@@ -1,3 +1,4 @@
+
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -36,6 +37,7 @@ export default async function BakeryHomePage() {
   const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
   const products = await getProducts(storeId, businessType);
+  const featuredProducts = products.slice(0, 4);
 
   return (
     <div className="bg-background">
@@ -60,7 +62,7 @@ export default async function BakeryHomePage() {
             Discover a world of sweet delights, baked from scratch with love and the finest ingredients, just for you.
           </p>
           <Button asChild size="lg" className="mt-8">
-            <Link href="#products">Explore Our Treats</Link>
+            <Link href="/products">Explore Our Treats</Link>
           </Button>
         </div>
       </section>
@@ -82,19 +84,24 @@ export default async function BakeryHomePage() {
         </div>
       </section>
 
-      {/* Products Section */}
+      {/* Featured Products Section */}
       <section id="products" className="bg-secondary/50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-4xl font-bold tracking-tight text-foreground font-headline">Our Signature Bakes</h2>
             <p className="mt-4 text-lg leading-8 text-muted-foreground">
-              From flaky croissants to decadent cakes, find your new favorite.
+              A taste of our most-loved, freshly baked goods.
             </p>
           </div>
-          <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {products.map((product) => (
+          <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+           <div className="mt-16 text-center">
+            <Button asChild size="lg" variant="outline">
+              <Link href="/products">View All Baked Goods</Link>
+            </Button>
           </div>
         </div>
       </section>

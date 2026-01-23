@@ -1,3 +1,4 @@
+
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -35,6 +36,7 @@ export default async function FoodCourtHomePage() {
   const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'food-court';
   const products = await getProducts(storeId, businessType);
+  const featuredProducts = products.slice(0, 4);
 
   const pepperoniPizza = products.find(p => p.slug === 'pepperoni-power-pizza');
   const ultimateBurger = products.find(p => p.slug === 'the-ultimate-burger');
@@ -85,7 +87,7 @@ export default async function FoodCourtHomePage() {
             Your favorite fast food, delivered. The best pizza, burgers, and more, right at your fingertips.
           </p>
           <Button asChild size="lg" className="mt-8">
-            <Link href="#products">Order Now</Link>
+            <Link href="/products">Order Now</Link>
           </Button>
         </div>
       </section>
@@ -120,7 +122,7 @@ export default async function FoodCourtHomePage() {
         </div>
       </section>
 
-      {/* Products Section */}
+      {/* Featured Products Section */}
       <section id="products" className="bg-secondary/50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
@@ -130,9 +132,14 @@ export default async function FoodCourtHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products.map((product) => (
+            {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+           <div className="mt-16 text-center">
+            <Button asChild size="lg" variant="outline" className="border-foreground/20">
+              <Link href="/products">View Full Menu</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -152,7 +159,7 @@ export default async function FoodCourtHomePage() {
                 <CardHeader className="p-0">
                   <div className="aspect-h-4 aspect-w-5">
                     <Image
-                      src={deal.product.imageUrl || `https://picsum.photos/seed/${deal.product.slug}/800/600`}
+                      src={deal.product.imageUrl}
                       alt={deal.product.title}
                       fill
                       className="object-cover"

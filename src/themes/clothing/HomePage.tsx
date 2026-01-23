@@ -1,3 +1,4 @@
+
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
 import Image from 'next/image';
@@ -35,6 +36,7 @@ export default async function ClothingHomePage() {
   const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'clothing';
   const products = await getProducts(storeId, businessType);
+  const featuredProducts = products.slice(0, 4);
   
   return (
     <div className="bg-background">
@@ -59,7 +61,7 @@ export default async function ClothingHomePage() {
             Discover a curated collection of modern classics and wardrobe essentials, designed to be lived in.
           </p>
           <Button asChild size="lg" className="mt-8" variant="secondary">
-            <Link href="#products">Shop New Arrivals</Link>
+            <Link href="/products">Shop New Arrivals</Link>
           </Button>
         </div>
       </section>
@@ -81,7 +83,7 @@ export default async function ClothingHomePage() {
         </div>
       </section>
 
-      {/* Products Section */}
+      {/* Featured Products Section */}
       <section id="products" className="bg-secondary/50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
@@ -91,9 +93,14 @@ export default async function ClothingHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products.map((product) => (
+            {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
+          </div>
+          <div className="mt-16 text-center">
+            <Button asChild size="lg">
+              <Link href="/products">Shop The Full Collection</Link>
+            </Button>
           </div>
         </div>
       </section>
