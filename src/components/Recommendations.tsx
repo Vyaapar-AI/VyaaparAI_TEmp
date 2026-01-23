@@ -13,6 +13,7 @@ interface RecommendationsProps {
 export function Recommendations({ currentProduct }: RecommendationsProps) {
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
   const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
 
@@ -20,8 +21,9 @@ export function Recommendations({ currentProduct }: RecommendationsProps) {
     async function fetchRecommendations() {
       setLoading(true);
       try {
+        const productsUrl = `${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`;
         // Fetch all products for the current theme
-        const productsRes = await fetch(`/api/${storeId}/products?businessType=${businessType}`);
+        const productsRes = await fetch(productsUrl);
         if (!productsRes.ok) {
           throw new Error('Failed to fetch products');
         }
@@ -48,7 +50,8 @@ export function Recommendations({ currentProduct }: RecommendationsProps) {
       } catch (error) {
         console.error("Failed to get AI recommendations:", error);
         // Fallback to showing some other products from the category if AI fails
-        const fallbackProducts = (await (await fetch(`/api/${storeId}/products?businessType=${businessType}`)).json() as Product[])
+        const fallbackUrl = `${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`;
+        const fallbackProducts = (await (await fetch(fallbackUrl)).json() as Product[])
           .filter(p => p.id !== currentProduct.id)
           .slice(0, 3);
         setRecommendations(fallbackProducts);
@@ -58,7 +61,7 @@ export function Recommendations({ currentProduct }: RecommendationsProps) {
     }
 
     fetchRecommendations();
-  }, [currentProduct, businessType, storeId]);
+  }, [currentProduct, businessType, storeId, apiBaseUrl]);
 
   return (
     <div>
