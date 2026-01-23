@@ -1,3 +1,4 @@
+'use client';
 
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
@@ -6,7 +7,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Carrot, Truck, Fish, LeafyGreen, ShoppingCart, CreditCard } from 'lucide-react';
 import type { Product } from '@/lib/types';
-import { transformProduct } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { getProducts } from '@/lib/api';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-grocery');
@@ -36,26 +39,13 @@ const howItWorksSteps = [
   },
 ];
 
-async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
-    try {
-        const res = await fetch(`${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
-        if (!res.ok) return [];
-        const rawProducts = await res.json();
-        if (!Array.isArray(rawProducts)) return [];
-        return rawProducts.map(transformProduct);
-    } catch (error) {
-        console.error('Failed to fetch products:', error);
-        return [];
-    }
-}
+export default function GroceryHomePage() {
+  const { data: products, isLoading } = useQuery<Product[]>({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  });
 
-
-export default async function GroceryHomePage() {
-  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
-  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'grocery';
-  const products = await getProducts(storeId, businessType);
-  const featuredProducts = products.slice(0, 4);
+  const featuredProducts = products?.slice(0, 4) || [];
 
   return (
     <div className="bg-background">
@@ -114,9 +104,19 @@ export default async function GroceryHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {isLoading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="space-y-4">
+                  <Skeleton className="h-64 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/4" />
+                </div>
+              ))
+            ) : (
+              featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            )}
           </div>
           <div className="mt-16 text-center">
             <Button asChild size="lg">

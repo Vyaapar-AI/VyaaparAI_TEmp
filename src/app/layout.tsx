@@ -11,6 +11,7 @@ import { Fallback } from '@/components/Fallback';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { themeConfig } from '@/themes';
 import { ThemeStyle } from '@/components/ThemeStyle';
+import { QueryProvider } from '@/components/QueryProvider';
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_STORE_NAME || 'My Store',
@@ -38,18 +39,20 @@ export default function RootLayout({
         >
           <ThemeStyle theme={themeConfig} />
           <ErrorBoundary FallbackComponent={Fallback}>
-            <AuthProvider>
-              <CartProvider>
-                <div className="flex min-h-screen flex-col">
-                  <Header />
-                  <main className="flex-1">
-                    {children}
-                  </main>
-                  <Footer />
-                </div>
-                <Toaster />
-              </CartProvider>
-            </AuthProvider>
+            <QueryProvider>
+              <AuthProvider>
+                <CartProvider>
+                  <div className="flex min-h-screen flex-col">
+                    <Header />
+                    <main className="flex-1">
+                      {children}
+                    </main>
+                    <Footer />
+                  </div>
+                  <Toaster />
+                </CartProvider>
+              </AuthProvider>
+            </QueryProvider>
           </ErrorBoundary>
         </ThemeProvider>
       </body>

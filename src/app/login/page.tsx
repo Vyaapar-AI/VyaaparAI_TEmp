@@ -28,7 +28,7 @@ const formSchema = z.object({
 const authImage = placeholderImages.find(img => img.id === 'auth-background');
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, loginMutation } = useAuth();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,7 +40,7 @@ export default function LoginPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await login(values.email, values.password);
+      await login(values);
       toast({
         title: 'Login Successful',
         description: 'Welcome back!',
@@ -92,8 +92,8 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                 {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
+                 {loginMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Sign In
               </Button>
             </form>

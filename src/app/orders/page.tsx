@@ -1,55 +1,25 @@
 'use client';
 
 import { useAuth } from '@/hooks/use-auth';
-import { useEffect, useState } from 'react';
 import type { Order } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { History, Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
+import { useQuery } from '@tanstack/react-query';
+import { getOrders } from '@/lib/api';
 
 export default function OrdersPage() {
-  const { user, token, loading: authLoading } = useAuth();
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
-  const storeId = process.env.NEXT_PUBLIC_STORE_ID;
+  const { user, token, isLoading: authLoading } = useAuth();
 
-  useEffect(() => {
-    if (authLoading) {
-      return;
-    }
-    if (user && token) {
-      const fetchOrders = async () => {
-        try {
-          setLoading(true);
-          if (!storeId) {
-            throw new Error('Store ID is not configured.');
-          }
-          const url = `${apiBaseUrl}/api/${storeId}/orders`;
-          const res = await fetch(url, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          if (!res.ok) {
-            throw new Error('Failed to fetch orders.');
-          }
-          const data = await res.json();
-          setOrders(data);
-        } catch (err: any) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchOrders();
-    } else {
-        setLoading(false);
-    }
-  }, [user, token, authLoading, apiBaseUrl, storeId]);
+  const { data: orders, isLoading: ordersLoading, error } = useQuery<Order[], Error>({
+    queryKey: ['orders', token],
+    queryFn: () => getOrders(token!),
+    enabled: !!user && !!token,
+  });
 
-  if (authLoading || loading) {
+  if (authLoading || ordersLoading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
   
@@ -69,7 +39,7 @@ export default function OrdersPage() {
   }
 
   if (error) {
-    return <div className="text-center py-20 text-destructive">{error}</div>;
+    return <div className="text-center py-20 text-destructive">{error.message}</div>;
   }
 
   return (
@@ -78,7 +48,7 @@ export default function OrdersPage() {
         Your Orders
       </h1>
       
-      {orders.length === 0 ? (
+      {orders && orders.length === 0 ? (
          <div className="text-center py-20">
             <History className="mx-auto h-12 w-12 text-muted-foreground" />
             <h2 className="mt-2 text-lg font-medium text-muted-foreground">No order history</h2>
@@ -89,7 +59,7 @@ export default function OrdersPage() {
         </div>
       ) : (
         <div className="space-y-8">
-          {orders.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((order) => (
+          {orders?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((order) => (
             <Card key={order.id}>
               <CardHeader className="flex flex-row justify-between items-start">
                 <div>

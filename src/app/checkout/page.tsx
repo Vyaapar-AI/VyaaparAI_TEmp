@@ -21,6 +21,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { placeOrder } from '@/lib/api';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -32,11 +34,10 @@ const formSchema = z.object({
 
 export default function CheckoutPage() {
   const { cartItems, cartTotal, clearCart } = useCart();
-  const { user, token, loading: authLoading } = useAuth();
+  const { user, token, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
-  const storeId = process.env.NEXT_PUBLIC_STORE_ID;
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,6 +48,30 @@ export default function CheckoutPage() {
       city: '',
       postalCode: '',
     },
+  });
+  
+  const placeOrderMutation = useMutation({
+    mutationFn: (values: z.infer<typeof formSchema>) => {
+      if (!token) throw new Error('Authentication Error: You are not logged in.');
+      if (cartItems.length === 0) throw new Error('Your cart is empty.');
+      return placeOrder({ items: cartItems, total: cartTotal, shippingInfo: values, token });
+    },
+    onSuccess: () => {
+      toast({
+          title: 'Order Placed!',
+          description: 'Thank you for your purchase.',
+        });
+      clearCart();
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      router.push('/order-confirmation');
+    },
+    onError: (error: any) => {
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: error.message || 'Could not place your order.',
+        });
+    }
   });
 
   useEffect(() => {
@@ -64,69 +89,28 @@ export default function CheckoutPage() {
   }, [user, authLoading, router, form]);
   
   useEffect(() => {
-    // This effect should run after the auth check.
     if (!authLoading && cartItems.length === 0) {
       router.push('/');
     }
   }, [cartItems, authLoading, router]);
 
-  if (authLoading || !user || cartItems.length === 0) {
+  if (authLoading || !user) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+  }
+  
+  if (cartItems.length === 0) {
+      return (
+          <div className="flex justify-center items-center h-screen">
+              <div className="text-center">
+                  <h1 className="text-2xl font-bold">Your cart is empty.</h1>
+                  <Button asChild className="mt-4"><Link href="/">Go Shopping</Link></Button>
+              </div>
+          </div>
+      )
   }
 
   const onSubmit = async (values: z.infer<typeof formSchema>>) => {
-    if (!token) {
-      toast({
-          variant: 'destructive',
-          title: 'Authentication Error',
-          description: 'You are not logged in.',
-      });
-      return;
-    }
-    
-    if (!storeId) {
-        toast({
-            variant: "destructive",
-            title: "Configuration Error",
-            description: "Store ID is not configured.",
-        });
-        return;
-    }
-
-    try {
-        const url = `${apiBaseUrl}/api/${storeId}/orders`;
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                items: cartItems,
-                total: cartTotal,
-                shippingInfo: values
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to place order.');
-        }
-
-        toast({
-          title: 'Order Placed!',
-          description: 'Thank you for your purchase.',
-        });
-
-        clearCart();
-        router.push('/order-confirmation');
-
-    } catch(error: any) {
-        toast({
-          variant: 'destructive',
-          title: 'Uh oh! Something went wrong.',
-          description: error.message || 'Could not place your order.',
-        });
-    }
+    placeOrderMutation.mutate(values);
   };
 
   return (
@@ -208,8 +192,8 @@ export default function CheckoutPage() {
                       )}
                     />
                   </div>
-                  <Button type="submit" size="lg" className="w-full mt-4" disabled={form.formState.isSubmitting}>
-                    {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  <Button type="submit" size="lg" className="w-full mt-4" disabled={placeOrderMutation.isPending}>
+                    {placeOrderMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Place Order
                   </Button>
                 </form>

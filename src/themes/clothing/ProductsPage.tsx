@@ -1,27 +1,17 @@
+'use client';
 
 import { ProductCard } from '@/components/ProductCard';
 import type { Product } from '@/lib/types';
-import { transformProduct } from '@/lib/utils';
 import { Shirt } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { getProducts } from '@/lib/api';
+import { Skeleton } from '@/components/ui/skeleton';
 
-async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
-    try {
-        const res = await fetch(`${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
-        if (!res.ok) return [];
-        const rawProducts = await res.json();
-        if (!Array.isArray(rawProducts)) return [];
-        return rawProducts.map(transformProduct);
-    } catch (error) {
-        console.error('Failed to fetch products:', error);
-        return [];
-    }
-}
-
-export default async function ClothingProductsPage() {
-  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
-  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'clothing';
-  const products = await getProducts(storeId, businessType);
+export default function ClothingProductsPage() {
+  const { data: products, isLoading, isError } = useQuery<Product[]>({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  });
 
   return (
     <div className="bg-background min-h-screen">
@@ -41,16 +31,26 @@ export default async function ClothingProductsPage() {
       {/* Products Grid */}
       <section id="products" className="py-16 sm:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {products.length > 0 ? (
+           {isLoading ? (
+             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="space-y-4">
+                  <Skeleton className="h-96 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/4" />
+                </div>
+              ))}
+            </div>
+          ) : isError || !products || products.length === 0 ? (
+             <div className="text-center py-20">
+                <h2 className="text-2xl font-semibold text-muted-foreground">No products found</h2>
+                <p className="mt-2 text-base text-muted-foreground">Please check back later.</p>
+            </div>
+          ) : (
             <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
-            </div>
-          ) : (
-             <div className="text-center py-20">
-                <h2 className="text-2xl font-semibold text-muted-foreground">No products found</h2>
-                <p className="mt-2 text-base text-muted-foreground">Please check back later.</p>
             </div>
           )}
         </div>

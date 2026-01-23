@@ -1,3 +1,4 @@
+'use client';
 
 import placeholderData from './placeholder-images.json';
 import { ProductCard } from '@/components/ProductCard';
@@ -7,7 +8,9 @@ import Link from 'next/link';
 import { Pizza, UtensilsCrossed, Zap, Award } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product } from '@/lib/types';
-import { transformProduct } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { getProducts } from '@/lib/api';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-food-court');
@@ -19,29 +22,16 @@ const featureItems = [
   { icon: Award, title: 'Award-Winning Flavor', description: 'Voted the best by food lovers just like you.' },
 ];
 
-async function getProducts(storeId: string, businessType: string): Promise<Product[]> {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
-    try {
-        const res = await fetch(`${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
-        if (!res.ok) return [];
-        const rawProducts = await res.json();
-        if (!Array.isArray(rawProducts)) return [];
-        return rawProducts.map(transformProduct);
-    } catch (error) {
-        console.error('Failed to fetch products:', error);
-        return [];
-    }
-}
+export default function FoodCourtHomePage() {
+  const { data: products, isLoading } = useQuery<Product[]>({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  });
 
-export default async function FoodCourtHomePage() {
-  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
-  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'food-court';
-  const products = await getProducts(storeId, businessType);
-  const featuredProducts = products.slice(0, 4);
-
-  const pepperoniPizza = products.find(p => p.slug === 'pepperoni-power-pizza');
-  const ultimateBurger = products.find(p => p.slug === 'the-ultimate-burger');
-  const chickenSandwich = products.find(p => p.slug === 'crispy-chicken-sandwich');
+  const featuredProducts = products?.slice(0, 4) || [];
+  const pepperoniPizza = products?.find(p => p.slug === 'pepperoni-power-pizza');
+  const ultimateBurger = products?.find(p => p.slug === 'the-ultimate-burger');
+  const chickenSandwich = products?.find(p => p.slug === 'crispy-chicken-sandwich');
 
   const comboDeals = [
     {
@@ -133,9 +123,19 @@ export default async function FoodCourtHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+             {isLoading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="space-y-4">
+                  <Skeleton className="h-64 w-full" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-4 w-1/4" />
+                </div>
+              ))
+            ) : (
+              featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            )}
           </div>
            <div className="mt-16 text-center">
             <Button asChild size="lg" variant="outline" className="border-foreground/20">
@@ -155,7 +155,8 @@ export default async function FoodCourtHomePage() {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {comboDeals.map((deal) => (
+            {isLoading ? Array.from({length: 3}).map((_, i) => <Skeleton key={i} className="h-96 w-full" />) : 
+            comboDeals.map((deal) => (
               <Card key={deal.name} className="overflow-hidden">
                 <CardHeader className="p-0">
                   <div className="aspect-h-4 aspect-w-5">

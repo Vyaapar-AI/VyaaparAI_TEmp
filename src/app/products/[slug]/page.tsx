@@ -1,35 +1,39 @@
-import { notFound } from 'next/navigation';
+'use client';
+
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { AddToCartButton } from './add-to-cart-button';
 import { Recommendations } from '@/components/Recommendations';
 import type { Product } from '@/lib/types';
-import { transformProduct } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import { getProductBySlug } from '@/lib/api';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
+export default function ProductPage() {
+  const params = useParams<{ slug: string }>();
 
-async function getProduct(slug: string, storeId: string, businessType: string): Promise<Product | null> {
-    try {
-        const res = await fetch(`${API_BASE_URL}/api/${storeId}/products/${slug}?businessType=${businessType}`, { cache: 'no-store' });
-        if (!res.ok) return null;
-        
-        const rawProduct = await res.json();
-        if (!rawProduct || Object.keys(rawProduct).length === 0) {
-            return null;
-        }
+  const { data: product, isLoading, isError } = useQuery<Product | null, Error>({
+      queryKey: ['product', params.slug],
+      queryFn: () => getProductBySlug(params.slug),
+  });
 
-        return transformProduct(rawProduct);
-    } catch (error) {
-        console.error('Failed to fetch product:', error);
-        return null;
-    }
-}
+  if (isLoading) {
+    return (
+        <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
+                <Skeleton className="aspect-h-3 aspect-w-4 w-full rounded-lg" />
+                <div className="space-y-6">
+                    <Skeleton className="h-10 w-3/4" />
+                    <Skeleton className="h-8 w-1/4" />
+                    <Skeleton className="h-20 w-full" />
+                    <Skeleton className="h-12 w-1/2" />
+                </div>
+            </div>
+        </div>
+    );
+  }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
-  const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
-  const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
-  const product = await getProduct(params.slug, storeId, businessType);
-
-  if (!product) {
+  if (isError || !product) {
     notFound();
   }
 
@@ -38,7 +42,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
         <div className="aspect-h-3 aspect-w-4 w-full overflow-hidden rounded-lg shadow-lg">
           <Image
-            src={product.imageUrl || `https://picsum.photos/seed/${product.slug}/800/600`}
+            src={product.imageUrl}
             alt={product.description || product.title}
             width={800}
             height={600}

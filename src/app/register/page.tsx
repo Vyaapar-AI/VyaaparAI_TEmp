@@ -30,7 +30,7 @@ const authImage = placeholderImages.find(img => img.id === 'auth-background');
 
 
 export default function RegisterPage() {
-  const { register } = useAuth();
+  const { register, registerMutation } = useAuth();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,7 +43,7 @@ export default function RegisterPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await register(values.name, values.email, values.password);
+      await register(values);
       toast({
         title: 'Registration Successful',
         description: 'Welcome!',
@@ -108,8 +108,8 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                 {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              <Button type="submit" className="w-full" disabled={registerMutation.isPending}>
+                 {registerMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Create Account
               </Button>
             </form>
