@@ -29,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <Link href={`/products/${product.slug}`} className="block">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200">
             <Image
-              src={product.imageUrl}
+              src={product.imageUrl || `https://picsum.photos/seed/${product.slug}/800/600`}
               alt={product.description}
               width={800}
               height={600}

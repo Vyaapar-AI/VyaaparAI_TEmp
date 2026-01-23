@@ -149,9 +149,8 @@ export default async function FoodCourtHomePage() {
                 <CardHeader className="p-0">
                   <div className="aspect-h-4 aspect-w-5">
                     <Image
-                      src={deal.product.imageUrl}
-                      alt={deal.product.name}
-                      data-ai-hint={deal.product.imageHint}
+                      src={deal.product.imageUrl || `https://picsum.photos/seed/${deal.product.slug}/400/500`}
+                      alt={deal.product.title}
                       fill
                       className="object-cover"
                     />
