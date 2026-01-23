@@ -1,4 +1,5 @@
 
+
 export interface Product {
   id: string;
   title: string;
@@ -29,8 +30,17 @@ export interface User {
   termsAcceptedAt: string;
 }
 
-export interface ImagePlaceholder {
+export interface Address {
   id: string;
+  name: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  isDefault?: boolean;
+}
+
+export interface ImagePlaceholder {
+  id:string;
   description: string;
   imageUrl: string;
   imageHint: string;

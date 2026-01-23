@@ -21,8 +21,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { placeOrder } from '@/lib/api';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { placeOrder, getAddresses } from '@/lib/api';
+import type { Address } from '@/lib/types';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from '@/components/ui/label';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -38,6 +41,12 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  const { data: addresses, isLoading: addressesLoading } = useQuery<Address[], Error>({
+    queryKey: ['addresses', token],
+    queryFn: () => getAddresses(token!),
+    enabled: !!user && !!token,
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -75,18 +84,31 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    if (authLoading) {
+    if (authLoading) return;
+    if (!user) {
+      router.push('/login?redirect=/checkout');
       return;
     }
-    if (!user) {
-        router.push('/login?redirect=/checkout');
-        return;
-    }
+    
+    // Pre-fill user email
     if (user && form.getValues('email') === '') {
-        form.setValue('name', user.name || '');
-        form.setValue('email', user.email || '');
+      form.setValue('email', user.email || '');
     }
-  }, [user, authLoading, router, form]);
+
+    // Pre-fill with default address if available
+    if (addresses && addresses.length > 0) {
+        const defaultAddress = addresses.find(a => a.isDefault) || addresses[0];
+        if (defaultAddress) {
+            form.setValue('name', defaultAddress.name);
+            form.setValue('address', defaultAddress.address);
+            form.setValue('city', defaultAddress.city);
+            form.setValue('postalCode', defaultAddress.postalCode);
+        }
+    } else if (user) {
+         form.setValue('name', user.name || '');
+    }
+
+  }, [user, authLoading, router, form, addresses]);
   
   useEffect(() => {
     if (!authLoading && cartItems.length === 0) {
@@ -94,7 +116,18 @@ export default function CheckoutPage() {
     }
   }, [cartItems, authLoading, router]);
 
-  if (authLoading || !user) {
+  const handleAddressSelect = (addressId: string) => {
+    const selectedAddress = addresses?.find(a => a.id === addressId);
+    if(selectedAddress) {
+        form.setValue('name', selectedAddress.name);
+        form.setValue('address', selectedAddress.address);
+        form.setValue('city', selectedAddress.city);
+        form.setValue('postalCode', selectedAddress.postalCode);
+        form.clearErrors();
+    }
+  }
+
+  if (authLoading || !user || addressesLoading) {
     return <div className="flex justify-center items-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
   
@@ -118,9 +151,32 @@ export default function CheckoutPage() {
       <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline mb-8">Checkout</h1>
       <div className="grid lg:grid-cols-2 gap-8">
         <div>
+          {addresses && addresses.length > 0 && (
+             <Card className="mb-8">
+                <CardHeader>
+                  <CardTitle>Select a Shipping Address</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <RadioGroup onValueChange={handleAddressSelect} defaultValue={addresses.find(a => a.isDefault)?.id || addresses[0]?.id}>
+                    <div className="space-y-4">
+                      {addresses.map(addr => (
+                        <Label key={addr.id} htmlFor={addr.id} className="flex items-start space-x-3 p-4 border rounded-md cursor-pointer hover:bg-accent has-[[data-state=checked]]:bg-accent has-[[data-state=checked]]:border-primary">
+                          <RadioGroupItem value={addr.id} id={addr.id} />
+                          <div>
+                            <p className="font-semibold">{addr.name}</p>
+                            <p className="text-sm text-muted-foreground">{addr.address}, {addr.city}, {addr.postalCode}</p>
+                          </div>
+                        </Label>
+                      ))}
+                    </div>
+                  </RadioGroup>
+                  <p className="text-center my-4 text-sm text-muted-foreground">OR</p>
+                </CardContent>
+             </Card>
+           )}
           <Card>
             <CardHeader>
-              <CardTitle>Shipping Information</CardTitle>
+              <CardTitle>{addresses && addresses.length > 0 ? 'Enter a New Address' : 'Enter Shipping Information'}</CardTitle>
             </CardHeader>
             <CardContent>
               <Form {...form}>

@@ -3,11 +3,12 @@
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Loader2, User } from 'lucide-react';
+import { Loader2, User, MapPin } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 export default function ProfilePage() {
   const { user, isLoading } = useAuth();
@@ -45,7 +46,7 @@ export default function ProfilePage() {
         </h1>
       </div>
      
-      <div className="grid gap-8 md:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-3 items-start">
         <div className="md:col-span-1">
           <Card>
             <CardHeader className="items-center text-center">
@@ -65,7 +66,7 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
         </div>
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle>Profile Information</CardTitle>
@@ -84,6 +85,18 @@ export default function ProfilePage() {
                         <p className="text-sm font-medium text-muted-foreground">User Role</p>
                         <p className="font-semibold capitalize">{user.role}</p>
                     </div>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <MapPin className="h-6 w-6 text-primary" />
+                        My Addresses
+                    </CardTitle>
+                    <CardDescription>View and manage your shipping addresses for a faster checkout.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Button asChild><Link href="/profile/addresses">Manage Addresses</Link></Button>
                 </CardContent>
             </Card>
         </div>
