@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -109,7 +109,7 @@ export default function CheckoutPage() {
       )
   }
 
-  const onSubmit = async (values: z.infer<typeof formSchema>>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     placeOrderMutation.mutate(values);
   };
 
