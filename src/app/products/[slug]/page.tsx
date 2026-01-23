@@ -38,8 +38,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
         <div className="aspect-h-3 aspect-w-4 w-full overflow-hidden rounded-lg shadow-lg">
           <Image
-            src={product.imageUrl || `https://picsum.photos/seed/${product.slug}/800/600`}
-            alt={product.description}
+            src={product.imageUrl}
+            alt={product.description || product.title}
             width={800}
             height={600}
             className="h-full w-full object-cover object-center"

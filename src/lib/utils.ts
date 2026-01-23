@@ -12,19 +12,23 @@ export function transformProduct(rawProduct: any): Product {
         try {
             // Assuming images is a JSON string array of URLs
             const parsedImages = JSON.parse(rawProduct.images);
-            if (Array.isArray(parsedImages) && parsedImages.length > 0) {
+            if (Array.isArray(parsedImages) && parsedImages.length > 0 && parsedImages[0]) {
                 imageUrl = parsedImages[0];
             }
         } catch (e) {
-            // Assuming images is just a single URL string
-            imageUrl = rawProduct.images;
+            // Assuming images is just a single URL string that isn't empty
+            if (typeof rawProduct.images === 'string' && rawProduct.images.trim() !== '') {
+               imageUrl = rawProduct.images;
+            }
         }
     }
+    
+    const slug = rawProduct.slug || (rawProduct.title ? rawProduct.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/(^-|-$)/g, '') : String(rawProduct.id));
 
     return {
         ...rawProduct,
         id: String(rawProduct.id),
-        slug: rawProduct.slug || (rawProduct.title ? rawProduct.title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/(^-|-$)/g, '') : String(rawProduct.id)),
-        imageUrl: imageUrl,
+        slug: slug,
+        imageUrl: imageUrl || `https://picsum.photos/seed/${slug}/800/600`,
     };
 }

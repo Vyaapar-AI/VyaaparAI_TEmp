@@ -32,8 +32,8 @@ export default function CartPage() {
                 <li key={product.id} className="flex py-6">
                   <div className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-lg border">
                     <Image
-                      src={product.imageUrl || `https://picsum.photos/seed/${product.slug}/112/112`}
-                      alt={product.description}
+                      src={product.imageUrl}
+                      alt={product.description || product.title}
                       width={112}
                       height={112}
                       className="h-full w-full object-cover object-center"
