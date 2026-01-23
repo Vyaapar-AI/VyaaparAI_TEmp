@@ -27,7 +27,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { AddressForm } from '@/components/AddressForm';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 
@@ -44,6 +44,12 @@ export default function AddressesPage() {
     queryFn: () => getAddresses(token!),
     enabled: !!user && !!token,
   });
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login?redirect=/profile/addresses');
+    }
+  }, [user, authLoading, router]);
 
   const handleMutationSuccess = (message: string) => {
     toast({ title: message });
@@ -102,13 +108,8 @@ export default function AddressesPage() {
     setIsDialogOpen(true);
   }
 
-  if (authLoading || addressesLoading) {
+  if (authLoading || addressesLoading || !user) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
-  }
-  
-  if (!user) {
-    router.push('/login?redirect=/profile/addresses');
-    return null;
   }
 
   if (error) {
