@@ -34,10 +34,12 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
       if (prevItems.find(item => item.id === product.id)) {
         return prevItems; // Already in wishlist
       }
-      toast({
-        title: "Added to wishlist!",
-        description: `${product.title} has been added to your wishlist.`,
-      });
+      setTimeout(() => {
+        toast({
+          title: "Added to wishlist!",
+          description: `${product.title} has been added to your wishlist.`,
+        });
+      }, 0);
       return [...prevItems, product];
     });
   };
@@ -46,10 +48,12 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
     setWishlistItems(prevItems => {
         const itemToRemove = prevItems.find(item => item.id === productId);
         if (itemToRemove) {
-            toast({
-                title: "Removed from wishlist",
-                description: `${itemToRemove.title} has been removed from your wishlist.`,
-            });
+            setTimeout(() => {
+                toast({
+                    title: "Removed from wishlist",
+                    description: `${itemToRemove.title} has been removed from your wishlist.`,
+                });
+            }, 0);
         }
         return prevItems.filter(item => item.id !== productId);
     });
