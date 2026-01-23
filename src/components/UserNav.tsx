@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { LogIn, LogOut, User, History } from 'lucide-react';
 
 export function UserNav() {
   const { user, logout } = useAuth();
@@ -56,8 +56,14 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
+          <Link href="/profile">
+            <User className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/orders">
-            <UserIcon className="mr-2 h-4 w-4" />
+            <History className="mr-2 h-4 w-4" />
             <span>My Orders</span>
           </Link>
         </DropdownMenuItem>
