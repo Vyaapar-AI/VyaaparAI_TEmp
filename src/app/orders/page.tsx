@@ -93,7 +93,7 @@ export default function OrdersPage() {
                   <CardTitle>Order #{order.id.slice(-6)}</CardTitle>
                   <CardDescription>Date: {format(new Date(order.date), "PPP")}</CardDescription>
                 </div>
-                <div className="text-lg font-bold">${order.total.toFixed(2)}</div>
+                <div className="text-lg font-bold font-price">₹{order.total.toFixed(2)}</div>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-4">
@@ -103,7 +103,7 @@ export default function OrdersPage() {
                         <p className="font-medium">{item.title}</p>
                         <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
                       </div>
-                       <p className="text-sm">${(item.price * item.quantity).toFixed(2)}</p>
+                       <p className="text-sm font-price">₹{(item.price * item.quantity).toFixed(2)}</p>
                     </li>
                   ))}
                 </ul>

@@ -14,6 +14,7 @@ export default {
         body: ['var(--font-body)', 'sans-serif'],
         headline: ['var(--font-headline)', 'serif'],
         serif: ['var(--font-serif)', 'serif'],
+        price: ['var(--font-price)', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {

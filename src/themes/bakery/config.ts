@@ -8,6 +8,9 @@ export const config = {
         Roboto: {
           wght: ['400', '700'],
         },
+        Manrope: {
+          wght: '800',
+        },
       },
       display: 'swap',
     },
@@ -16,6 +19,7 @@ export const config = {
     light: {
       '--font-body': "'Roboto', sans-serif",
       '--font-headline': "'Playfair Display', serif",
+      '--font-price': "'Manrope', sans-serif",
       '--background': '30 25% 97%',
       '--foreground': '20 24% 10%',
       '--card': '0 0% 100%',
@@ -43,6 +47,7 @@ export const config = {
       '--radius': '1rem',
     },
     dark: {
+      '--font-price': "'Manrope', sans-serif",
       '--background': '20 14% 4%',
       '--foreground': '30 25% 97%',
       '--card': '20 14% 8%',

@@ -29,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <Link href={`/products/${product.slug}`} className="block">
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200">
             <Image
-              src={product.imageUrl}
+              src={product.imageUrl || `https://picsum.photos/seed/${product.slug}/800/600`}
               alt={product.description || product.title}
               width={800}
               height={600}
@@ -44,8 +44,8 @@ export function ProductCard({ product }: ProductCardProps) {
             </Link>
         </h3>
         <div className="mt-auto flex justify-between items-center">
-          <p className="text-xl font-bold text-primary">
-            ${product.price.toFixed(2)}
+          <p className="text-xl font-bold text-primary font-price">
+            ₹{product.price.toFixed(2)}
           </p>
           <Button 
             size="icon" 

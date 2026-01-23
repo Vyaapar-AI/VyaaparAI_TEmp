@@ -38,7 +38,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
         <div className="aspect-h-3 aspect-w-4 w-full overflow-hidden rounded-lg shadow-lg">
           <Image
-            src={product.imageUrl}
+            src={product.imageUrl || `https://picsum.photos/seed/${product.slug}/800/600`}
             alt={product.description || product.title}
             width={800}
             height={600}
@@ -47,7 +47,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
         </div>
         <div className="flex flex-col justify-center">
           <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl font-headline">{product.title}</h1>
-          <p className="mt-4 text-3xl text-foreground">${product.price.toFixed(2)}</p>
+          <p className="mt-4 text-3xl text-foreground font-price">₹{product.price.toFixed(2)}</p>
           <div className="mt-6">
             <h3 className="sr-only">Description</h3>
             <div className="space-y-6 text-base text-muted-foreground">

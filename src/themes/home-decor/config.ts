@@ -8,6 +8,9 @@ export const config = {
         Montserrat: {
           wght: ['400', '600'],
         },
+        Manrope: {
+          wght: '800',
+        },
       },
       display: 'swap',
     },
@@ -16,6 +19,7 @@ export const config = {
     light: {
       '--font-body': "'Montserrat', sans-serif",
       '--font-headline': "'Playfair Display', serif",
+      '--font-price': "'Manrope', sans-serif",
       '--background': '47 20% 97%', // Off-white/light cream
       '--foreground': '215 15% 20%', // Dark slate blue
       '--card': '0 0% 100%',
@@ -38,6 +42,7 @@ export const config = {
       '--radius': '0.3rem',
     },
     dark: {
+      '--font-price': "'Manrope', sans-serif",
       '--background': '215 20% 12%', // Dark slate
       '--foreground': '47 20% 95%', // Light cream
       '--card': '215 20% 16%',

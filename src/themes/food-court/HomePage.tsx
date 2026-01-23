@@ -44,19 +44,19 @@ export default async function FoodCourtHomePage() {
     {
       name: 'Pizza Party',
       description: 'One Pepperoni Pizza and two classic combos.',
-      price: '$22.99',
+      price: '₹22.99',
       product: pepperoniPizza,
     },
     {
       name: 'Burger Bonanza',
       description: 'Two Ultimate Burgers and two classic combos.',
-      price: '$29.99',
+      price: '₹29.99',
       product: ultimateBurger,
     },
     {
       name: 'Chicken Champion',
       description: 'Two Crispy Chicken Sandwiches and two classic combos.',
-      price: '$25.99',
+      price: '₹25.99',
       product: chickenSandwich,
     },
   ].filter((deal): deal is { name: string; description: string; price: string; product: Product } => Boolean(deal.product));
@@ -152,7 +152,7 @@ export default async function FoodCourtHomePage() {
                 <CardHeader className="p-0">
                   <div className="aspect-h-4 aspect-w-5">
                     <Image
-                      src={deal.product.imageUrl}
+                      src={deal.product.imageUrl || `https://picsum.photos/seed/${deal.product.slug}/800/600`}
                       alt={deal.product.title}
                       fill
                       className="object-cover"
@@ -163,7 +163,7 @@ export default async function FoodCourtHomePage() {
                   <CardTitle className="font-headline text-2xl">{deal.name}</CardTitle>
                   <p className="mt-2 text-muted-foreground">{deal.description}</p>
                   <div className="mt-4 flex justify-between items-center">
-                    <p className="text-2xl font-bold text-primary">{deal.price}</p>
+                    <p className="text-2xl font-bold text-primary font-price">{deal.price}</p>
                     <Button>Add to Order</Button>
                   </div>
                 </CardContent>

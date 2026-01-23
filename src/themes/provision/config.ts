@@ -8,6 +8,9 @@ export const config = {
         Lato: {
           wght: ['400', '700'],
         },
+        Manrope: {
+          wght: '800',
+        },
       },
       display: 'swap',
     },
@@ -16,6 +19,7 @@ export const config = {
     light: {
       '--font-body': "'Lato', sans-serif",
       '--font-headline': "'Merriweather', serif",
+      '--font-price': "'Manrope', sans-serif",
       '--background': '35 40% 96%', // Light beige
       '--foreground': '20 20% 15%', // Dark charcoal
       '--card': '0 0% 100%',
@@ -38,6 +42,7 @@ export const config = {
       '--radius': '0.5rem',
     },
     dark: {
+      '--font-price': "'Manrope', sans-serif",
       '--background': '20 14% 8%', // Dark brown/charcoal
       '--foreground': '35 40% 94%', // Off-white
       '--card': '20 14% 12%',

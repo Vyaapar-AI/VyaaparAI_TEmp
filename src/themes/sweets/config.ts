@@ -11,6 +11,9 @@ export const config = {
         Lora: {
           wght: ['400', '500'],
         },
+        Manrope: {
+          wght: '800',
+        },
       },
       display: 'swap',
     },
@@ -20,6 +23,7 @@ export const config = {
       '--font-body': "'Poppins', sans-serif",
       '--font-headline': "'Lilita One', sans-serif",
       '--font-serif': "'Lora', serif",
+      '--font-price': "'Manrope', sans-serif",
       '--background': '350 100% 98%',
       '--foreground': '25 45% 25%',
       '--card': '0 0% 100%',
@@ -43,6 +47,7 @@ export const config = {
     },
     dark: {
       '--font-serif': "'Lora', serif",
+      '--font-price': "'Manrope', sans-serif",
       '--background': '25 20% 10%',
       '--foreground': '350 100% 96%',
       '--card': '25 20% 14%',

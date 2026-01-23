@@ -5,6 +5,9 @@ export const config = {
         Inter: {
           wght: ['400', '700'],
         },
+        Manrope: {
+          wght: '800',
+        },
       },
       display: 'swap',
     },
@@ -13,6 +16,7 @@ export const config = {
     light: {
       '--font-body': "'Inter', sans-serif",
       '--font-headline': "'Inter', sans-serif",
+      '--font-price': "'Manrope', sans-serif",
       '--background': '40 33% 97%', // Almost white with a hint of yellow
       '--foreground': '20 14% 8%', // Dark grey
       '--card': '0 0% 100%',
@@ -40,6 +44,7 @@ export const config = {
       '--radius': '0.75rem',
     },
     dark: {
+      '--font-price': "'Manrope', sans-serif",
       '--background': '20 14% 4%',
       '--foreground': '0 0% 98%',
       '--card': '20 14% 8%',

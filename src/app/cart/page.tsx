@@ -32,7 +32,7 @@ export default function CartPage() {
                 <li key={product.id} className="flex py-6">
                   <div className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-lg border">
                     <Image
-                      src={product.imageUrl}
+                      src={product.imageUrl || `https://picsum.photos/seed/${product.slug}/112/112`}
                       alt={product.description || product.title}
                       width={112}
                       height={112}
@@ -46,9 +46,9 @@ export default function CartPage() {
                         <h3 className="text-lg">
                           <Link href={`/products/${product.slug}`}>{product.title}</Link>
                         </h3>
-                        <p className="ml-4 text-lg font-bold">${(product.price * product.quantity).toFixed(2)}</p>
+                        <p className="ml-4 text-lg font-bold font-price">₹{(product.price * product.quantity).toFixed(2)}</p>
                       </div>
-                      <p className="mt-1 text-sm text-muted-foreground">${product.price.toFixed(2)} each</p>
+                      <p className="mt-1 text-sm text-muted-foreground font-price">₹{product.price.toFixed(2)} each</p>
                     </div>
                     <div className="flex flex-1 items-end justify-between text-sm">
                       <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ export default function CartPage() {
               <CardContent className="space-y-4">
                 <div className="flex justify-between text-base font-medium text-foreground">
                   <p>Subtotal</p>
-                  <p>${cartTotal.toFixed(2)}</p>
+                  <p className="font-price">₹{cartTotal.toFixed(2)}</p>
                 </div>
                  <div className="flex justify-between text-base font-medium text-foreground">
                   <p>Shipping</p>
@@ -100,7 +100,7 @@ export default function CartPage() {
               <CardFooter className="flex-col space-y-2">
                 <div className="flex justify-between w-full text-xl font-bold text-foreground">
                   <p>Total</p>
-                  <p>${cartTotal.toFixed(2)}</p>
+                  <p className="font-price">₹{cartTotal.toFixed(2)}</p>
                 </div>
                 <Button asChild size="lg" className="w-full">
                   <Link href="/checkout">Checkout</Link>
