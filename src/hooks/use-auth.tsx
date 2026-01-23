@@ -21,7 +21,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const pathname = usePathname();
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
   const storeId = process.env.NEXT_PUBLIC_STORE_ID;
 
@@ -36,7 +35,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchUser = useCallback(async (authToken: string) => {
     try {
       const res = await fetch(getUrlWithStore('/api/user'), {
-        headers: { 'Authorization': `Bearer ${authToken}` }
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: authToken }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -117,7 +118,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
             await fetch(getUrlWithStore('/api/logout'), { 
                 method: 'POST',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token })
             });
         } catch (e) {
             console.error('Logout failed', e)
