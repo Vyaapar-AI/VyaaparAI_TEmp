@@ -15,10 +15,6 @@ export function Footer() {
             <p className="text-sm text-muted-foreground max-w-xs">
               {storeDescription}
             </p>
-             <div className="text-xs text-muted-foreground/80">
-              <p>Payments powered by Razorpay</p>
-              <p>Shipment managed by Shiprocket</p>
-            </div>
           </div>
           
           <div className="md:col-span-2 lg:col-span-2">

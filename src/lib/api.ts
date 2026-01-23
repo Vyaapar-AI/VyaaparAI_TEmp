@@ -4,6 +4,29 @@ import { transformProduct } from '@/lib/utils';
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
 const storeId = process.env.NEXT_PUBLIC_STORE_ID || 'default-store';
 
+const FETCH_TIMEOUT = 8000; // 8 seconds
+
+async function fetchWithTimeout(url: string, options: RequestInit = {}): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+    
+    try {
+        const response = await fetch(url, {
+            ...options,
+            signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (error: any) {
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') {
+            throw new Error(`Request timed out after ${FETCH_TIMEOUT / 1000} seconds.`);
+        }
+        throw error;
+    }
+}
+
+
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const error = await response.json();
@@ -14,7 +37,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
 // Auth
 export const getAuthUser = async (token: string): Promise<User> => {
-  const response = await fetch(`${apiBaseUrl}/api/${storeId}/user`, {
+  const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/user`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token }),
@@ -25,7 +48,7 @@ export const getAuthUser = async (token: string): Promise<User> => {
 // Products
 export const getProducts = async (): Promise<Product[]> => {
     const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
     const rawProducts = await handleResponse<any[]>(response);
     if (!Array.isArray(rawProducts)) return [];
     return rawProducts.map(transformProduct);
@@ -33,7 +56,7 @@ export const getProducts = async (): Promise<Product[]> => {
 
 export const getProductBySlug = async (slug: string): Promise<Product | null> => {
     const businessType = process.env.NEXT_PUBLIC_BUSINESS_TYPE || 'bakery';
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/products/${slug}?businessType=${businessType}`, { cache: 'no-store' });
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/products/${slug}?businessType=${businessType}`, { cache: 'no-store' });
     if (!response.ok) return null;
     const rawProduct = await handleResponse<any>(response);
     if (!rawProduct) return null;
@@ -42,14 +65,14 @@ export const getProductBySlug = async (slug: string): Promise<Product | null> =>
 
 // Orders
 export const getOrders = async (token: string): Promise<Order[]> => {
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/orders`, {
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/orders`, {
         headers: { 'Authorization': `Bearer ${token}` }
     });
     return handleResponse<Order[]>(response);
 };
 
 export const placeOrder = async ({ items, total, shippingInfo, token }: { items: any[], total: number, shippingInfo: any, token: string }) => {
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/orders`, {
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/orders`, {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
@@ -62,14 +85,14 @@ export const placeOrder = async ({ items, total, shippingInfo, token }: { items:
 
 // Addresses
 export const getAddresses = async (token: string): Promise<Address[]> => {
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/addresses`, {
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/addresses`, {
         headers: { 'Authorization': `Bearer ${token}` }
     });
     return handleResponse<Address[]>(response);
 };
 
 export const addAddress = async ({ address, token }: { address: Omit<Address, 'id'>, token: string }): Promise<Address> => {
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/addresses`, {
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/addresses`, {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json',
@@ -81,7 +104,7 @@ export const addAddress = async ({ address, token }: { address: Omit<Address, 'i
 };
 
 export const updateAddress = async ({ address, token }: { address: Address, token: string }): Promise<Address> => {
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/addresses/${address.id}`, {
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/addresses/${address.id}`, {
         method: 'PUT',
         headers: { 
             'Content-Type': 'application/json',
@@ -93,7 +116,7 @@ export const updateAddress = async ({ address, token }: { address: Address, toke
 }
 
 export const deleteAddress = async ({ addressId, token }: { addressId: string, token: string }): Promise<{ message: string }> => {
-    const response = await fetch(`${apiBaseUrl}/api/${storeId}/addresses/${addressId}`, {
+    const response = await fetchWithTimeout(`${apiBaseUrl}/api/${storeId}/addresses/${addressId}`, {
         method: 'DELETE',
         headers: { 
             'Authorization': `Bearer ${token}`
