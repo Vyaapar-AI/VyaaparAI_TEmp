@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Sparkles, Droplet, Leaf, ShieldCheck } from 'lucide-react';
 import type { Product } from '@/lib/types';
+import { transformProduct } from '@/lib/utils';
 
 const { placeholderImages } = placeholderData;
 const heroImage = placeholderImages.find(img => img.id === 'hero-cosmetic');
@@ -21,7 +22,9 @@ async function getProducts(storeId: string, businessType: string): Promise<Produ
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/${storeId}/products?businessType=${businessType}`, { cache: 'no-store' });
         if (!res.ok) return [];
-        return res.json();
+        const rawProducts = await res.json();
+        if (!Array.isArray(rawProducts)) return [];
+        return rawProducts.map(transformProduct);
     } catch (error) {
         console.error('Failed to fetch products:', error);
         return [];

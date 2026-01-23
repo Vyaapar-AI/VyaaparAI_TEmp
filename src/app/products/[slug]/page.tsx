@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { AddToCartButton } from './add-to-cart-button';
 import { Recommendations } from '@/components/Recommendations';
 import type { Product } from '@/lib/types';
+import { transformProduct } from '@/lib/utils';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9002';
 
@@ -10,7 +11,13 @@ async function getProduct(slug: string, storeId: string, businessType: string): 
     try {
         const res = await fetch(`${API_BASE_URL}/api/${storeId}/products/${slug}?businessType=${businessType}`, { cache: 'no-store' });
         if (!res.ok) return null;
-        return res.json();
+        
+        const rawProduct = await res.json();
+        if (!rawProduct || Object.keys(rawProduct).length === 0) {
+            return null;
+        }
+
+        return transformProduct(rawProduct);
     } catch (error) {
         console.error('Failed to fetch product:', error);
         return null;

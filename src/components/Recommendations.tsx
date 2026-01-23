@@ -5,6 +5,7 @@ import { getAIProductRecommendations } from '@/ai/flows/ai-powered-recommendatio
 import type { Product } from '@/lib/types';
 import { ProductCard } from './ProductCard';
 import { Skeleton } from './ui/skeleton';
+import { transformProduct } from '@/lib/utils';
 
 interface RecommendationsProps {
   currentProduct: Product;
@@ -27,7 +28,8 @@ export function Recommendations({ currentProduct }: RecommendationsProps) {
         if (!productsRes.ok) {
           throw new Error('Failed to fetch products');
         }
-        const allProducts: Product[] = await productsRes.json();
+        const rawProducts: any[] = await productsRes.json();
+        const allProducts: Product[] = rawProducts.map(transformProduct);
 
         // Get AI recommendations
         const userPreferences = `The user is currently viewing "${currentProduct.title}". Recommend similar items.`;
@@ -50,11 +52,22 @@ export function Recommendations({ currentProduct }: RecommendationsProps) {
       } catch (error) {
         console.error("Failed to get AI recommendations:", error);
         // Fallback to showing some other products from the category if AI fails
-        const fallbackUrl = `${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`;
-        const fallbackProducts = (await (await fetch(fallbackUrl)).json() as Product[])
-          .filter(p => p.id !== currentProduct.id)
-          .slice(0, 3);
-        setRecommendations(fallbackProducts);
+        try {
+          const fallbackUrl = `${apiBaseUrl}/api/${storeId}/products?businessType=${businessType}`;
+          const fallbackRes = await fetch(fallbackUrl);
+          if (fallbackRes.ok) {
+            const rawFallbackProducts = await fallbackRes.json();
+            if (Array.isArray(rawFallbackProducts)) {
+                const fallbackProducts = rawFallbackProducts
+                  .map(transformProduct)
+                  .filter(p => p.id !== currentProduct.id)
+                  .slice(0, 3);
+                setRecommendations(fallbackProducts);
+            }
+          }
+        } catch (fallbackError) {
+          console.error("Failed to fetch fallback recommendations:", fallbackError);
+        }
       } finally {
         setLoading(false);
       }
