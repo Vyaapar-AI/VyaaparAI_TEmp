@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useAuth } from '@/hooks/use-auth';
@@ -40,18 +39,23 @@ export default function AddressesPage() {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const { data: addresses, isLoading: addressesLoading, error } = useQuery<Address[], Error>({
     queryKey: ['addresses', token],
     queryFn: () => getAddresses(token!),
-    enabled: !!user && !!token,
+    enabled: !!user && !!token && isClient,
   });
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (isClient && !authLoading && !user) {
       router.push('/login?redirect=/profile/addresses');
     }
-  }, [user, authLoading, router]);
+  }, [user, authLoading, router, isClient]);
 
   const handleMutationSuccess = (message: string) => {
     toast({ title: message });
@@ -110,7 +114,7 @@ export default function AddressesPage() {
     setIsDialogOpen(true);
   }
 
-  if (authLoading || addressesLoading) {
+  if (!isClient || authLoading || addressesLoading) {
     return <div className="flex justify-center items-center h-[50vh]"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
   
