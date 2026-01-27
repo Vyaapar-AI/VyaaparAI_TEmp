@@ -20,34 +20,38 @@ const getImage = (id: string) => {
 export const products: Product[] = [
   {
     id: '1',
-    name: 'Pepperoni Power Pizza',
+    title: 'Pepperoni Power Pizza',
     slug: 'pepperoni-power-pizza',
     description: 'Classic cheese and pepperoni pizza on a hand-tossed crust. A true crowd-pleaser.',
     price: 15.99,
+    stock: 50,
     ...getImage('pizza')
   },
   {
     id: '2',
-    name: 'The Ultimate Burger',
+    title: 'The Ultimate Burger',
     slug: 'the-ultimate-burger',
     description: 'A juicy all-beef patty, melted cheddar, lettuce, tomato, and special sauce on a sesame bun.',
     price: 12.50,
+    stock: 40,
     ...getImage('burger')
   },
   {
     id: '3',
-    name: 'Crispy Chicken Sandwich',
+    title: 'Crispy Chicken Sandwich',
     slug: 'crispy-chicken-sandwich',
     description: 'A perfectly fried chicken patty with pickles and mayo on a toasted brioche bun.',
     price: 10.50,
+    stock: 60,
     ...getImage('patty')
   },
   {
     id: '4',
-    name: 'Classic Combo',
+    title: 'Classic Combo',
     slug: 'classic-combo',
     description: 'A serving of our signature golden fries paired with a refreshing fountain drink.',
     price: 5.00,
+    stock: 100,
     ...getImage('combo')
   }
 ];
